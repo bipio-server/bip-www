@@ -1,0 +1,190 @@
+<!-- TRANSFORMS -->
+<script id="tpl-bipio-modal-transform" type="text/template">
+  <header class="modal-header candy-strip"
+    style="border-top-right-radius:8px;">
+    <h2 style="width:95%; float:left;line-height:38px;" >
+      Personalizing Your Integration
+      <small class="pull-right">
+        <i data-toggle="popover" data-title="<i class='icon-question-sign'></i> What's This?"
+          data-html="true" data-placement="bottom" data-trigger="hover"
+          data-content="Blend text and action attributes for this connection in whatever away makes sense to you.<br/>
+            To map an attribute from an action that's already connected, click
+            <i class='icon-plus-sign'></i> Attributes or press <code>Ctrl+i</code> to make a selection"
+           class="icon-question-sign" style="font-size:1.8em;" data-original-title="" title="">
+        </i>
+      </small>
+    </h2>
+  <span id='resizeModal' style='float: right;font-size: 1.8em; color: #999; margin-top: 10px;' class='icon-resize-full'></span>
+  </header>
+  <div role="tabpanel">
+    <div class="config-wrapper">
+      <!-- Tab titles -->
+      <ul class="nav nav-tabs pull-left" id="b-config-tabs">
+        <li class="active"><a id="tab-home" data-toggle="pill" href="#transforms-panel">Personalizations</a></li>
+      </ul>
+    </div>
+
+    <div class="tab-content no-overflow">
+
+      <!-- TRANSFORMS PANE -->
+      <div role="tabpanel" class="tab-pane active" id="transforms-panel">
+        <div class="modal-body candy-strip" style="overflow-y: auto; position: absolute; bottom: 69px; top: 86px; padding-top:0px; left: 0px; right: 0px;">
+          <p>
+            <div id="inline-channel"></div>
+
+            <% if (_action.imports.properties && Object.keys(_action.imports.properties).length) { %>
+               <form id="panel-channel-transform-body">
+               </form>
+            <% } else { %>
+                <div class="alert alert-info middle">
+                 <h3><i class="icon-exclamation-sign"></i> <%= _action.title %> has no imports </h3>
+               </div>
+            <% } %>
+          </p>
+        </div>
+      </div>
+
+      <!-- PARSER PANE -->
+      <div role="tabpanel" class="tab-pane" id="edge-parser-panel">
+        <div class="modal-body candy-strip" style="position: absolute; bottom: 69px; top: 86px; padding-top:0px; left: 0px; right: 0px;">
+          <br/>
+          <div class="alert alert-warning middle">
+            <i class="icon-exclamation-sign"></i> Use Parser to discover and use the attributes of this JSON node
+          </div>
+          <div class="parser-content fill">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <footer class="modal-footer" style="position: absolute; bottom: 0px; left: 0px; right: 0px;">
+    <div class="btn-row">
+   <button class="btn btn-danger modal-delete pull-left" href="">Delete</button>
+
+      <button class="btn btn-success modal-confirm pull-right" href="">OK</button>
+
+      <button class="btn modal-close pull-right" style="margin-right:10px" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    </div>
+  </footer>
+</script>
+
+<script id="tpl-bipio-transform-container" type="text/template">
+
+    <div role="tabpanel" class="tab-pane active" id="transforms-panel">
+      <div class="modal-body candy-strip" style="overflow-y: auto; position: absolute; bottom: 69px; top: 80px; padding-top:0px; left: 0px; right: 0px;">
+        <p>
+         <% if (_action.imports.properties && Object.keys(_action.imports.properties).length) { %>
+          <form class="form-horizontal" id="panel-channel-transform-body"></form>
+          <% } else { %>
+            <div class="alert alert-info middle">
+             <h3><i class="icon-exclamation-sign"></i> <%= _action.title %> has no imports </h3>
+           </div>
+           <% } %>
+        </p>
+      </div>
+    </div>
+
+</script>
+
+<script id="tpl-bipio-transform-entity" type="text/template">
+  <div class="control-group" id="group-<%=name%>">
+    <label class="control-label" <%=(required ? 'required' : '')%>  for="import-<%=name%>">
+      <%=title%>
+      <span class="input-hint pull-right"><%=description%></span>
+    </label>
+    <div class="controls">
+      <div id="import-<%=name%>" class="templar field"></div>
+
+      <button data-toggle="tooltip" data-title="Insert Attribute" class="tooltippable add-templar-var btn btn-info btn-mini pull-left"><i class="icon-plus-sign"></i> Attributes</button>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-bipio-transform-entity-composite" type="text/template">
+  <div class="control-group" id="group-<%=name%>">
+    <label class="control-label" for="import-<%=name%>" <%=(required ? 'required' : '')%> >
+      <%=title%>
+      <span class="input-hint pull-right"><%=description%></span>
+    </label>
+
+    <div class="transform-inherit">
+      <button class="transform-override btn btn-mini btn-info pull-left">
+        Use Preset
+      </button>
+
+      <div class="composite-margin config-html blocked">
+        <div class="config-container">
+          <%=config._html %>
+        </div>
+      </div>
+    </div>
+
+    <div class="transform-custom">
+      <div class="control-buttons">
+        <button class="transform-config btn btn-mini btn-info pull-left">Custom</button>
+      </div>
+      <div class="composite-margin transform-html blocked">
+        <div id="import-<%=name%>" class="templar field"></div>
+
+        <button data-toggle="tooltip" data-title="Insert Attribute" class="tooltippable add-templar-var btn btn-info btn-mini pull-left"><i class="icon-plus-sign"></i> Attributes</button>
+
+      </div>
+    </div>
+
+  </div>
+</script>
+
+<script id="tpl-bipio-config-entity__" type="text/template">
+  <div class="control-group" id="group-<%=name%>">
+    <label class="control-label"><%= config.title %></label>
+    <span class="help-block"></span>
+
+    <div <%=(required ? 'required' : '') %> class="controls config-html">
+      <div class="config-container">
+        <%=config._html %>
+      </div>
+    </div>
+    <span class="input-hint"><%=config.description%></span>
+  </div>
+
+</script>
+
+<script id="tpl-bipio-config-entity" type="text/template">
+  <div class="control-group" id="group-<%=name%>">
+    <label class="control-label" for="config-<%=name%>" <%=(required ? 'required' : '')%> >
+      <%=title%>
+      <span class="input-hint pull-right"><%=description%></span>
+    </label>
+
+    <div class="transform-inherit">
+      <div class="config-html">
+        <div class="config-container">
+          <%=config._html %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</script>
+
+<script id="tpl-bipio-rpc-tab" type="text/template">
+  <div role="tabpanel" class="tab-pane rpcTab" id="<%=tabId%>" data-content-type="<%=schema.contentType%>">
+    <div class="modal-body candy-strip"
+      style="overflow-y: auto; position: absolute; bottom: 69px; top: 86px; padding-top:14px; left: 0px; right: 0px;">
+
+    <label class="control-label">URL</label>
+    <div name="url" data-original-title="Click URL To Select" class="rpc-url alert alert-info"><%=url%></div>
+
+    <div class="input-hint"><%=schema.description%> <button class="btn-refresh btn btn-primary btn-mini pull-right"><i class="icon-refresh"></i> Refresh</button></div>
+
+    <div id="rpc-content" style="height:75%;margin-top:10px;" >
+      <% if ('text/html' === schema.contentType || -1 !== schema.contentType.indexOf('xml')) { %>
+        <iframe style="width:100%;border:none;" class="fill" src="<%=url%>"></iframe>
+      <% } else { %>
+        <pre class="fill"></pre>
+      <% } %>
+    </div>
+    </div>
+  </div>
+</script>

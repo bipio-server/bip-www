@@ -1,0 +1,38 @@
+<li class="bip-select bip-share-compact">
+  <div class="bip-select-info">
+    <div class="bip-preview middle pull-left">
+
+        <img alt="integrate <?php echo $podName; ?> with <?php echo $shareSrcDesc; ?>"
+        title="<?php echo $shareSrcDesc; ?>" class="tooltipped hub-icon hub-icon-32 source-icon" data-placement="top" data-container="body" src="/static/img/channels/32/color/<?php echo $srcName; ?>.png" />
+      <ul>
+
+      <?php for ($i = 0; $i < count($normedManifest); $i++) {
+        $m = $normedManifest[$i];
+        if ($m['title']) {
+          $tokens = explode('.', $m['action']);
+          ?>
+        <li>
+          <img class="mini tooltipped hub-icon" data-container="body" data-placement="top"
+             title="<%= manifest.title + (manifest.description ? ' : ' + manifest.description : '') %>"
+             src="/static/img/channels/32/color/<?php echo $tokens[0]; ?>.png"  />
+        </li>
+        <?php } else { ?>
+          <li></li>
+        <?php } ?>
+      <?php } ?>
+      </ul>
+    </div>
+    <a href="/install/share/<?php echo $shareId?>">
+      <div>
+        <strong class="name"><?php echo $shareName ?></strong>
+      </div>
+      <div class="pull-left">
+        <small class="description"><?php echo $shareNote ?></small>
+      </div>
+    </a>
+    <button data-target="/install/share/<?php echo $shareId?>" class="btn pull-right">
+      <h2>+</h2>
+    </button>
+    <div class="clearfix"></div>
+  </div>
+</li>

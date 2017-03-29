@@ -1,0 +1,113 @@
+<h2>Pod Authentication</h2>
+
+<p class="lead">
+    Authentication Tokens are used by Bipio to communicate with external web services (Channels) on your behalf.
+    You can add, disable, or re-authenticate your tokens here.
+</p>
+
+<hr class="soften"/>
+
+<script id="tpl-pod-entity" type="text/template">
+    <div class="well <%= auth_status_class %>">
+        <span>
+            <h4>
+                <i class="channel-<%= name %> channel-colored"></i> <%= description %>
+                <small><%= auth.type %></small>
+                <% if (auth.type == 'issuer_token') { %>                    
+                    <button type="button" data-mode="set"
+                            data-model-id="<%= name %>"
+                            class="btn btn-success btn-set pull-right">
+
+                        <% if (auth.status == 'accepted') { %>
+                            Update
+                        <% } else { %>
+                            Enable
+                        <% } %>
+                    </button>
+                    <input type="password" style="margin-right: 10px;" class="issuer-token-set input input-small pull-right" type="text" id="issuer-token-<%= name %>" placeholder="auth token or password" value=""/>
+
+                <% } else { %>
+                    <button type="button" data-mode="<%= (auth.status == 'accepted') ? 'disable' : 'enable' %>"
+                            data-model-id="<%= name %>"
+                            class="btn btn-<%= (auth.status == 'accepted') ? 'danger' : 'success' %> btn-verify pull-right">
+
+                        <% if (auth.status == 'accepted') { %>
+                            Disable
+                        <% } else { %>
+                            Enable
+                        <% } %>
+                    </button>
+                <% } %>
+            </h4>
+        </span>
+    </div>
+</script>
+
+<span id="pod-list">
+
+    <!-- div class="well">
+        <span>
+            <h4>
+                <i class="channel-facebook channel-colored"></i> Facebook
+                <small>OAuth</small>
+                <a href="" class="btn btn-info pull-right">Enable</a>
+            </h4>
+        </span>
+    </div>
+
+    <div class="well alert-success">
+        <span class="domain-well">
+            <h4>
+                <i class="channel-dropbox channel-colored"></i> Dropbox
+                <small>OAuth</small>
+
+                <a href="" class="btn btn-small btn-danger pull-right">Disable</a>
+            </h4>
+        </span>
+    </div>
+
+    <div class="alert alert-warning">
+        <span class="domain-well">
+            <h4>
+                <i class="channel-twitter channel-colored"></i> Twitter
+                <small>OAuth</small>
+                <a href="" class="btn btn-small btn-success pull-right">Authenticate</a>
+            </h4>
+        </span>
+    </div>
+
+    <div class="alert alert-danger">
+        <span class="domain-well">
+            <h4>
+                <i class="icon-google-plus-sign channel-colored"></i> Google
+                <small>OAuth</small>
+                <a href="" class="btn btn-small btn-info pull-right">Re-Authenticate</a>
+
+            </h4>
+        </span>
+    </div>
+
+    <div class="alert alert-warning">
+        <span class="domain-well">
+            <h4>
+                <i class="channel-hipchat channel-colored"></i> Hipchat
+                <small>access_token</small>
+                <span class="pull-right">
+                    <input type="text" placeholder="auth_token">
+                    <a href="" class="btn btn-small btn-success">Authenticate</a>
+                </span>
+            </h4>
+        </span>
+    </div>
+
+    <div class="alert alert-warning">
+        <span class="domain-well">
+            <h4>
+                <i class="channel-instagram channel-colored"></i> Instagram
+                <small>OAuth</small>
+                <a href="" class="btn btn-small btn-success pull-right">Authenticate</a>
+            </h4>
+        </span>
+    </div -->
+
+</span>

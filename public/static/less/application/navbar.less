@@ -1,0 +1,277 @@
+@media (max-width: 960px) {
+	#newsbanner {
+		display: none;
+	}
+}
+
+#navbar {
+  background-color: @petrolblue;
+	padding: 10px 0;
+	.clearfix;
+
+	#logo {
+		.ir;
+		float: left;
+		position: relative;
+		top: 4px;
+		background: url('@{imgURL}/logo.png') no-repeat;
+		.size(41px, 100px);
+
+		.logo-wl {
+			background: url('@{imgURL}/wl-logo.png') no-repeat;
+		}
+	}
+
+	#newsbanner {
+    color: white;
+    padding: 12px 14px;
+    margin: 0;
+    background: @petrolbluedark;
+    margin-left: 78px;
+    border-radius: 15px;
+    margin-top: 0px;
+    width: 400px;
+		transition: all 0.2s linear;
+		text-align: left;
+    i {
+	    padding: 0px 10px;
+    }
+    small {
+ 			color: @white;
+			font-size: 1.3rem;
+    }
+    &:hover > small {
+      color : @petrolbluedark;
+    }
+    a > label {
+    	width: 114px;
+    }
+    &:hover {
+      background: #d0eaed;
+      color : @petrolbluedark;
+    }
+	}
+
+	nav {
+		float: right;
+
+		> ul {
+			margin: 7px 0 0;
+			list-style: none;
+
+			> li {
+				float: left;
+				margin-left: 20px;
+				a{
+					&:hover:not(#upgrade-button) {
+						background: @flatdarkgrey;
+						color: @white;
+					}
+				}
+				&.active a {
+					background: @flatdarkgrey;
+					color: @white;
+				}
+			}
+
+			> li.user.loggedin {
+				button {
+					padding: 0px 0px 0px 1.4rem;
+					border: none;
+				}
+				ul {
+					li.active {
+							a {
+								background: @flatdarkgrey;
+								color: @white;
+							}
+						}
+				}
+			}
+			> li:not(.user){
+				font-size: 1.3rem;
+				line-height: 1em;
+				margin-top: 0;
+
+				a {
+					color: @white;
+					display: inline-block;
+					padding: 8px 15px;
+					.border-radius(0);
+				}
+			}
+		}
+
+		.user-avatar {
+			.square(29px);
+			margin-left: 4px;
+		}
+	}
+}
+
+#subnavbar {
+	padding-top: 10px;
+	background-color: @petrolblue;
+	.container {
+		.border-radius(0 0 4px 4px);
+			nav {
+				.manage-links {
+					a {
+						display: block;
+					}
+				}
+			}
+	}
+
+	h2, .manage-links, .manage-links li, .notifications { display: inline-block; }
+
+	h2, a {
+		font-size: 1.2rem;
+		font-weight: 800;
+		line-height: 1.4rem;
+		text-transform: uppercase;
+		color: @blue;
+	}
+
+/*
+	h2 {
+		padding: .5rem 0;
+		margin: 0 2.5rem 0 12rem;
+	}
+	*/
+	a {
+		color: @white;
+		&:hover {background: @flatdarkgrey;}
+	}
+
+	.manage-links {
+		margin: 0;
+		a { padding: .8rem 1.2rem; }
+
+		.active a {
+			background: @flatdarkgrey;
+		}
+	}
+
+	.notifications {
+		width: 12rem;
+		margin-top: .1rem;
+
+		.dropdown {
+			> a {
+				font-size: 1.1rem;
+				font-weight: 900;
+				text-decoration: none;
+
+				.badge { margin-right: .6rem; }
+			}
+
+			a { text-transform: none; }
+
+			ul {
+				width: 29rem;
+				padding: .5rem 1.2rem;
+
+				li {
+					font-size: 1.1rem;
+					line-height: 1.4em;
+					text-align: left;
+					padding: 1rem 0;
+					border-bottom: 1px solid #dae2e4;
+					&:last-child { border-bottom: none; }
+				}
+
+				a {
+					font-size: inherit;
+					font-weight: 900;
+					display: inline;
+					padding: 0;
+					color: @linkColor;
+					&:hover { color: @linkHoverColor; }
+				}
+
+				strong {
+					font-weight: 900;
+					color: darken(@textColor, 10%);
+				}
+			}
+		}
+	}
+}
+
+#sign-in {
+	fieldset { margin: 0; }
+
+	.dropdown-menu {
+		width: 30.5rem;
+		padding: 1.8rem;
+		padding-bottom: 6.5rem;
+
+		&:before, &:after { left: 88%; }
+
+		li {
+			margin: 2rem 0;
+			&:first-child {
+				margin-top: 0;
+				position: absolute;
+				z-index: auto;
+                top: 0;
+                right: auto;
+                left: 0;
+                width: 100%;
+                height: 3rem;
+				border-bottom: 1px solid @petrolblue;
+				background: @flatlightgreen;
+ 			 }
+		}
+
+		.footer {
+			.position(absolute, auto, auto, auto, 0, 0);
+			.size(4.5rem, 100%);
+			margin: 0;
+			border-top: 1px solid @petrolblue;
+			background: @flatlightgreen;
+		}
+
+		p {
+			font-size: 1.2rem;
+			text-align: center;
+			line-height: 4.3rem;
+			margin: 0;
+		}
+
+		.btn { .btn-block; }
+
+		.icon-google-plus-sign {
+			color: #3149b5;
+			font-size: 1.6rem;
+		}
+
+		.traditional, form { margin-bottom: 0; }
+
+		.forgot-pwd {
+			font-size: 1rem;
+			text-transform: lowercase;
+			display: inline-block;
+			float: right;
+		}
+
+		input {
+			width: 100%;
+			margin-bottom: 1.8rem;
+		}
+	}
+}
+
+#sign-up {
+  position:absolute;
+  z-index: 200;
+  display: inline-block;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: url('/static/img/colorlovers-cameo-little-rainbows.png');
+  background-position-y: 65px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  .border-radius(1rem);
+  .box-shadow(0px 3px 24px rgba(0, 0, 0, 0.15));
+}

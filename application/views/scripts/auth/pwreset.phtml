@@ -1,0 +1,91 @@
+<script data-main="/static/js/reset-main" src="/static/js/vendor/require/require.js"></script>
+<?php if ('confirm' === $this->mode) { ?>
+  <div class="span7" id="signup-wrapper" style="text-align: center; margin:auto auto;float:none; border-size: 2px; border-color: #000;">
+    <div class="modal">
+      <header class="modal-header candy-strip">
+        <h2>Password Reset</h2>
+      </header>
+      <div class="modal-body candy-strip">
+        <form id="signup_form" name="signup_form" class="form-horizontal">
+          <input type="hidden" id="_nonce" name="_nonce" value="<?php echo $this->nonce; ?>">
+          <input type="hidden" id="email_address" name="email_address" value="<?php echo $this->email_address; ?>">
+          <input type="hidden" id="token" name="reset" value="<?php echo $this->token; ?>">
+          <fieldset>
+            <legend>
+              <div class="help-block">
+                <label>New Password</label>
+                <div class="control-group alertable">
+                  <input type="password" class="input-xlarge required" placeholder=""
+                      id="new_password" name="new_password" minlength="5" value="">
+                </div>
+              </div>
+            </legend>
+
+            <legend>
+              <div class="help-block">
+                <label>Confirm</label>
+                <div class="control-group alertable">
+                  <input type="password" class="input-xlarge required" placeholder=""
+                      id="new_password_c" name="new_password_c" minlength="5" value="">
+                </div>
+              </div>
+            </legend>
+
+          </fieldset>
+        </form>
+
+        <div id="error-reset" class="alert"
+             style="text-align:center; -webkit-border-radius: 10px; border-radius: 10px;padding: 10px; display:none;">
+        </div>
+
+      </div>
+      <footer class="modal-footer">
+        <div class="btn-row">
+          <a id="btn_confirm" name="btn_confirm" class="btn btn-warning">
+            Submit
+            <i class="icon-chevron-right icon-white"></i>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+<?php } else { ?>
+<div class="span7" id="signup-wrapper" style="text-align: center; margin:auto auto;float:none; border-size: 2px; border-color: #000;">
+  <div class="modal">
+    <header class="modal-header candy-strip">
+      <h2>Password Reset</h2>
+    </header>
+    <div class="modal-body candy-strip">
+      <form id="signup_form" name="signup_form" class="form-horizontal">
+        <input type="hidden" id="_nonce" name="_nonce" value="<?php echo $this->nonce; ?>">
+        <fieldset>
+          <legend>
+            <div class="help-block">
+              <label>Email Address</label>
+              <div class="control-group alertable">
+                <input type="text" class="input-xlarge required" placeholder=""
+                    id="email_address" name="email_address" minlength="5" value="">
+              </div>
+            </div>
+          </legend>
+
+        </fieldset>
+      </form>
+
+      <div id="error-reset" class="alert"
+           style="text-align:center; -webkit-border-radius: 10px; border-radius: 10px;padding: 10px; display:none;">
+      </div>
+
+    </div>
+    <footer class="modal-footer">
+      <div class="btn-row">
+        <a id="btn_reset" name="btn_reset" class="btn btn-warning">
+          Submit
+          <i class="icon-chevron-right icon-white"></i>
+        </a>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<?php } ?>

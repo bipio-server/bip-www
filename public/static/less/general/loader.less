@@ -1,0 +1,167 @@
+ul.roto {
+  .position(@type: absolute, @z: auto, @t: 0, @r: 0, @b: 0, @l: 0);
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  list-style: none;
+	  li {
+  		  .position(@type: absolute, @z: auto, @t: 0, @r: 0, @b: 0, @l: 0);
+  		  margin: auto;
+  		  padding: 0;
+		  width: 0;
+		  height: 0;
+		  background: #00baff;
+		  .border-radius(10px);
+		  opacity: 0;
+	  }
+		li:nth-child(1) {
+		  opacity: 1;
+		  width: 10px;
+		  height: 10px;
+		}
+		li:nth-child(2) {
+		  animation:         circleround2 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround2 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround2 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround2 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround2 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  background: #00baff;
+		}
+		li:nth-child(3) {
+		  animation:         circleround3 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround3 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround3 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround3 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround3 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.1s;
+		  -o-animation-delay:      0.1s;
+		  -ms-animation-delay:     0.1s;
+		  -moz-animation-delay:    0.1s;
+		  -webkit-animation-delay: 0.1s;
+		  background: @petrolblue;
+		}
+		li:nth-child(4) {
+		  animation:         circleround4 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround4 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround4 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround4 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround4 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.2s;
+		  -o-animation-delay:      0.2s;
+		  -ms-animation-delay:     0.2s;
+		  -moz-animation-delay:    0.2s;
+		  -webkit-animation-delay: 0.2s;
+		  background: #09bab4;
+		}
+		li:nth-child(5) {
+		  animation:         circleround5 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround5 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround5 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround5 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround5 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.3s;
+		  -o-animation-delay:      0.3s;
+		  -ms-animation-delay:     0.3s;
+		  -moz-animation-delay:    0.3s;
+		  -webkit-animation-delay: 0.3s;
+		  background: #94c83d;
+		}
+		li:nth-child(6) {
+		  animation:         circleround6 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround6 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround6 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround6 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround6 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.4s;
+		  -o-animation-delay:      0.4s;
+		  -ms-animation-delay:     0.4s;
+		  -moz-animation-delay:    0.4s;
+		  -webkit-animation-delay: 0.4s;
+		  background: #f6861f;
+		}
+		li:nth-child(7) {
+		  animation:         circleround7 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround7 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround7 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround7 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround7 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.5s;
+		  -o-animation-delay:      0.5s;
+		  -ms-animation-delay:     0.5s;
+		  -moz-animation-delay:    0.5s;
+		  -webkit-animation-delay: 0.5s;
+		  background: #f05a79;
+		}
+		li:nth-child(8) {
+		  animation:         circleround8 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround8 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround8 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround8 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround8 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.6s;
+		  -o-animation-delay:      0.6s;
+		  -ms-animation-delay:     0.6s;
+		  -moz-animation-delay:    0.6s;
+		  -webkit-animation-delay: 0.6s;
+		  background: #a6e6f0;
+		}
+		li:nth-child(9) {
+		  animation:         circleround9 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -o-animation:      circleround9 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -ms-animation:     circleround9 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -moz-animation:    circleround9 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  -webkit-animation: circleround9 1.6s cubic-bezier(0.250, 0.100, 0.250, 1.000) infinite;
+		  animation-delay:         0.7s;
+		  -o-animation-delay:      0.7s;
+		  -ms-animation-delay:     0.7s;
+		  -moz-animation-delay:    0.7s;
+		  -webkit-animation-delay: 0.7s;
+		  background: #f8310e;
+		}
+}
+
+
+@keyframes         circleround2 { 25%,75% { top: -100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround2 { 25%,75% { top: -100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround2 { 25%,75% { top: -100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround2 { 25%,75% { top: -100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+
+
+@keyframes         circleround3 { 25%,75% { top: -70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround3 { 25%,75% { top: -70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround3 { 25%,75% { top: -70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround3 { 25%,75% { top: -70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+
+
+@keyframes         circleround4 { 25%,75% { top: 0; left: 100%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround4 { 25%,75% { top: 0; left: 100%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround4 { 25%,75% { top: 0; left: 100%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround4 { 25%,75% { top: 0; left: 100%; width: 10px; height: 10px; opacity: 1;} }
+
+@keyframes         circleround5 { 25%,75% { top: 70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround5 { 25%,75% { top: 70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround5 { 25%,75% { top: 70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround5 { 25%,75% { top: 70%; left: 70%; width: 10px; height: 10px; opacity: 1;} }
+
+@keyframes         circleround6 { 25%,75% { top: 100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround6 { 25%,75% { top: 100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround6 { 25%,75% { top: 100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround6 { 25%,75% { top: 100%; left: 0; width: 10px; height: 10px; opacity: 1;} }
+
+@keyframes         circleround7 { 25%,75% { top: 70%; left: -70%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround7 { 25%,75% { top: 70%; left: -70%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround7 { 25%,75% { top: 70%; left: -70%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround7 { 25%,75% { top: 70%; left: -70%; width: 10px; height: 10px; opacity: 1;} }
+
+
+@keyframes         circleround8 { 25%,75% { top: 0; left: -100%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround8 { 25%,75% { top: 0; left: -100%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround8 { 25%,75% { top: 0; left: -100%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround8 { 25%,75% { top: 0; left: -100%; width: 10px; height: 10px; opacity: 1;} }
+
+
+@keyframes         circleround9 { 25%,75% { top:  -70%; left:  -70%; width: 10px; height: 10px; opacity: 1;} }
+@-o-keyframes      circleround9 { 25%,75% { top:  -70%; left:  -70%; width: 10px; height: 10px; opacity: 1;} }
+@-moz-keyframes    circleround9 { 25%,75% { top:  -70%; left:  -70%; width: 10px; height: 10px; opacity: 1;} }
+@-webkit-keyframes circleround9 { 25%,75% { top:  -70%; left:  -70%; width: 10px; height: 10px; opacity: 1;} }
+

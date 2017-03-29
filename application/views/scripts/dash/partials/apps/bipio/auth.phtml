@@ -1,0 +1,46 @@
+<script id="tpl-bipio-auth" type="text/template">
+
+  <div class="alert alert-warning middle">
+    <i class="icon-exclamation-sign"></i> Use Authentication controls to protect this endpoint using <a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank">HTTP Basic Authentication</a>
+  </div>
+  <div class="row fill">
+    <div class="span3">
+      <div class="control-group">
+        <label class="control-label" for="auth">Authentication</label>
+
+        <div class="controls">
+          <select id="auth">
+            <option value="none" <%=(config.auth === 'none') ? 'selected="selected"' : ''%>>
+              None
+            </option>
+            <option value="token" <%=(config.auth === 'token' || !config.auth) ? 'selected="selected"' : ''%>>
+              Use My API Token
+            </option>
+            <option value="basic" <%=(config.auth === 'basic') ? 'selected="selected"' : ''%>>
+              Basic
+            </option>
+          </select>
+          <span class="help-block"></span>
+        </div>
+
+        <div class="control-group" id="auth-control" style="<%=(config.auth === 'basic') ? '' : 'display:none'%>">
+          <label class="control-label" for="auth">Username</label>
+          <div class="controls">
+              <input id="auth_username" type="text" value="<%=config.username%>" />
+          </div>
+          <label class="control-label" for="auth">Password</label>
+          <div class="controls">
+              <input id="auth_password" type="text" value="<%=config.password%>" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="span9" id="headers">
+      <label class="control-label">HTTP Request Header</label>
+      <pre class="auth-headers"></pre>
+      <div id="curl-repr"></div>
+    </div>
+  </div>
+
+</script>

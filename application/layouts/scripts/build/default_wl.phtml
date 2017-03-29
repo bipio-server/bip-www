@@ -1,0 +1,182 @@
+<?php
+$options = Zend_Registry::get('config')->toArray();
+?>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta property="og:title" content="BipIO - For People And Robots" />
+    <meta property="og:type" content="company" />
+    <meta property="og:site_name" content="BipIO - For People And Robots" />
+    <meta property="og:description" content="A Personal API for Email and Web Apps. Rapidly create workflows with the cloud components you love, no programming required." />
+    <meta property="og:url" content="https://bip.io" />
+    <meta property="og:image" content="https://bip.io/static/img/bip_badge.png" />
+
+    <title>BipIO - For People and Robots</title>
+
+    <link rel="shortcut icon" href="/static/img/wl/favicon.ico" />
+
+    <meta name="description" content="Rapidly create workflows with the cloud components you love, no programming required" />
+
+    <?php if (DEV_ENVIRONMENT) { ?>
+      <link href="/static/css/bip.css" rel="stylesheet" />
+
+    <?php } else { ?>
+      <link href="/static/build/css/build-wl.css?build=1450716766977" rel="stylesheet" />
+    <?php } ?>
+
+	 <?php if ($this->page == 'index') { ?>
+	     <link href="/static/css/lander-wl.css?build=1418847109894" rel="stylesheet" />
+	   <?php } ?>
+
+    <script type="text/javascript">
+
+      var require = {
+        urlArgs : 'build=1450716766977',
+        waitSeconds : 15
+      }
+
+      var BIPClientParams = {
+        endpoint : '<?php echo $options['api']['host']; ?>',
+        apiVersion : '<?php echo $options['api']['version']; ?>',
+        hostname : '<?php echo $options['env']['hostname']; ?>',
+        proto: '<?php echo $options['env']['proto']; ?>',
+        ifexe_version: '<?php if(isset($options['ws_host'])) { echo $options['ws_host']['ifexe_version']; } ?>',
+        auth_type: '<?php  echo $options['auth']['type']; ?>'
+      }
+
+      var UIModules = '<?php echo $options['ui']['modules']; ?>';
+
+      <?php if ($this->authed && $this->page !== 'index' && $this->page !== 'docs') { ?>
+        var userSettings = <?php echo json_encode($this->authUser['settings']); ?>,
+        __uid = <?php echo json_encode($this->authUser['id']); ?>;
+      <?php } else { ?>
+        var userSettings, userAuth;
+      <?php } ?>
+
+    </script>
+  </head>
+  <body>
+    <?php if ($this->page !== 'index') { ?>
+      <div class="navbar-fixed-top <?php if ($this->page == 'dash') { echo 'greyified'; } ?>">
+        <div id="navbar">
+          <div class="container">
+            <div class="row">
+              <div class="span12">
+                <a id="logo" class="brand logo-wl" href="/">bip.io</a>
+                <nav>
+                  <ul id="nav-menu-items">
+                    <?php if ($this->authed) { ?>
+                      <li><a id="upgrade-button" style="display:none;line-height: 1em;" class="btn btn-success btn-mini" href="/plans">Upgrade Now</a></li>
+                      <li class=" <?php if ($this->page == 'dash') echo 'active'; ?>"><a href="/dash">Dashboard</a></li>
+                      <li class="user loggedin">
+                        <div class="dropdown">
+                          <button class="dropdown-toggle btn-small btn-inverse" data-toggle="dropdown" href="#">
+                            <span class="name"><?php echo $this->authUser['name'] ?></span>
+                            <img class="user-avatar" src="<?php echo $this->authUser['settings']['avatar'] ?>" alt="" />
+                          </button>
+                          <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="/dash/account#account_settings">My Account</a></li>
+                            <!-- li><a href="/dash/account#notifications">Notifications</a></li -->
+                            <li><a id="logout-btn" href="/logout">Logout</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                    <?php } ?>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="subnavbar">
+          <div class="container">
+            <div class="row">
+              <div class="span12">
+                <nav>
+                  <?php if ($this->page == 'dash') { ?>
+                    <div class="">
+                      <span id="app-links" class="hide">
+                        <!-- h2>Apps</h2 -->
+                        <ul class="manage-links">
+                        </ul>
+                      </span>
+                    </div>
+                    <!-- temporary style -->
+                    <div class="growls fade out" style="padding-left: 5px; padding-right:5px; float:right; text-transform: uppercase;font-size: 12px;border-radius:5px;">
+                    </div>
+                 <?php } else if ($this->page == 'account' && AUTH_TYPE === 'login_primary') { ?>
+                    <div class="">
+                      <h2>Account</h2>
+                      <ul class="manage-links">
+                        <li><a href="#section-settings"><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="#section-mounts"><i class="icon-hdd"></i> Mounts</a></li>
+                        <li><a href="#section-domains"><i class="icon-globe"></i> Domains</a></li>
+                        <li><a href="#section-stats"><i class="icon-eye-open"></i> Stats</a></li>
+
+                      </ul>
+                    </div>
+                  <?php } ?>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    <?php } ?>
+
+    <div class="settings"></div>
+
+    <div id="page-body" class="<?php echo $this->page ?>">
+      <?php if ($this->page === 'index') { ?>
+        <div class="">
+      <?php } ?>
+
+      <?php if ($this->page !== 'index') { ?>
+        <div class="container">
+      <?php } ?>
+
+        <?php echo $this->layout()->content; ?>
+
+      <?php if ($this->page !== 'index') { ?>
+        </div>
+      <?php } ?>
+
+      <?php if ($this->page === 'index') { ?>
+        </div>
+      <?php } ?>
+    </div>
+
+    <?php if ($this->page !== 'dash') { ?>
+      <div class="footer-container ">
+
+        <footer class="global">
+          <p class="copyright pull-left" style="text-align:center;">
+          <h3 class="pull-left" style="margin-bottom: 0px;margin-top: 5px;">
+            <a href="http://wot.io">
+
+              <img style="height:32px;margin-top:-2px;" src="/static/img/wotio_logo_cl.png" />
+              <small></small>
+
+            </a>
+            <small style="font-size:10px;"> (c) 2010-2014</small>
+          </h3>
+          </p>
+        </footer>
+      </div>
+    <?php } ?>
+
+<script id="tpl-modal-signin" type="text/template"></script>
+<script id="tpl-modal-signup" type="text/template"></script>
+
+  </body>
+</html>

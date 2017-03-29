@@ -1,0 +1,157 @@
+<script type="text/javascript">
+	// redirect pod links into a new window
+	var _redirPodLinks = true;
+</script>
+<?php if (true || DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/pricing-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/pricing-built"></script>
+<?php } ?>
+
+<div style="border-bottom: 1px dashed #eee;margin: 20px 0px;padding-bottom:20px;" class="row pricing-cta">
+	<div class="offset1">
+		<h1 style="margin-left:-30px">
+			bip.io <?php echo ($this->planTitle); ?> Plan
+		</h1>
+	</div>
+</div>
+
+<form id="form-<?php echo $this->planId; ?>"
+	action="/plans/upgrade"
+	method="POST"
+	style="display:none">
+		<input type="hidden" name="plan" value="<?php echo $this->planId; ?>">
+	  <script
+	    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+	    data-email="<?php echo $this->emailAddress ?>"
+	    data-key="<?php echo $this->publicKey; ?>"
+	    data-amount="<?php echo $this->plan['charge'] ?>"
+	    data-bitcoin="false"
+	    data-name="<?php echo $this->plan['title']; ?> Plan"
+	    data-description="Powered By Stripe"
+	    data-image="/static/img/bip_badge.png"
+	    data-locale="auto">
+	  </script>
+</form>
+
+<div class="row" id="pricing-faqs">
+
+	<div class="span5 offset1">
+    <p class="scroll-down" style="bottom:0px;display:none"><a id="more-nav" href="#more" class="animate">More</a></p>
+		<h2>About the bip.io <?php echo ($this->planTitle); ?> Plan</h2>
+
+		<h3><span class="currency-symbol">$</span>
+			<strong><?php echo round($this->plan['charge'] / 100, 2); ?></strong>
+			<em>/<?php echo $this->plan['_period']?></em>
+		</h3>
+
+		<h3><?php echo $this->plan['num_bips']; ?> Bips</h3>
+		<p>
+		A Bip is a web automation agent that connects web services, acting on your behalf or running a workflow on command.  Deleted Bips do not count towards your Bip limit.  There are no limits on how many services a single Bip can connect to.
+		</p>
+
+		<h3>Custom Schedules</h3>
+		<p>
+		Custom Scheduling means Bips will run whenever you like in minimum 5 minute intervals.
+		</p>
+
+		<h3>What are Pods</h3>
+		<p>
+		Pods are the individual services that bip.io integrates with.  For example, everything Facebook related is in a Facebook Pod.  Pods are either free to use, <a class="scrollTo" href="#community-pods">community supported</a> and open source, or <a class="scrollTo" href="#premium-pods">premium productivity boosters</a>.
+		</p>
+
+		<h3><?php echo $this->plan['tx_gb']; ?> Gb Data Transfer</h3>
+		<p>
+		Data Transfer is calculated based on as the size of messages flowing between your Bips and the rest of the internet.
+		</p>
+
+		<h3>Community Support vs Helpdesk Support</h3>
+		<p>
+		You can reach out to <a href="https://bip.uservoice.com/forums/281363-general">community support</a> or <a href="mailto:support@bip.io">the helpdesk</a> at any time.  Paid plans receive helpdesk priority.
+		</p>
+
+	</div>
+
+	<div class="span5 offset1">
+		<h2>Billing and Other Terms</h2>
+
+		<ol>
+			<li>
+			Fees are billed to your credit card <?php echo $this->plan['_period']?>ly in advance at the beginning of each <?php echo $this->plan['_period']?>ly renewal period unless you cancel before the next <?php echo $this->plan['_period']?>ly renewal.  Your access to the premium pods will commence as soon as you authorize payment on the checkout confirmation page (powered by Stripe).  Your first renewal date will be provided in your confirmation email, and then each subsequent renewal will follow thirty (30) days after the commencement of the then current subscription period.
+			</li>
+
+			<li>
+			If you upgrade, you will receive a pro-rata credit for any existing plan for the current <?php echo $this->plan['_period']?>, and charged in full for each <?php echo $this->plan['_period']?> thereafter.
+			</li>
+
+			<li>
+			You can cancel your account at any time.  Fees are non-refundable.
+			</li>
+
+			<li>
+			We may cancel your subscription at any time effective at the expiration of the then current <?php echo $this->plan['_period']?>ly subscription, unless we terminate earlier due to your breach of the Terms of Service.
+			</li>
+
+			<li>
+			If you cancel your subscription, your data will be immediately deleted and cannot be recovered.
+			</li>
+
+			<li>
+			We may change fees upon advance notice to you, and the new fees will be effective in the next <?php echo $this->plan['_period']?>ly renewal period unless you cancel your subscription.
+			</li>
+
+			<li>
+			Data Transfer is calculated based on as the size of messages flowing between your Bips and the rest of the internet.
+			</li>
+
+			<li>
+			If you exceed your <?php echo $this->plan['_period']?>ly Data Transfer allowance, no problem! We'll reach out to you with assistance upgrading, or help to optimize your existing bips.
+			</li>
+		</ol>
+	</div>
+
+</div>
+
+<div class="row" id="plan-accept">
+
+	<div class="span12 middle" style="border-bottom: 1px dashed #eee;margin-bottom: 60px;padding-bottom:30px;">
+			<p>
+				<input type="checkbox" name="accept-tos" id="accept-tos" style="margin:0px"> I agree to the amounts and terms set forth above and the <a target="_blank" href="/terms-of-service">Terms of Service</a>
+			</p>
+	<div style="
+	    width: 300px;
+	    margin: 0 auto;
+	">
+	    <button id="btn-tos-ok" class="btn btn-success btn-xlarge pull-left">Buy Now</button>
+	<p style="
+	    /* margin: auto 0; */
+	    height: 70px;
+	    padding-top: 20px;
+	">
+
+		<span class="currency-symbol">$</span>
+		<strong><?php echo round($this->plan['charge'] / 100, 2); ?></strong><em>/<?php echo $this->plan['_period']?></em>
+		<br/>
+
+	  <?php echo ($this->planTitle); ?> Plan
+	</p>
+	  </div>
+	    <br>
+	    <a href="https://stripe.com" target="_blank"><img src="/static/img/stripe.png"></a>
+	</div>
+</div>
+
+<div class="row" id="premium-pods" style="margin-top: -20px;padding-top: 20px; ">
+	<div class="span11 offset1">
+		<h2>Premium Pods</h2>
+		<?php echo $this->partial($this->podPartialPathPremium, array('domainPfx' => $this->domainPfx)); ?>
+	</div>
+</div>
+
+<div class="row" id="community-pods" style="margin-top: -20px;padding-top: 20px; ">
+	<div class="span11 offset1">
+		<h2>Community Pods</h2>
+		<?php echo $this->partial($this->podPartialPathCommunity, array('domainPfx' => $this->domainPfx)); ?>
+	</div>
+</div>
+

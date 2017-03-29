@@ -1,0 +1,92 @@
+<script id="tpl-community-list" type="text/template">
+  <section class="ag-list ag-list-bips span6">
+    <ul class="ag-list-results">
+      <span class="list-widget">
+      </span>
+    </ul>
+  </section>
+</script>
+<div id="community-container">
+  <section id="pod_<?php echo $podName; ?>">
+    <div class="page-header">
+      <h3 class="middle">
+        <img title="" src="/static/img/channels/32/color/<?php echo $podName; ?>.png">
+        <br/>
+        <?php echo $description; ?>
+      </h3>
+    </div>
+    <p class="lead middle">
+      <?php echo $url ? str_replace($description, '<a href="' . $url . '" target="_blank">' . $description . '</a>', $descriptionLong) : $descriptionLong; ?>
+    </p>
+
+    <div class="row">
+      <h2 class="middle span12">
+        Bips Can Connect <?php echo $description; ?> In All Sorts Of Ways!
+      </h2>
+    </div>
+
+    <?php if (!empty($integrations)) { ?>
+      <div class="middle">
+        <h4>A Bip is a Web Automation Agent that can act on your behalf</h4>
+       </div>
+      <div id="shares-master" style="display:none">
+        <?php echo $integrations; ?>
+      </div>
+
+      <div id="integration-renderto" class="row carousel slide">
+        <div class="carousel-inner">
+        </div>
+      </div>
+
+      <div id="share-paginate" class="ag-list" style="display:none">
+        <nav class="ag-list-pagination bip-list-pagination">
+          <ul class="pagination-pages">
+              <li class="prev"><a href="#" class="prev"><i class="icon-caret-left"></i></a></li>
+              <li class="next"><a href="#" class="next"><i class="icon-caret-right"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <p class="lead">
+      </p>
+    <?php } ?>
+
+    <div class="row">
+
+      <h2 class="middle span12">Put <?php echo $description; ?> To Work With Actions And Events</h2>
+
+      <?php if (!empty($actionContent)) { ?>
+        <div class="accordion span6 <?php echo empty($eventContent) ? 'offset3' : ''?>" id="pod-schema-actions">
+          <h3 class="middle">Actions <small></small></h3>
+          <?php echo $actionContent; ?>
+        </div>
+      <?php } ?>
+
+      <?php if (!empty($eventContent)) { ?>
+        <div class="accordion span6 <?php echo empty($actionContent) ? 'offset3' : ''?>" id="pod-schema-events">
+          <h3 class="middle">Events <small></small></h3>
+          <?php echo $eventContent; ?>
+        </div>
+      <?php } ?>
+    </div>
+
+    <div class="middle lead span12">
+      <a class="btn btn-success" target="_blank" href="https://bip.uservoice.com/forums/281363-general">Something Missing? Let Us Know!</a>
+      <br/><br/>
+
+       <a class="btn btn-primary btn-mini" href="https://github.com/bipio-server/bip-pod-<?php echo $podName; ?>">
+          <img class="docs-github-link hub-icon hub-icon-16" src="/static/img/channels/32/color/github.png"/> I'm Open Source!
+        </a>
+    </div>
+
+  </section>
+</div>
+
+<section id="pods">
+  <h2 class="middle">We Make Connecting <?php echo $description; ?> To Your Favorite Services, Super Simple</h2>
+
+    <nav id="pod-list-doc" class="hub-list">
+      <?php echo $podList; ?>
+    </nav>
+
+</section>

@@ -1,0 +1,225 @@
+<?php
+$options = Zend_Registry::get('config')->toArray();
+$selfHost = ($options['env']['proto'] . '://' . $options['env']['hostname'] );
+$embedHost = $options['api']['host'];
+$widgetPath = '/static' . (DEV_ENVIRONMENT ? '/build' : '') . '/js/widget-loader.js'
+?>
+
+<!-- module layout -->
+<script id="tpl-layouts-community" type="text/template">
+  <div class="row">
+    <div id="community-container" class="span12">
+      <div id="bip-setup">
+      </div>
+    </div>
+  </div>
+
+  <div id="sharedModal" style="display:none">
+    <div class="modal-overlay" role="dialog" aria-hidden="false">
+      <div class="modal-container">
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-community-embed-code" type="text/template">
+  <div class="bipio-share" data-share-id="<%=shareId%>"><embedscript async type="text/javascript" data-embed-host="<?php echo $embedHost ?>" src="<?php echo $selfHost.$widgetPath ?>"></embedscript></div>
+</script>
+
+<div id="community-embed-modal" class="modal-overlay hide">
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-header candy-strip">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h2>Embed This Community Bip</h2>
+      </div>
+      <div class="modal-body middle">
+        Embed this Bip on any other site or blog by copying and pasting the code below
+        <hr class="soften"/>
+        <input onclick="this.select()" type="text" id="share-embed-code" class="input input-xxlarge">
+
+        <br/>or
+        <h3 class="middle">Share Page</h3>
+
+        <input onclick="this.select()" type="text" id="share-embed-slug" class="input input-xxlarge">
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-row">
+          <button class="btn modal-close" style="margin-right:10px" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
+
+<!-- shared bip entity -->
+<script id="tpl-community-shared-entity" type="text/template">
+  <li class="bip-select" data-model-id="<%= id %>">
+      <div class="span7 bip-select-info">
+        <div class="bip-preview middle pull-left"></div>
+        <a href="#" data-share-id="<%= id %>">
+          <div>
+            <strong class="name"><%= name %></strong>
+          </div>
+          <div class="pull-left">
+            <small class="description"><%= note %></small>
+          </div>
+          <div class="clearfix"></div>
+        </a>
+      </div>
+      <div class="span5 bip-select-actions">
+        <div class="bip-wrap">
+          <div class="pull-right" style="margin-top:20px;">
+            <% if (owner_id === __uid) { %>
+              <button data-action="uninstall" class="btn btn-mini btn-danger"><i class="icon-ban-circle"></i> Delete</button>
+            <% } %>
+
+            <button data-action="embed" class="btn btn-mini btn-primary">
+              <i class="icon-chevron-left"></i><i class="icon-chevron-right"></i> Embed</button>
+
+            <button data-action="install" class="btn btn-mini btn-success">Install</button>
+
+          </div>
+
+          <dl class="user-info pull-left middle">
+            <small>
+              <?php if (APP_NAME !== 'ShipIoT') { ?>
+              <div>
+                <img class="user-avatar" src="/static/cdn/img/av/<%=owner_id %>.png" alt="">
+              </div>
+              <?php } ?>
+              <div>
+                <a href="/user/<%= owner_name %>"><%= owner_name %></a></small>
+              </div>
+          </dl>
+        </div>
+      </div>
+    </li>
+</script>
+
+<!-- shared bips container -->
+<script id="tpl-community-bips" type="text/template">
+
+  <section class="ag-list">
+    <form class="form-search">
+      <input type="text" class="span5" id="shared-bip-search-form" placeholder="Search shared bips..." />
+      <button type="submit">
+        <i class="icon-search"></i>
+      </button>
+   </form>
+
+    <nav class="ag-list-pagination shared-list-pagination"></nav>
+
+  <div id="bips-list-shared">
+    <ul class="ag-list-results list-bips" id="bip-select">
+    </ul>
+  </div>
+
+    <nav class="ag-list-pagination shared-list-pagination"></nav>
+  </section>
+</script>
+
+<script id="tpl-modal-share-setup-step-one" type="text/template">
+  <div class="modal center-absolute" style="height:335px;">
+      <header class="modal-header candy-strip">
+        <h2 class="">
+          Installing Bip - Activation Required
+        </h2>
+      </header>
+      <div class="modal-body middle candy-strip" id="share-setup-content">
+        <h2> <%= name %> </h2>
+        <% if (description) { %>
+          <p class="lead">
+            <%= description %>
+          </p>
+        <% } %>
+
+        <hr/>
+
+        <% _.each(actions, function(pod) { %>
+              <img style="margin: 7px;" title="<%= pod.title + (pod.description ? ' : ' + pod.description : '') %>"  src="/static/img/channels/32/color/<%= pod.name %>.png"  />
+        <% }); %>
+
+        <p>
+		  This shared bip contains actions which require some additional setup to activate.
+          You may be automatically redirected off-site to enable the <?php echo APP_NAME; ?> App with a 3rd party provider, but don't worry, it will be quick.
+        </p>
+
+        <div class="alert alert-success">
+          <i class="icon-thumbs-up"></i> Activating and configuring now will let you install similar bips in the future, instantly.
+        </div>
+      </div>
+      <footer class="modal-footer">
+        <div class="btn-row">
+          <a class="btn modal-close" data-dismiss="modal" href="">Cancel</a>
+          <a id="share-setup-action" class="btn btn-success modal-continue" href="">Next</a>
+        </div>
+      </footer>
+  </div>
+</script>
+
+<script id="tpl-modal-share-setup-step-two" type="text/template">
+  <div class="modal" style="width: 85rem !important; left: 42% !important;">
+      <header class="modal-header candy-strip">
+        <h2 style="width:100%">
+          <div class="pull-left">
+            Installing Bip<br/>
+            <subscript><%= data.name %></subscript>
+          </div>
+
+          <small class="pull-right"
+            <% _.each(data.actions, function(pod) { %>
+              <span class="<%= (pod.isActivated ? 'activated' : 'needs_activation') %>">
+                <img style="margin-top:7px;" class="tooltipped <%= (pod.isActivated ? 'activated' : 'needs_activation') %>" style="<%= (pod.channelId ? 'opacity: .6;' : '') %>" data-placement="top" title="<%= pod.title + (pod.description ? ' : ' + pod.description : '') %>"  src="/static/img/channels/32/color/<%= pod.name %>.png"  />
+              </span>
+            <% }); %>
+          </small>
+        </h2>
+
+      </header>
+      <div class="modal-body middle candy-strip" id="share-setup-content">
+        <% _.each(data.actions, function(pod) { %>
+
+            <% if (pod === action) { %>
+              <span id="selected-action" data-action="<%= pod.name %>.<%= pod.action %>"></span>
+
+              <div class="row">
+                <% if (!pod.channelId) { %>
+                  <% if (pod.isInstalled.length) { %>
+                    <div class="span3">
+                      <h4>Select an existing action configuration or enter your own</h4>
+                      <select size=10 id="select-channel-config" data-placement="middle">
+                        <option value="new">New Action</option>
+                        <% selected=true; _.each(pod.isInstalled, function(channel) { %>
+                          <option <%=(selected? 'selected="selected"' : '') %> value="<%= channel.get('id') %>"><%= channel.get('name') %></option>
+                        <% selected=false; }); %>
+                      </select>
+                    </div>
+                  <% } %>
+
+                  <div class="span<%= (!pod.isInstalled.length ? 8 : 5) %> channel_name_container">
+                    <h4>Name your new Action</h4>
+                    <form class="form-horizontal">
+                      <div class="control-group">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                          <input class="channel-config-item input input-xlarge channel_name" value="" type="text" name="channel_name" placeholder="">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <form id="config-form" class="span<%= (!pod.isInstalled.length ? 6 : 5)%> form-horizontal" style="display: block;"></form>
+                <% } %>
+                </div>
+            <% } %>
+        <% }); %>
+      </div>
+      <footer class="modal-footer">
+        <div class="btn-row">
+          <a class="btn modal-close" data-dismiss="modal" href="">Cancel</a>
+          <a id="share-setup-action" class="btn btn-success modal-continue" href="">Next</a>
+        </div>
+      </footer>
+  </div>
+</script>

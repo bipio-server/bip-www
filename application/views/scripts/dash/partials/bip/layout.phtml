@@ -1,0 +1,511 @@
+<!-- shared bips container -->
+<script id="tpl-shared-bips" type="text/template">
+
+<section class="ag-list">
+
+   <form class="form-search">
+          <input type="text" class="span5" id="shared-bip-search-form" placeholder="Search shared bips..." />
+          <button type="submit">
+            <i class="icon-search"></i>
+          </button>
+   </form>
+
+  <div class="row" id="bips-list-shared"></div>
+  <nav class="ag-list-pagination shared-list-pagination"></nav>
+</section>
+</script>
+
+<!-- bip page layout -->
+<script id="tpl-layouts-bips" type="text/template">
+  <div id="manage-bips">
+    <div class="row">
+      <div class="span4">
+        <h2>Bips</h2>
+        <section class="ag-list ag-list-bips">
+          <form class="form-search">
+            <input type="text" id="bip-search-form" placeholder="Search your bips..." />
+            <button type="submit">
+              <i class="icon-search"></i>
+            </button>
+          </form>
+
+          <ul class="ag-list-results">
+            <span class="list-widget" id="bip-list-widget"></span>
+          </ul>
+
+          <nav class="ag-list-pagination bip-list-pagination"></nav>
+        </section>
+      </div>
+
+      <div id="bip-setup" class="span8"></div>
+
+      <div id="hubModal"></div>
+      <div id="emitterSelectModal"></div>
+    </div>
+  </div>
+</script>
+
+
+<!-- hub > channel vertex selection modal -->
+<script id="tpl-modal-hub-channel-config" type="text/template">
+  <div id="select-channel" class="modal-overlay hide">
+    <div class="modal-container">
+      <div class="modal modal-large modal-content select-channel-modal channel-settings-modal"></div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-modal-channel-select" type="text/template">
+  <header class="modal-header candy-strip">
+    <h2><%=modal_title%> <small class="pull-right"> <%=modal_subtitle%></small></h2>
+  </header>
+
+  <div class="modal-body candy-strip">
+    <section class="ag-list ag-list-horizontal ag-list-channels">
+      <form class="form-search">
+        <input id="channel-search-form" type="text" class="search-query" placeholder="Search your channels..." />
+        <button type="submit"><i class="icon-search"></i></button>
+        <p class="hint"><strong>Hint:</strong> Try searching by service, such as “Dropbox” or “Facebook”.</p>
+      </form>
+      <ul class="ag-list-results"></ul>
+      <nav class="ag-list-pagination channel-list-pagination"></nav>
+    </section>
+  </div>
+  <footer class="modal-footer">
+    <div class="btn-row">
+        <!-- a class="btn modal-confirm btn-success <%= (selected ? '' : 'disabled') %>" href="">Continue</a -->
+      <a class="btn modal-close" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    </div>
+  </footer>
+</script>
+
+
+<script id="tpl-modal-hub-transform-config" type="text/template">
+
+  <header class="modal-header candy-strip">
+    <h2>
+      <div class="compound pull-left">
+        <img src="/static/img/channels/32/color/<%= action.split('.')[0] %>.png" alt="" class="hub-icon hub-icon-32 pull-left" />
+        <%= name %><br/>
+        <subscript><%= _repr %></subscript>
+      </div>
+      <small class="pull-right">Message Transforms</small>
+    </h2>
+  </header>
+  <div class="modal-body candy-strip">
+    <p>
+      <% if (channel._action.imports.properties && Object.keys(channel._action.imports.properties).length) { %>
+        <div class="alert alert-warning middle">
+Blend text and channel attributes for <%=channel.getPod().get('title') %>
+ here in whatever away makes sense to you.<br/>
+To map an attribute from a parent channel press Ctrl+i to make a selection
+        </div>
+      <% } else { %>
+        <div class="alert alert-info middle">
+        <h3><i class="icon-exclamation-sign"></i> <%= channel._action.title %> has no imports </h3>
+        </div>
+      <% } %>
+    </p>
+  <form class="form-horizontal" id="panel-channel-transform-body">
+  </form>
+</div>
+<footer class="modal-footer">
+  <div class="btn-row">
+    <a class="btn btn-success modal-confirm" href="">Save Action</a>
+    <a class="btn modal-close" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    <a class="btn btn-text pull-right btn-reselect" href="">Choose a different channel</a>
+  </div>
+</footer>
+</script>
+
+<script id="tpl-modal-hub-channel-transform" type="text/template">
+  <div class="control-group">
+    <label class="control-label" for="import-<%=name%>"><%=description%></label>
+    <div class="controls">
+        <!-- input type="text" id="import-<%=name%>" -->
+      <div <%=(required ? 'required' : '')%> id="import-<%=name%>" class="templar field"></div>
+    </div>
+  </div>
+</script>
+
+<!-- bip list container -->
+<script id="tpl-resource-list-bip" type="text/template">
+  <header class="header-bip"></header>
+
+  <div id="list-bip-container">
+    <ul id="bip-list" class="ag-list-results list-bips"></ul>
+    <footer>
+      <nav id="bip-list-pagination" class="pagination">
+      </nav>
+    </footer>
+  </div>
+</script>
+
+<!-- bip select -->
+<script id="tpl-bip-select" type="text/template">
+
+  <form id="create-new-bip-1" class="create-new create-new-bip">
+    <h2><img src="/static/img/channels/32/color/bip_<%= type%>.png" alt="" class="hub-icon hub-icon-24"/>
+      <% if (shared) { %>
+        Confirming Setup for
+      <% } else if (isNew) { %>Creating <% } else { %>Updating <% } %> <%= _label %>
+
+      <a id="bip-cancel" type="button" class="pull-right"><i class="icon-remove"></i></a>
+    </h2>
+    <hr class="soften"/>
+
+    <!-- div class="bip-save-required alert alert-warning hide">
+      <i class="icon-warning-sign"></i> <strong>Save Required</strong>
+    </div -->
+
+
+    <!-- Tab titles -->
+    <ul class="nav nav-tabs" id="bip-config-tabs">
+      <% if (!isNew) { %>
+        <div class="btn-group pull-right">
+
+          <button  type="button" data-action="dup" class="btn btn-small btn-info dup-action"><i class="icon-copy"></i> Copy</button>
+
+          <button  type="button" data-action="share" class="btn btn-small btn-info share-action"><i class="icon-share"></i> Share Config</button>
+
+          <% if (paused) { %>
+          <button  type="button" data-loading-text="UnPausing" data-action="play" class="btn btn-small btn-danger pause-action"><i class="icon-play"></i> Unpause</button>
+          <% } else { %>
+          <button  type="button" data-loading-text="Pausing" data-action="paused" class="btn btn-small btn-success pause-action"><i class="icon-pause"></i> Pause</button>
+          <% } %>
+        </div>
+      <% } %>
+
+      <li class="active" ><a data-toggle="pill" href="#bip-config-panel"> <i class="icon-cogs"></i> Setup</a></li>
+      <li><a data-toggle="pill" href="#bip-expiry-panel"><i class="icon-heart"></i> Expiry</a></li>
+
+      <% if (!isNew) { %>
+        <li><a data-toggle="pill" href="#bip-data-panel"><i class="icon-wrench"></i> Data View</a></li>
+        <li><a data-toggle="pill" href="#bip-logs-panel"><i class="icon-tasks"></i> Logs</a></li>
+      <% } %>
+
+
+      <% if ('http' === type) { %>
+        <li><a data-toggle="pill" href="#bip-render-panel"><i class="icon-eye-open"></i> Renderer</a></li>
+        <li><a data-toggle="pill" href="#bip-authentication-panel"><i class="icon-lock"></i> Auth</a></li>
+
+      <% } %>
+
+      <% if (false && 'trigger' !== type) { %>
+        <li><a data-toggle="pill" href="#bip-binder-panel"><i class="icon-link"></i> Bindings</a></li>
+      <% } %>
+
+    </ul>
+    <!-- END TAB TITLES -->
+
+
+    <!-- TAB CONTENT -->
+    <div class="tab-content no-overflow">
+      <div class="tab-pane active" id="bip-config-panel">
+
+        <% if (type == 'trigger') { %>
+          <input type="hidden" id="bip_channel_id" value="<%= config.channel_id %>"/>
+            <% if (!isNewTrigger) { %>
+            <div class="create-new-channel">
+              <header>
+                <h2>
+                  <img src="/static/img/channels/32/color/<%= pod.name %>.png" alt="" class="hub-icon hub-icon-32" />
+                  <%= trigger.name %>
+                </h2>
+                <p class="alert alert-info">
+                  <%= trigger.note %> (<%= pod.title %>)
+                </p>
+              </header>
+            </div>
+            <% } %>
+        <% } %>
+
+        <div id="bip-config" class="fade <%= (type == 'trigger' && isNewTrigger && !shared ? 'out' : 'in')%>">
+          <% if (app_id) { %>
+            <small class="pull-right">via <%=app_id%></small>
+          <% } %>
+          <fieldset class="basic-info">
+            <div class="control-group">
+              <div>
+                <label class="control-label" for="bip_name">Name</label>
+              </div>
+              <div class="controls">
+                <% if (type == 'smtp') { %>
+                <input type="text" id="bip_name" placeholder="bip name, alphanumeric only" value="<%= name %>">
+                @
+                <select id="domain_id">
+                  <% _(domainCollection).each(function(domain) { %>
+                  <% if (domain._available ) { %>
+                  <option value="<%= domain.id %>" <% if (domain.id == domain_id) { %> selected="selected" <% } %> ><%= domain.name %></option>
+                  <% } %>
+                  <% }); %>
+                </select>
+                <% } else if (type == 'http') { %>
+                <select id="domain_id">
+                  <% _(domainCollection).each(function(domain) { %>
+                  <% if (domain._available ) { %>
+                  <option value="<%= domain.id %>" <% if (domain.id == domain_id) { %> selected="selected" <% } %> ><%= domain.name %></option>
+                  <% } %>
+                  <% }); %>
+                </select>
+                /bip/http/
+                <input class="input-xlarge" type="text" id="bip_name" placeholder="bip name, alphanumeric only" value="<%= name %>">
+                <% } else { %>
+                <input class="input-xlarge" type="text" id="bip_name" placeholder="bip name, alphanumeric only" value="<%= name %>">
+                <% } %>
+
+
+                <% if (!isNew && 'http' === type) { %>
+                  <a class="btn pull-right" href="#outbox/test/<%=id%>">Test</a>
+                <% } %>
+
+                <span class="help-block"></span>
+              </div>
+
+              <% if (type !== 'trigger') { %>
+              <div id="bip-repr" class="">
+                <label>Endpoint </label>
+                <div id="bip-repr-actual" class=" alert alert-info" data-toggle="tooltip" title="Click To Select" >
+                  <%= _repr || 'none' %>
+                </div>
+              </div>
+              <% } %>
+
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="node">Description</label>
+              <div class="controls">
+                <textarea type="text" id="bip_note" placeholder="short description"><%= note %></textarea>
+                <span class="help-block"></span>
+              </div>
+            </div>
+
+            <div class="map-action">
+              <h3>
+                Workflow <small>- Services your <%= _label %> connects to</small>
+                <small class="pull-right">
+
+                  <i data-toggle="popover" data-title="<i class='icon-hand-up'></i> Building a Workflow is easy"
+                    data-html="true" data-placement="left" data-trigger="hover" data-content="
+                         <strong>Drag</strong> from any icon in the panel below to connect a new action
+                          <br/><br/>
+                         <strong>Click</strong> to (de)select Channels or connections.<br/><br/>
+                         <strong>Double-Click</strong> an icon to configure a Channel
+                         <br/><br/>
+                         The <strong>[DELETE]</strong> key removes the selected Channel or connection.
+                         <!-- br/><br/>
+                         <strong>Drag</strong> with your mouse to pan.<br/><br/>
+                         <strong>Scroll</strong> your mouse to zoom. -->
+                         " class="icon-question-sign" style="font-size:1.8em;">
+                  </i>
+                </small>
+
+              </h3>
+              <div class="controls">
+                <span class="help-block"></span>
+                <div id="hub">
+                  <input id="hub-focus"/>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      <% if (!isNew) { %>
+        <div class="tab-pane" id="bip-logs-panel">
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Code</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="log-body"></tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane" id="bip-data-panel">
+          <p class="lead">Raw JSON Config</p>
+          <pre class="prettyprint">
+          </pre>
+        </div>
+
+        <div class="tab-pane" id="bip-binder-panel">
+          <p class="lead">Control who can send messages to this Bip</p>
+          <ul class="link-list">
+            <li>
+              <input type="radio" /> Bind to First Connecting Client
+            </li>
+            <li>
+              or <input type="text" placeholder="IPv4 or IPv6 <%=(type === 'smtp' ? 'or Email Address' : '')%>" />
+              <button class="btn btn-success pull-right">Add</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="tab-pane" id="bip-exports-panel">
+          <p class="lead">Exports</p>
+          <ul class="link-list">
+            <li class="renderer-selected">
+            </li>
+          </ul>
+        </div>
+      <% } %>
+
+      <div class="tab-pane" id="bip-expiry-panel">
+
+        <div class="alert alert-info middle">
+          Expire this Bip after a certain time or # of impressions
+        </div>
+
+        <div class="control-group expiration">
+          <input type="hidden" id="bip_end_life" />
+          <span class="help-block"></span>
+
+          <label class="control-label">Expiry</label>
+
+          <% if (isNew && !explicitDate) { %>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on tooltipped" data-toggle="tooltip" data-title="After Date"><i class="icon-time"></i></span>
+                <input id="bip_expiry_time" id="appendedPrependedInput"  type="text" value="<%= expiry_time %>" placeholder="Never">
+                <select class="input-small" id="bip_expiry_time_resolution">
+                  <option value="hour" <% if (expiry_time_period == 'h') { %> selected="selected" <% } %> >Hours</option>
+                  <option value="day" <% if (expiry_time_period == 'd') { %> selected="selected" <% } %>>Days</option>
+                  <option value="month" <% if (expiry_time_period == 'm') { %> selected="selected" <% } %>>Months</option>
+                  <option value="year" <% if (expiry_time_period == 'y') { %> selected="selected" <% } %>>Years</option>
+                </select>
+              </div>
+            </div>
+          <% } else { %>
+            <div class="controls datepicker-input">
+              <div class="input-prepend">
+                <span class="add-on tooltipped" data-toggle="tooltip" data-title="After Date"><i class="icon-time"></i></span>
+                <input type="text" class="input-large date" name="expire-date"
+                       data-date-format="mm/dd/yy"
+                       id="bip_expiry_date"
+                       placeholder="<%= (expiry_time ? '' : 'Never') %>"
+                       value="<%= expiry_time ? expiry_time : ''  %>"
+                       /><%= time_zone %>
+              </div>
+            </div>
+          <% } %>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on tooltipped" data-toggle="tooltip" data-title="# Impressions">
+                <i class="icon-heart"></i>
+                <% if (!isNew && expiry_imp) { %>
+                <%= _imp_actual %> /
+                <% } %>
+              </span>
+              <input type="text" name="expire-imp"
+                     id="bip_expiry_imp"
+                     placeholder="<%= (expiry_imp ? '' : 'Never') %>"
+                     value="<%= expiry_imp ? expiry_imp : ''  %>"
+                     />
+            </div>
+          </div>
+
+        </div>
+
+        <div class="control-group expiration">
+
+          <label class="control-label">On Expiry</label>
+
+          <div class="controls">
+              <div class="btn-group" data-toggle="buttons-radio" id="bip_expire_behaviour">
+                  <button type="button" data-selection="pause" class="btn btn-info <% if (end_life.action == 'pause') { %>active<% } %>"><i class="icon-pause"></i> Pause</button>
+                  <button type="button" data-selection="delete" class="btn btn-info <% if (end_life.action == 'delete') { %>active<% } %>"><i class="icon-ban-circle"></i> Delete</button>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <% if ( 'http' === type) { %>
+        <div class="tab-pane" id="bip-render-panel">
+          <div class="alert alert-info middle">
+            Serve a Channel's content to clients connecting to this application endpoint
+          </div>
+          <ul class="link-list">
+            <li class="renderer-selected">
+            </li>
+          </ul>
+          <h3>
+            Select
+            <small class="pull-right"><input type="checkbox" id="include-channel-invoke" /> Show Invoke Calls</small>
+          </h3>
+          <ul class="link-list renderer-container">
+            <% _.each(rendererChannels, function(channel) { %>
+
+            <div class="create-new-channel select-renderer <%=( (1 === channel._links.length && channel._links[0].name == 'invoke') ? 'hide' : '')%>">
+              <header>
+                <h5>
+                <img class="hub-icon hub-icon-24" src="/static/img/channels/32/color/<%= channel.pod.name %>.png">
+                  <%= channel.pod.title + ' : ' + channel.name %>
+                </h5>
+                <% _.each(channel._links, function(r) { %>
+
+                <li class="<%=('invoke' === r.name ? 'hide' : '')%>" data-link="<%= r._href %>" data-channel-id="<%= channel.id%>" data-renderer="<%= r.name %>">
+                    <%=r.title%> (<%=r.contentType%>)
+                    <button class="btn btn-mini btn-success btn-enable-renderer pull-right">Enable</button>
+                    <button class="btn btn-mini pull-right btn-preview-renderer">Preview</button>
+                    <span class="pull-right"><%=r.description%></span>
+                  </li>
+                <% }); %>
+                </header>
+            </div>
+            <% }); %>
+          </ul>
+        </div>
+
+        <div class="tab-pane" id="bip-authentication-panel">
+          <div class="alert alert-info middle">
+            Authenticate application endpoint with your API key, a custom token, or not at all
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="auth">Authentication</label>
+            <div class="controls">
+              <select id="auth">
+                  <option value="none" <%=(config.auth === 'none') ? 'selected="selected"' : ''%>>None</option>
+                  <option value="token" <%=(config.auth === 'token' || !config.auth) ? 'selected="selected"' : ''%>>Use My API Token</option>
+                  <option value="basic" <%=(config.auth === 'basic') ? 'selected="selected"' : ''%>>Basic</option>
+              </select>
+              <!-- i class=" icon-question-sign" data-toggle="popover" data-placement="right" data-content="" title="HTTP Authentication"></i -->
+              <span class="help-block"></span>
+            </div>
+
+            <div class="control-group" id="auth-control" style="<%=(config.auth === 'basic') ? '' : 'display:none'%>">
+              <label class="control-label" for="auth">Username</label>
+              <div class="controls">
+                  <input id="auth_username" type="text" value="<%=config.username%>" />
+              </div>
+              <label class="control-label" for="auth">Password</label>
+              <div class="controls">
+                  <input id="auth_password" type="text" value="<%=config.password%>" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <% } %>
+
+      <div class="form-actions">
+        <button id="bip-submit" data-loading-text="Saving..." type="submit" class="btn btn-success"><%= (isNew) ? 'Create' : 'Save' %> <%= _label %></button>
+        <button id="bip-cancel" type="button" class="btn"><%= (isNew) ? 'Cancel' : 'Close' %></button>
+
+        <% if (!isNew) { %>
+        <a href="#/bips/<%= id %>/delete" class="danger-link pull-right"><i class="icon-ban-circle"></i> Delete this bip</a>
+        <p class="note">Any changes made to this bip will take effect immediately upon saving.</p>
+        <% } %>
+
+      </div>
+
+  </form>
+
+</script>
+

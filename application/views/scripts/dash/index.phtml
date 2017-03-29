@@ -1,0 +1,117 @@
+<div id="loader-wrapper">
+  <div id="loader-container">
+    <ul class="roto">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <h2><?php echo MOTD?></h2>
+  </div>
+</div>
+
+<script id="tpl-loader" type="text/template">
+  <div id="loader-wrapper">
+    <div id="loader-container">
+      <ul class="roto">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
+</script>
+
+<?php if (DEV_ENVIRONMENT) { ?>
+    <script data-main="static/js/dash-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="static/build/js/dash-built"></script>
+<?php } ?>
+
+<!-- generic templates -->
+
+<!-- pagination template -->
+<script id="tpl-pagination" type="text/template">
+  <p class="result-note">Displaying
+      <span class="current">
+        <%= ((((page_current - 1) * page_size) + 1 ) + '-' + ((result_total < page_current * page_size ? result_total : page_current * page_size))) %></span> of
+      <span class="total"><%= result_total%></span>
+  </p>
+  <ul class="pagination-pages">
+      <li class="prev"><a href="#" class="prev <%= (page_current > 1) ? '' : 'disabled' %>"><i class="icon-arrow-left"></i></a></li>
+      <li class="next"><a href="#" class="next <%= (page_current < page_total) ? '' : 'disabled' %>"><i class="icon-arrow-right"></i></a></li>
+  </ul>
+</script>
+
+<!-- end generic templates -->
+
+<!-- outbox -->
+<?php echo $this->partial('dash/partials/apps/outbox/layout.phtml'); ?>
+
+<!-- wot_admin -->
+<?php echo $this->partial('dash/partials/apps/wotadmin/layout.phtml'); ?>
+
+<!-- pods -->
+<?php echo $this->partial('dash/partials/apps/pods/layout.phtml'); ?>
+
+<!-- Community -->
+<?php echo $this->partial('dash/partials/apps/community/layout.phtml'); ?>
+
+<!-- Stats -->
+<?php echo $this->partial('dash/partials/apps/stats/layout.phtml'); ?>
+
+<!-- Logs -->
+<?php echo $this->partial('dash/partials/apps/logs/layout.phtml'); ?>
+
+<!-- APP LAYOUTS -->
+<?php echo $this->partial('dash/partials/apps/bipio/layout.phtml', array(
+    "timeZones"=> $this->timeZones,
+    "authUser" => $this->authUser)
+  );
+?>
+<?php echo $this->partial('dash/partials/apps/bipio/control_panes.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/content_modals.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/transforms.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/parser.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/data.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/auth.phtml'); ?>
+<?php echo $this->partial('dash/partials/apps/bipio/curlview.phtml'); ?>
+
+
+<?php if (!WHITE_LABEL) { ?>
+  <script>
+    if (userSettings) {
+      if (!userSettings.tos_accept) {
+        window.location = "/opt-in"
+      }
+    }
+  </script>
+<?php } ?>
+
+<!-- UI -->
+<?php echo $this->partial('dash/partials/apps/ui/layout.phtml'); ?>
+
+<!-- dashboard content -->
+<div class="row" id="app-content"></div>
+
+<!-- Begin Inspectlet Embed Code -->
+<script type="text/javascript" id="inspectletjs">
+window.__insp = window.__insp || [];
+__insp.push(['wid', 1350184938]);
+(function() {
+function ldinsp(){if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+setTimeout(ldinsp, 500); document.readyState != "complete" ? (window.attachEvent ? window.attachEvent('onload', ldinsp) : window.addEventListener('load', ldinsp, false)) : ldinsp();
+})();
+</script>
+<!-- End Inspectlet Embed Code -->

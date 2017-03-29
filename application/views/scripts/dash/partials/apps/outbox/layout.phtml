@@ -1,0 +1,55 @@
+<script id="tpl-outbox-controls" type="text/template">
+  <button id="outbox-send" tabindex="4" class="btn btn-success btn-small pull-right">Send Message</button>
+  <div class="pull-left">
+    <label class="checkbox">
+      <input id="outbox-json-parse" type="checkbox"> Parse JSON
+    </label>
+  </div>
+  <div class="controls pull-right">
+    via
+    <span class="add-on tooltipped" data-toggle="tooltip" data-title="Target Endpoint">
+      <img class="mini" src="static/img/channels/32/color/bip_http.png"/>
+    </span>
+    <select tabindex="3" class="input" id="outbox-bip-id">
+    </select>
+  </div>
+</script>
+
+<script id="tpl-layouts-outbox" type="text/template">
+  <div id="outbox-container">
+    <div class="row">
+      <div class="span12">
+        <label class="hide">Title</label>
+        <form class="form-inline">
+          <input autofocus tabindex="1" id="outbox-title" type="text" class="input row-fluid" placeholder="Message title" value="
+        ">
+        </form>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <label class="hide">Body</label>
+        <div id="outbox-body" tabindex="2" class="editable">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12" id="outbox-controls">
+        <div class="alert alert-warning pull-right">
+          <i class="icon-exclamation-sign"></i>
+          No Application Endpoints Found
+          <a class="btn btn-mini btn-primary" href="#bipio/new/http">Create One Now</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <div id="curl-repr"></div>
+      </div>
+    </div>
+
+  </div>
+</script>

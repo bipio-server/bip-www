@@ -1,0 +1,154 @@
+<script id="tpl-layouts-stats" type="text/template">
+  <div id="stats-container">
+    <div class="row" style="border-bottom: 1px dashed #eee;margin-bottom: 20px;">
+
+			<div class="offset1 span2 stat-metric middle" id="metric-users">
+          <h1 class="metric-value"></h1>
+          <p># Users</p>
+      </div>
+
+			<div class="span2 stat-metric middle" id="metric-bips">
+          <h1 class="metric-value"></h1>
+          <p># Bips</p>
+      </div>
+
+			<!-- div class="span2 stat-metric middle" id="metric-distinct-bips">
+          <h1 class="metric-value"></h1>
+          <p>Distinct Running</p>
+      </div -->
+
+			<div class="span2 stat-metric middle" id="metric-twitter">
+          <h1 class="metric-value"></h1>
+          <p>Twitter</p>
+      </div>
+
+			<div class="span2 stat-metric middle" id="metric-github">
+          <h3 class="metric-value"></h3>
+          <p>Github</p>
+      </div>
+
+			<div class="span2 stat-metric middle" id="metric-mailchimp">
+          <h3 class="metric-value"></h3>
+          <p>MailChimp</p>
+      </div>
+    </div>
+
+		<div class="row">
+			<div class="span12">
+				<ul class="nav nav-tabs">
+				  <li class="active"><a href="#report-summary" data-toggle="tab">Summary</a></li>
+				  <li><a href="#report-users" data-toggle="tab">Users</a></li>
+				  <li><a href="#report-pods" data-toggle="tab">Pods</a></li>
+				  <li><a href="#report-shares" data-toggle="tab">Shares</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="tab-content">
+
+			<div class="row tab-pane active" id="report-summary">
+				<div class="span12">
+					<h3 style="border-bottom: 1px dashed #eee;padding-bottom: 20px;margin-bottom: 20px;">Historic Summary
+						<button id="csv_summary" style="margin-left: 10px;" class="btn btn-info btn-mini pull-right">Download CSV</button>
+					</h3>
+					<table id="metric-users-summary" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Month</th>
+								<th>Users</th>
+								<th>Signups</th>
+								<th>Active</th>
+								<th>% Conv</th>
+								<th>Bips</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row tab-pane" id="report-users">
+				<div class="span12">
+					<h3 style="border-bottom: 1px dashed #eee;padding-bottom: 20px;margin-bottom: 20px;">User Boarding
+						<small> (<span id="num_results"></span>)</small>
+						<button id="csv" style="margin-left: 10px;" class="btn btn-info btn-mini pull-right">Download CSV</button>
+						<span id="stat_filters" class="pull-right label">
+							<input id="filter_month" type="checkbox"> Within Last Month
+							::::
+							<input id="filter_activity_active" type="checkbox"> Active
+							<input id="filter_activity_aborted" type="checkbox"> Aborted
+							<input id="filter_activity_zombie" type="checkbox"> Zombie
+
+							::::
+							<input id="filter_level_admin" type="checkbox"> Admin
+							<input id="filter_level_premium" type="checkbox"> Premium
+							<input id="filter_level_standard" type="checkbox"> Standard
+							<input id="filter_level_basic" type="checkbox"> Basic
+							<input id="filter_level_user" type="checkbox"> Free
+						</span>
+					</h3>
+					<table id="metric-users-recent" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Username</th>
+								<th>Email</th>
+								<th>Plan</th>
+								<th>Bips</th>
+								<th>TTFB</th>
+								<th>Created</th>
+								<th>Last Login</th>
+								<th>Status</th>
+								<th>Plan Params</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row tab-pane" id="report-pods">
+				<div class="span12">
+					<h3 style="border-bottom: 1px dashed #eee;padding-bottom: 20px;margin-bottom: 20px;">
+						Pod Usage
+						<button id="csv_pods" style="margin-left: 10px;" class="btn btn-info btn-mini pull-right">Download CSV</button>
+					</h3>
+					<table id="metric-pods" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Pod</th>
+								<th>#</th>
+								<th>Users</th>
+								<th>Level</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="row tab-pane" id="report-shares">
+				<div class="span12">
+					<h3 style="border-bottom: 1px dashed #eee;padding-bottom: 20px;margin-bottom: 20px;">
+						Share Performance
+						<button id="csv_shares" style="margin-left: 10px;" class="btn btn-info btn-mini pull-right">Download CSV</button>
+					</h3>
+					<table id="metric-shares" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Installs</th>
+								<th>Owner</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+	  </div>
+  </div>
+</script>

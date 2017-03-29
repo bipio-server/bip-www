@@ -1,0 +1,95 @@
+<script type="text/javascript">
+	var _shareManifest = <?php echo json_encode($this->share); ?>;
+</script>
+
+<?php if (DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/share-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/share-built"></script>
+<?php } ?>
+
+<div class="row">
+	<div class="offset1 span8">
+		<div class="lead middle">
+			<div class="page-header">
+			  <h3>
+				  <br/>
+			    <?php echo $this->share['name'] ?>
+			  </h3>
+			</div>
+			<div>
+			  <?php echo $this->share['note'] ?>
+		  </div>
+	  </div>
+  </div>
+  <div class="span2" style="margin-left: 0px;margin-top: 32px;">
+		<!-- AddToAny BEGIN -->
+		<div class="a2a_kit a2a_kit_size_32 a2a_default_style pull-right">
+			<a class="a2a_button_facebook"></a>
+			<a class="a2a_button_twitter"></a>
+			<a class="a2a_button_google_plus"></a>
+		</div>
+  </div>
+</div>
+
+<div class="row">
+	<div class="span8" style="margin-top:150px">
+	 	<span class="bipio-share" data-share-id="<?php echo $this->share['id'] ?>">
+			<script async type="text/javascript" data-embed-host="<?php echo $this->options['api']['host'] ?>" src="<?php echo $this->options['env']['proto'] ?>://<?php echo $this->options['env']['hostname'] ?>/static/js/widget-loader.js">
+			</script>
+		</span>
+		<span class="pull-right middle" style="padding: 10px; margin: 0 20px 0 0;">
+			<div>
+				<img class="user-avatar" src="/static/cdn/img/av/<?php echo $this->share['owner_id'] ?>.png" alt="" style="witdh: 60px; height: 60px;"><br>
+			</div>
+			<strong><a href="/user/<?php echo $this->share['user_name'] ?>"><?php echo $this->share['owner_name'] ?></a></strong>
+		</span>
+  </div>
+
+	<div class="span4">
+		<div id="hub_svg" class="fade out"></div>
+	</div>
+
+</div>
+
+<script type="text/javascript" src="//static.addtoany.com/menu/page.js"></script>
+	<!-- AddToAny END -->
+
+<div class="span12 lead"></div>
+
+<div class="row">
+	<?php if ($this->others->count() > 1) { ?>
+
+    <h2 class="span12 middle">
+      Bips Can Connect <?php echo $this->bipType; ?> In All Sorts Of Ways!
+    </h2>
+
+		<?php $idx = 0; ?>
+		<?php foreach ($this->others as $item) { ?>
+			<?php echo (0 === $idx) ? '' : ''; $idx++; ?>
+			<?php if ($item['id'] != $this->share['id']) { ?>
+				<div class="span7" style="margin: 30px;">
+					<span class="bipio-share" data-share-id="<?php echo $item['id'] ?>">
+						<script async type="text/javascript" data-embed-host="<?php echo $this->options['api']['host'] ?>" src="<?php echo $this->options['env']['proto'] ?>://<?php echo $this->options['env']['hostname'] ?>/static/js/widget-loader.js">
+						</script>
+					</span>
+					<span class="pull-right middle" style="padding: 10px;">
+						<div>
+							<img class="user-avatar" src="/static/cdn/img/av/<?php echo $item['owner_id'] ?>.png" alt="" style="witdh: 60px; height: 60px;">
+						</div>
+						<div>
+							<b><a href="/user/<?php echo $item['user_name'] ?>"><?php echo $item['owner_name'] ?></a></b>
+						</div>
+					</span>
+				</div>
+			<?php }; ?>
+		<?php }; ?>
+	<?php }; ?>
+</div>
+
+<div class="span12 middle">
+    <h2 >
+      Rapidly Integrate <?php echo $this->bipType ?> With
+    </h2>
+    <?php echo $this->partial($this->podPartialPath); ?>
+  </div>

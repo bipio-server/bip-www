@@ -1,0 +1,154 @@
+<section id="overview">
+    <div class="page-header">
+        <h3>Getting Started <small>- developer documentation</small></h3>
+        <h4><span id="mashape-button" data-api="bipio" data-name="cloudspark" ></span>
+            <script src="https://www.mashape.com/embed/button.js"></script>
+        </h4>
+    </div>
+
+    <p style="text-align:center;width:100%">
+        <img src="/static/img/docs/bip_concept.png" />
+    </p>
+    <br/>
+    <p class="lead middle">
+        <i class="icon-github"></i> I'm Open Source - <a href="https://github.com/bipio-server/bipio">
+            Fork me on Github
+        </a>
+    </p>
+    <br/>
+    <p >
+        Bipio is a <a href="http://en.wikipedia.org/wiki/Directed_graph">graph</a> <a href="http://en.wikipedia.org/wiki/Pipeline_(software)">pipelining</a>
+        API talking RESTful JSON, where each node in your graph is responsible for performing a discrete unit of work, such a transforming messages,
+        integrating "cloud" API's or many other types of web based RPC's.
+        <br/><br/>
+
+        This is a <a href="http://www.json.org">JSON</a> API supporting <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> and
+        <a href="http://en.wikipedia.org/wiki/Remote_procedure_call">RPC</a> endpoints over HTTP Basic Authenticated SSL.  See <a href="#endpoints">endpoints</a> for further
+        connection info.
+        <a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a> is enabled by setting the <code>?callback=my_function</code> query parameter.
+        <br/><br/>
+        The graph structures, '<a href="/docs/resource/rest/bip">bips</a>', <a href="/docs/resource/rest/bip#resource_rest_bip_transforms">transform</a>
+        content between adjacent nodes. They can be reconfigured dynamically without requiring changes to the connecting client, ideal for rapid prototyping or 
+        any kind of interprotocol communication.
+        <br/><br/>
+        Bips are configured by defining a graph (<a href="/docs/resource/rest/bip#resource_rest_bip_hubs">hub</a>) across nodes (<a href="/docs/resource/rest/channel">channels</a>).
+        Channels perform a discrete unit of work and emit a predictable result, so as to be arranged on a bip's hub in meaningful ways. Collections of similar Channels
+        reside in shared resource containers called <a href="/docs/pods">Pods</a>.
+    </p>
+
+    
+
+    <section id="concepts" class="anchor-scroll">
+        <div class="page-header">
+            <h3>Key Concepts</h3>
+        </div>
+
+
+        <h2 class="middle">Bips</h2>
+        <p class="middle">
+            A <a href="/docs/resource/rest/bip">Bip</a> is a very fast and light weight endpoint definition for your personal domain(s)
+            that receives, transforms and parallelizes messages across a graph.  It has an
+            endpoint type, a unique name, some type specific configuration, and an action graph (or <a href="/docs/resource/rest/bip#resource_rest_bip_hubs">Hub</a>).
+        </p>
+        <div class="row">
+            <div class="span6 offset1">
+                <h4>They have some neat characteristics</h4>
+                <blockquote><h3><i class="icon-time"></i> <i class="icon-heart"></i> <i class="icon-play"></i> <i class="icon-pause"></i></h3>
+                    auto-expire over time or #impressions. Pause or Play with impunity.
+                </blockquote>
+                <blockquote><h3><i class="icon-code-fork"></i> dynamic</h3> hubs can be updated at any time, even when live</blockquote>
+                <blockquote><h3><i class="icon-link"></i> faithful</h3> authenticate peers and honor basic ACL's </blockquote>
+            </div>
+
+            <div class="span4">
+                <h4>And come in 3 flavors</h4>
+                <blockquote><h3><img src="/static/img/channels/32/color/bip_smtp.png"/> smtp</h3> to consume incoming email</blockquote>
+                <blockquote><h3><img src="/static/img/channels/32/color/bip_http.png"/> http</h3> for authenticated HTTP(s) web hooks</blockquote>
+                <blockquote><h3><img src="/static/img/channels/32/color/bip_trigger.png"/> trigger</h3> periodic tasks and content sync </blockquote>
+            </div>
+        </div>
+
+        <h2 class="middle">Channels</h2>
+        <p>
+            A <a href="/docs/resource/rest/channel">Channel</a> imports (consumes) and exports (produces) a message, it performs a specific action. The
+            ecosystem of Channels you create becomes the swatch from which work will automate.
+
+            A Channel is a reusable instance of an action provided by a <a href="/docs/pods">Pod</a>.
+            When you create a Channel, you are creating an interface to a Pod's action for re-use.
+            Channels are assembled together to create <a href="/docs/resource/rest/bip">Bips</a>, where their exports and imports can be transformed, 
+            from one channel to the next.
+        </p>     
+        
+    </section>
+    
+    <section id="endpoints" class="anchor-scroll">
+        <div class="page-header">
+            <h3>API Endpoints and Authentication</h3>
+        </div>
+
+        <h4>bipio has 2 HTTP JSON REST endpoints that you'll likely be using.</h4>
+
+
+        <p class="lead">
+        <div class="alert alert-info">
+            <h3>https://api.bip.io <small> for modifying system REST and RPC resources</small></h3>
+        </div>
+        </p>
+
+        <p class="lead">
+        <div class="alert alert-info">
+            <h3>https://<?php echo $this->domainPfx; ?>.bip.io <small> for transacting with your own HTTP Bips and Channel Renderers</small></h3>
+        </div>
+        </p>
+
+        <p class="">
+            All endpoints require authentication with <a href="http://www.w3.org/Protocols/HTTP/1.0/draft-ietf-http-spec.html#BasicAA">HTTP Basic Authentication</a>, where username is
+            your username, and password is an API token as displayed in your Account Settings.
+
+            Authentication credentials for account level endpoints (bips and renderers) can and should be tweaked individually via their
+            relevant configurations.
+        </p>
+
+        <hr class="soften"/>
+        <h4>HTTP and SMTP Bips</h4>
+
+        <p>
+            Bips that you create with public endpoint definitions will be bound to your selected domain, and will take a normalized form
+        </p>
+
+        <p class="lead">
+        <div class="alert alert-info">
+            <h3>https://<?php echo $this->domainPfx; ?>.bip.io/bip/http/{bip name}?key=value</h3>
+        </div>
+        </p>
+        <p class="lead">
+        <div class="alert alert-info">
+            <h3>{bip name}@<?php echo $this->domainPfx; ?>.bip.io</h3>
+        </div>
+        </p>
+
+        <hr class="soften" />
+
+        <div class="row">
+            <div class="span7">
+                <p class="lead">
+                <h4><i class="icon-exclamation-sign"></i> A Note on SMTP Bip Endpoints</h4>
+
+                Bipio is not an SMTP Relay, Smart Host or 'Email Service' but rather an API provider that supports an SMTP transport. 
+                We do not suggest binding your custom domain MX to Bipio unless it is a dedicated subdomain. Set your subdomain CNAME/MX 
+                as <strong><?php echo $this->domainPfx; ?>.bip.io</strong>.  For more info,  see the 
+                <a href="/docs/resource/rest/domain">domains</a> section.
+                </p>
+            </div>
+
+            <div class="span5">
+                <p class="lead">
+                <h4><i class="icon-exclamation-sign"></i> Rate Limiting</h4>
+                Your account and API access will be subject to a rate limiting policy.
+                Should you experience HTTP 502 responses and feel this is in error, please <a href="mailto:support@cloudspark.com.au">reach us</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+</section>

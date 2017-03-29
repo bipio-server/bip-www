@@ -1,0 +1,123 @@
+.ir {
+	display: block;
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+}
+
+.location(@t: auto, @r: auto, @b: auto, @l: auto){
+	top: @t;
+	right: @r;
+	bottom: @b;
+	left: @l;
+}
+
+.position(@type: absolute, @z: auto, @t: auto, @r: auto, @b: auto, @l: auto){
+	position: @type;
+	z-index: @z;
+	.location(@t, @r, @b, @l);
+}
+
+.animation(@animation){
+	-webkit-animation: @animation;
+	   -moz-animation: @animation;
+	    -ms-animation: @animation;
+	     -o-animation: @animation;
+	        animation: @animation;
+}
+
+.makeButton(@light, @dark, @text, @state: all) when (@state = all), (@state = static){
+	@border: darken(@dark, 10%);
+	@highlight: lighten(@light, 5%);
+
+	color: fade(@text, 90%);
+	border-color: @border;
+}
+
+.makeButton(@light, @dark, @text, @state: all) when (@state = all){
+	&:hover { .makeButtonHover(@light, @dark, @text); }
+	&:active { .makeButtonActive(@light, @dark, @text); }
+}
+
+.makeButton(@light, @dark, @text, @state: all) when (@state = hover){ .makeButtonHover(@light, @dark, @text); }
+.makeButton(@light, @dark, @text, @state: all) when (@state = active){ .makeButtonActive(@light, @dark, @text); }
+
+
+
+.makeButtonHover(@light, @dark, @text){
+	@border: darken(@dark, 10%);
+	@highlight: lighten(@light, 5%);
+	@shadow: 0 1px 3px darken(@highlight, 5%) inset, 0 1px 2px fade(@black, 8%);
+
+	color: @text;
+	border-color: darken(@border, 5%);
+	.box-shadow(@shadow);
+	#gradient > .vertical(darken(@light, 5%), darken(@dark, 5%));
+}
+
+.makeButtonActive(@light, @dark, @text){
+	@border: darken(@dark, 10%);
+	@highlight: lighten(@light, 5%);
+	color: fade(@text, 75%);
+	text-shadow: none;
+	border-color: darken(@border, 15%);
+	.box-shadow(0 1px 3px fade(@black, 30%) inset);
+	background: darken(@dark, 15%);
+}
+
+.flatButton (@startColor, @endColor, @textColor, @textShadow, @radius, @flatboxshadow, @flatborder) {
+	.buttonBackground(@startColor, @endColor, @textColor, @textShadow);
+	.box-shadow(@flatboxshadow);
+	border: @flatborder;
+}
+
+#channels {
+	.size(@channelSize: 24px){
+		height: @channelSize;
+		width: @channelSize;
+		line-height: @channelSize;
+		background-size: @channelSize @channelSize;
+	}
+
+	.paths(@channelPath: '../img/channels/32/color'){
+		&.channel-cloud 		{ background-image: url('@{channelPath}/cloud.png'); }
+		&.channel-delicious 	{ background-image: url('@{channelPath}/delicious.png'); }
+		&.channel-dropbox 		{ background-image: url('@{channelPath}/dropbox.png'); }
+		&.channel-smtp 			{ background-image: url('@{channelPath}/email.png'); }
+		&.channel-evernote 		{ background-image: url('@{channelPath}/evernote.png'); }
+		&.channel-facebook 		{ background-image: url('@{channelPath}/facebook.png'); }
+		&.channel-rss-local 	{ background-image: url('@{channelPath}/feed.png'); }
+		&.channel-filter		{ background-image: url('@{channelPath}/filter.png'); }
+		&.channel-hipchat 		{ background-image: url('@{channelPath}/hipchat.png'); }
+		&.channel-instagram 	{ background-image: url('@{channelPath}/instagram.png'); }
+		&.channel-posterous 	{ background-image: url('@{channelPath}/posterous.png'); }
+		&.channel-twitter 		{ background-image: url('@{channelPath}/twitter.png'); }
+		&.channel-wordpress 	{ background-image: url('@{channelPath}/wordpress.png'); }
+	}
+}
+
+#filters {
+	.filter(@filter){
+		-webkit-filter: @filter;
+		   -moz-filter: @filter;
+		    -ms-filter: @filter;
+		     -o-filter: @filter;
+		        filter: @filter;
+	}
+
+	.grayscale(@percent){
+		-webkit-filter: grayscale(@percent);
+		   -moz-filter: grayscale(@percent);
+		    -ms-filter: grayscale(@percent);
+		     -o-filter: grayscale(@percent);
+		        filter: grayscale(@percent);
+	}
+
+	.brightness(@percent){
+		-webkit-filter: brightness(@percent);
+		   -moz-filter: brightness(@percent);
+		    -ms-filter: brightness(@percent);
+		     -o-filter: brightness(@percent);
+		        filter: brightness(@percent);
+	}
+}

@@ -1,0 +1,243 @@
+#share-form {
+  margin : 0;
+}
+
+// Get shadow divider
+.create-new header,
+.create-new-channel .select-action > h3,
+.create-new-bip .map-action > h3 {
+	/*padding-top: 1rem;
+  background: url('../img/hr.png') repeat-x top;*/
+}
+
+.create-new-channel {
+	.select-action > h3 {
+		padding-bottom: 3rem;
+		background: url('../img/hr.png') repeat-x bottom;
+	}
+
+	header {
+	  text-align: center;
+	  border: 1px solid @flatlightgrey;
+	  background: @white;
+	  padding: 2px;
+	  min-height: 1px;
+	  .border-radius(0);
+	  .transition(all 0.5s linear);
+	  padding-top: 10px;
+	  margin-bottom: 10px;
+		  h2 {
+			  margin-bottom: 10px;
+			  float: none;
+		  }
+		  p {
+			  margin-bottom: 0px;
+			  .border-radius(0);
+		  }
+	}
+
+	.action-list {
+		list-style: none;
+		margin: 0;
+
+		.action {
+			position: relative;
+			padding: 2rem;
+			margin-top: 1rem;
+			cursor: pointer;
+	    border-left: 5px solid @grayLighter;
+
+			h4 { .heading3; }
+
+			h4, p, label {
+				color: @textColor;
+				.transition(color .2s ease-in-out);
+			}
+
+			.action-selected {
+				display:none;
+			}
+
+			.action-type {
+				margin-left: .6rem;
+				.position(relative, auto, -2px);
+			}
+
+			.action-config {
+				margin: 0;
+				height: 0;
+				overflow: hidden;
+				.opacity(0);
+				.transition(all .4s ease-in-out);
+
+				.control-group:last-child .controls input { margin-bottom: 0; }
+			}
+
+			&:hover,&:focus {
+				h4, p, label {
+					color: @textColor;
+				}
+			  border-left: 5px solid @green;
+			}
+
+			&.active {
+				/*background: @infoBackground;
+				border: 1px solid @infoBorder;*/
+				color: @infoText;
+				cursor: auto;
+
+				h4, p, label { color: @textColor; }
+
+				.action-type {
+					color: #74aab2;
+					background: #bce4eb;
+				}
+
+				.action-config {
+				 	height: auto;
+				 	margin-top: 2rem;
+				 	.opacity(100);
+				 }
+			}
+
+			&.browsing {
+				border-left: 5px solid @grayLighter;
+			}
+
+		}
+	}
+}
+
+.create-new-channel.select-renderer {
+  	text-align: left;
+ 	 width: 99%;
+
+	 header {
+	  text-align: left;
+
+		h5 {
+		  border-bottom: 1px solid #eee;
+		  padding-bottom: 10px;
+		  padding-left: 1.2rem;
+		}
+	}
+	button {
+  		margin-left: 10px;
+	}
+
+
+}
+
+.create-new-bip {
+	header {
+		.clearfix;
+		h2 { .pull-left; }
+		.btn-group { .pull-right; }
+	}
+
+	.expiration {
+
+		.control-label, .controls { display: inline-block; }
+
+		.control-label { width: 7rem; }
+
+		.controls {
+
+			label {
+				display: inline-block;
+				font-weight: 400;
+				margin-left: 1.2rem;
+			}
+
+			input {
+				margin: 0;
+				width: 55%;
+        border-radius: 0px;
+			}
+		}
+	}
+}
+
+#bip_expiry_time_resolution {
+    height: 34px;
+}
+
+// Bip Configure Modals
+.select-channel-modal {
+    .modal-body {
+        padding: 0;
+        border-top: none;
+    }
+
+    .ag-list-horizontal {
+        .form-search,
+        .ag-list-pagination {
+            border-top: 1px dashed #eee;
+            padding: 1.2rem 2.4rem;
+        }
+
+        .form-search {
+            background: lighten(@blueLight, 15%);
+            border-bottom: 1px solid @blueLight;
+            margin: 3px 0px;
+            .clearfix;
+
+            input {
+                width: 45%;
+                float: left;
+            }
+
+            [type="submit"]{
+                top: 1.5rem;
+                right: 55%;
+                width: auto;
+                margin-right: .8rem;
+            }
+
+            .hint {
+                font-size: 1.2rem;
+                color: @textLight;
+                float: right;
+                margin: .9rem 0;
+            }
+        }
+
+        .ag-list-results {
+            max-height: 35rem;
+            padding: 2.6rem;
+            padding-bottom: 0;
+        }
+    }
+}
+
+.channel-settings-modal {
+    .modal-header {
+        h2 {
+            line-height: 32px;
+            width: 100%;
+
+	    small {
+		line-height: 32px;
+            }
+
+        }
+
+        .hub-icon {
+         /*   float: none;*/
+            margin: 0 .4rem;
+            background-color: #fff;
+        }
+    }
+
+    .form-horizontal {
+        .control-label {
+            padding-top: 7px;
+        }
+
+        input[type="text"],
+        .field {
+            width: 95%;
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,117 @@
+<section id="resource_rpc_create_from_referer">
+    <div class="page-header">
+        <h3>Create From Referer</h3>
+        <h4><code>/rpc/bip/create_from_referer</code></h4>
+    </div>
+
+    <p class="lead">
+        Creates a Bip using default settings, where <code>name</code> has been derived
+        from the domain portion of either a HTTP Referer header or explicit <code>referer</code>
+        argument.
+        When omitted, the system will attempt to derive an appropriate <code>icon_url</code> for the generated Bip.
+        <br/><br/>
+        This resource is a <code>/rest/bip</code> wrapper and supports GET requests only.
+        The REST interface for the generated Bip can be accessed via the returned _href decorator.
+    </p>    
+    
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>referer</em></td>
+                    <td>String, URI</td>
+                    <td>Referring URI, Any <a href="http://en.wikipedia.org/wiki/URI_scheme#Official_IANA-registered_schemes">URI Scheme</a></td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+    
+    <div class="bs-api-data bs-api-data-decorators">
+        <h5>Decorators augment a resource record with useful meta-data and are read-only</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>_href</em></td>
+                    <td>Record URI</td>
+                    <td><code>https://api.bip.io/rest/bip/cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code></td>
+                </tr>
+                <tr>
+                    <td><em>_repr</em></td>
+                    <td>Derived Bip Representation</td>
+                    <td><code>ycombinator@docs.bip.io</code></td>
+                </tr>
+                <tr>
+                    <td><em>_imp_actual</em></td>
+                    <td>Actual Impressions, the number of messages received by this bip</td>
+                    <td>349587</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        <p class="lead">
+            RPC Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-create-from-referer">            
+            <li class="active">
+                <a href="#rest-example-create-from-referer-get" data-toggle="pill">GET</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-create-from-referer-get">
+            <strong>REQUEST</strong> <span class="label label-info">NOTE</span> you can use either a Referer header or a referer argument
+            <pre><code>GET /rpc/bip/create_from_referer?referer=http://news.ycombinator.com/user?id=feralmoan HTTP/1.1
+Referer: http://news.ycombinator.com/user?id=feralmoan</code></pre>
+                
+            <strong>RESPONSE</strong>
+<pre>
+<code>200 OK
+
+{
+    id: "bc928113-0a98-4975-a821-98373aa72551",
+    name: "ycombinator",
+    domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    type: "smtp",
+    config: { },
+    hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+                ]
+            }
+    },
+    note: "via news.ycombinator.org",
+    end_life: {
+        time: 0,
+        imp: 0
+    },
+    paused: false,
+    icon: "https://bip.io/static/img/cdn/icofactory/9d99e2ad9a751b7850f5a00a9c184c62.ico",
+    created: "1358816085282",
+    _imp_actual: 0,
+    _repr: "ycombinator@docs.bip.io",
+    _href: "https://api.bip.io/rest/bip/bc928113-0a98-4975-a821-98373aa72552"
+}
+</code>
+</pre>           
+        </div>
+    </div>
+    
+</section>

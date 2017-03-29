@@ -1,0 +1,195 @@
+.btn-row {
+	text-align: right;
+	.btn + .btn {
+		margin-left: 1.2rem;
+	}
+}
+
+
+
+.btn { display: inline-block; }
+
+.btn-block {
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+// Disabled state
+.btn.disabled, .btn[disabled] {
+    cursor: default;
+    background-image: none;
+    .opacity(65);
+    .box-shadow(none);
+}
+
+// Core
+.btn {
+	font-size: 1.4rem;
+	font-weight: 600;
+	line-height: 1.3em;
+	text-decoration: none !important;
+	padding: .8rem 1.6rem;
+	border: 1px solid transparent;
+	.border-radius(0);
+
+	i { margin: 0; }
+	.icon-caret-down { margin-right: 0; }
+}
+
+// Sizes
+
+// Large
+.btn-xlarge {
+  padding: @paddingXLarge;
+  font-size: @fontSizeXLarge;
+}
+
+.btn-large {
+  padding: @paddingLarge;
+  font-size: @fontSizeLarge;
+}
+.btn-large [class^="icon-"],
+.btn-large [class*=" icon-"] {
+  margin-top: 4px;
+}
+
+.btn-small {
+  font-size: 1.3rem;
+  padding: .6rem 1.4rem;
+  .border-radius(0);
+}
+
+.btn-mini {
+  font-size: 1.1rem;
+  padding: .4rem 1.2rem;
+  .border-radius(0);
+}
+
+.btn-micro {
+  font-size: 1.1rem;
+  padding: .2rem .4rem;
+  .border-radius(0);
+}
+
+
+// Colors
+.btn {
+	.flatButton (@transparency, @transparency, @petrolblue, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @petrolblue);
+	&:hover {
+		.flatButton (@petrolblue, @petrolblue, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @petrolblue);
+	}
+}
+.btn-info {
+	.flatButton (@white, @white, @petrolblue, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @petrolblue);
+	&:hover, &:active, &:focus {
+		.flatButton (@petrolblue, @petrolblue, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @petrolblue);
+	}
+}
+.btn-primary {
+	.flatButton (@transparency, @transparency, @flatdarkgrey, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @flatdarkgrey);
+	&:hover, &:active {
+		.flatButton (@flatdarkgrey, @flatdarkgrey, @white, 0 0 0 transparent, 0, 0 0 0 transparent,  1px solid @flatdarkgrey);
+	}
+}
+.btn-success {
+	.flatButton (@flatgreen, @flatgreen, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @flatgreen);
+	&:hover, &:active {
+		.flatButton (@flatdarkgreen, @flatdarkgreen, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @flatdarkgreen);
+	}
+}
+.btn-inverse {
+	.flatButton (@transparency, @transparency, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @white);
+	&:hover, &:active {
+		.flatButton (@white, @white, @petrolblue, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @white);
+	}
+}
+.btn-warning {
+	.flatButton (@orange, @orange, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid transparent);
+	&:hover, &:active {
+		.flatButton (@btnWarningBackground, @btnWarningBackground, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid transparent);
+		}
+	}
+.btn-danger {
+	.flatButton (@red, @red, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid transparent);
+	&:hover, &:active {
+			.flatButton (@btnDangerBackground, @btnDangerBackground, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid transparent);
+		}
+	}
+
+	// Active States
+/*	.btn.active, .open > .btn { .makeButton(#d0e4e8, #a4b4b6, @textColor, active); }
+	.btn-primary.active, .open > .btn-primary { .makeButton(#00a7b6, #0095a5, @white, active); }
+	.btn-success.active, .open > .btn-success { .makeButton(#76d668, #52ab46, @white, active); }
+	.btn-warning.active, .open > .btn-warning { .makeButton(#fbb450, #f89406, @white, active); }
+	.btn-danger.active, .open > .btn-danger { .makeButton(#bf5656, #993636, @white, active); }
+*/
+
+
+// Special-case Buttons
+.btn-text,
+.btn-text:hover,
+.btn-text:active {
+    font-weight: 400;
+    text-shadow: none;
+    border-color: transparent;
+    background: none;
+    .box-shadow(none);
+}
+
+.btn-text {
+    color: @linkColor;
+    &:hover {
+        color: @linkHoverColor;
+    }
+}
+
+.btn-clear {
+    background: fade(@white, 80%);
+    border-color: mix(@grayLight, @grayLighter);
+    .box-shadow(none);
+}
+
+.btn-clear:hover,
+.btn-clear:active,
+.open > .btn-clear {
+    background: @white;
+    border-color: mix(@grayLight, @grayLighter);
+    .box-shadow(none);
+}
+
+.btn-clear:active,
+.open > .btn-clear {
+    border-color: @grayLight;
+}
+
+.btn-info-disabled {
+  color: @white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #49afcd;
+  #gradient > .vertical(#5bc0de, #2f96b4 );
+  border-color: #2f96b4 #2f96b4 #1f6377;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+
+
+.btn-info.active {
+ 	.flatButton (@petrolblue, @petrolblue, @white, 0 0 0 transparent, 0, 0 0 0 transparent, 1px solid @petrolblue);
+}
+
+
+.btn-group > .btn:first-child,
+.btn-group > .btn:last-child, .btn-group > .dropdown-toggle {.border-radius(0);}
+
+
+.btn-group.open .dropdown-toggle {
+    .box-shadow(none);
+}
+.btn-group.open .btn.dropdown-toggle {
+	background-color: @petrolblue;
+  color: white;
+  .caret {
+    border-top : 4px solid white;
+  }
+}
+

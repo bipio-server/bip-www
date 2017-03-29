@@ -1,0 +1,125 @@
+@media (max-width: 979px) {
+  #navbar nav {
+    position:absolute;
+    right: 5px;
+  }
+
+  #navbar nav > ul > li {
+    margin-left: 0px;
+  }
+
+
+  #features .feature {
+    padding: 2px 5px 0px 5px !important;
+    height: auto !important;
+  }
+
+  .feature hr {
+
+  }
+}
+
+@media (max-width: 767px) {
+  footer .span2 {text-align:center;}	
+  footer .container .row div:first-child {margin-bottom: 20px;}
+  footer .container .row + .row {padding: 0 10px;}
+  #subnavbar .container {width: 100%;}
+  #subnavbar .manage-links li {}
+  #nav-menu-items i {
+    display: block;
+  }
+  #nav-menu-items span {
+    display: none;
+  }
+  #nav-menu-items {
+    color : #fff;
+  }
+	#config-modal {
+	position: relative;
+	margin-left: 0;
+	.modal {
+        left: 0;
+        top: 0;
+        height: 715px;
+        width: 100%;
+        transition: all 0.2s linear;
+        z-index:10;
+        border-right: 1px solid transparent;
+        margin: 0;
+        position: relative;
+		}
+	}
+	#bipio-container {
+		.bip-select {
+				height: auto;
+				overflow: visible;
+					.bip-select-actions {
+						.bip-wrap {
+							display: block;
+						}
+					}
+			}
+		}
+  
+}
+
+@media (max-width: 511px) {
+	#page-body {margin-top: 80px;}
+}
+
+@media (max-width: 481px) {
+  .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+    margin-left: 0px !important;
+    width: 100%;
+  }
+  section#overview small {
+    display:none;
+  }
+  footer img {
+    height: 24px;
+  }
+  footer small {
+    display:none;
+  }
+}
+
+@media (max-width: 320px) {
+  #overview .page-header {
+    display: none;
+  }
+  section#overview p {
+    margin-top: 40px;
+  }
+  footer nav {
+    font-size: 10px;
+  }
+  footer nav li:last-child {
+    display:none !important;
+  }
+}
+
+@media (max-width: 240px) {
+  #navbar nav > ul > li:not(.user) a {
+    padding: 8px 4px;
+  }
+  footer.global .legal li + li:before {
+    content : ''
+  }
+  .legal li a span:first-child {
+    display:none;
+  }
+  .legal .legal-short {
+    display:inline-block;
+  }
+}
+
+@media (max-height: 768px) {
+  .modal {
+    overflow-y : visible;
+    top : 0;
+  }
+  .form-horizontal .control-group, .well, legend {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+}

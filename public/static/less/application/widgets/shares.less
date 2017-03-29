@@ -1,0 +1,134 @@
+// generate circular translations for manifest
+.a2a_svg {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+}
+
+.share-widget {
+	width: 100%;
+	height: 94px;
+	overflow: hidden;
+	margin: 0 0 12px 0;
+
+	.bip-select-info {
+		margin: 0;
+
+		div {
+			max-width: 95%;
+		}
+
+		.name {
+			color: #284c52;
+		}
+		.description {
+			color: #6b9299;
+		}
+	}
+
+	.bip-select-actions {
+		display: table;
+		.bip-wrap {
+			height: 94px;
+			display: table-cell;
+			vertical-align: middle;
+			button {
+				margin-bottom: 2px;
+			}
+		}
+		.user-avatar {
+			height: 64px;
+			max-height: 64px;
+		}
+	}
+
+	a:hover {
+		text-decoration: none;
+	}
+
+	.bip-share-compact {
+		.bip-select-info a {
+			width: 456px;
+		}
+		button {
+			width: 60px;
+      background: #0194a4;
+      color: white;
+      font-size: 3rem;
+      position: absolute;
+      height: 94px; margin: 0;
+      width: 28px;
+      top: 0;
+      right: 0;
+      padding: 0;
+		}
+	}
+
+	.share-summary {
+
+		margin-left: 94px;
+		height: 94px;
+		border-bottom-width: 0;
+
+		min-height: 85px;
+		display: block;
+		position: relative;
+		border-bottom-width: 0;
+		padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+		border: 1px solid transparent;
+		background: #eefafc;
+	}
+
+	.bip-preview {
+	  background: rgba(242,242,242, 0.8);
+	  height: 94px;
+	  margin: 0;
+	  width: 94px;
+	  position:relative;
+		border-top-left-radius: 50%;
+		border-bottom-left-radius: 50%;
+		padding-left: 3px;
+		ul {
+			margin: 0;
+			padding: 0;
+			li {
+		  	position: absolute;
+				display: block;
+				position: absolute;
+				background-color: rgba(0,0,0, 0.07);
+				border-radius: 50%;
+				width: 21px;
+				height: 21px;
+				transition: all 0.4s ease;
+			}
+		}
+	}
+
+	@iterations: 8;
+	@radius: 32;
+	@cx: 36; // center x
+	@cy: 36; // center y
+
+	.radIterator (@index) when (@index > 0) {
+
+	    @x: floor(@cx + @radius * cos( 2 * pi() * (@index / @iterations)));
+	    @y: floor(@cy + @radius * sin( 2 * pi() * (@index / @iterations)));
+
+	    .bip-preview ul {
+				li:nth-child(@{index}) {
+		      .translate( @x*(1px), @y*(1px) );
+				}
+			}
+
+	    .radIterator(@index - 1);
+	}
+	.radIterator (0) {}
+	.radIterator (@iterations);
+
+	img.source-icon {
+		position:absolute;
+		left: 33px;
+		top: 30px;
+	}
+
+}

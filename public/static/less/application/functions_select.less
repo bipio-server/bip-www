@@ -1,0 +1,46 @@
+#function-select2 {
+	position: absolute;
+  top: 5px;
+  left: 20px;
+  .select2-container {
+  	text-transform: uppercase;
+  	border: 2px solid @green;
+  	.select2-choice {
+  		text-align: center;
+  		background-image: none;
+  		color: @green;
+  		border: none;
+  		.select2-arrow {
+  		  color: inherit;
+	  		width: 44px;
+	  		border: none;
+	  		background: inherit;
+  		}
+  		&:hover {
+	  		background: @green;
+	  		color: @white;
+		  }
+  	}
+  }
+}
+
+.function-select2-active {
+	&.select2-drop-active {
+		text-transform: uppercase;
+		border: 2px solid @green;
+		padding-top: 4px;
+		.select2-result-label {
+			img {
+				margin-right: 4px;
+			}
+		}
+		.select2-search input {
+	    width: 100%;
+	    padding-left: 1.2rem;
+	    padding-right: 3.6rem;
+	    margin: 0;
+	    background: #f2f2f2;
+	    border: none;
+		}
+	}
+}

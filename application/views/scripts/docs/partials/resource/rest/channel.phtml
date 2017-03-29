@@ -1,0 +1,250 @@
+<section id="resource_rest_channel">
+    <div class="page-header">
+        <h3>Channels <small>perform a discrete action</small></h3>
+        <h4><code>/rest/channel</code></h4>
+    </div>
+
+    <p class="lead">
+        A Channel is a reusable instance of an action provided by a <a href="/docs/pods">Pod</a>.
+        When you create a Channel, you are creating an interface to a Pod's action and making it
+        available for use by Bips.
+        <br/><br/>
+        Channels consume and produce content through Imports and Exports.
+        Imports are the structured messages received by the Channel and, after performing its work,
+        the resultant content is then exported in a predictable way.
+        <br/><br/>
+        By themselves, Channels do nothing.  See <a href="/docs/resource/rest/bip#resource_rest_bip_hubs">Bips > Hubs</a>
+        to learn how Channels can be put to work.
+    </p>
+
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>id</em></td>
+                    <td>UUID (String)</td>
+                    <td>Unique Channel ID
+                        <br/><br/>eg: <code>cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code></td>
+                </tr>
+                <tr>
+                    <td><em>name</em> *</td>
+                    <td>String</td>
+                    <td>Unique Channel Name
+                        <br/><br/>eg: <code>My Default Email</code></td>
+                </tr>
+                <tr>
+                    <td><em>note</em></td>
+                    <td>String</td>
+                    <td>An optional text note to be stored with this record
+                        <br/><br/>eg: <code>My personal foobar email that is getting way too much spam</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>action</em> *</td>
+                    <td>String</td>
+                    <td>The dot notation form of {pod name}.{action}. See <a href="/docs/pods">Pods</a> for more info.
+                        <br/><br/>eg: <code>email.smtp_forward</code></td>
+                </tr>
+                <tr>
+                    <td><em>config</em> *</td>
+                    <td>Object</td>
+                    <td>Configuration object for this action.  See <a href="/docs/pods">Pods</a> for more info.
+                        <br/><br/>eg: <code>
+                            {
+                            'rcpt_to' : 'foo@bar.net'
+                            }
+                        </code>
+                    </td>
+                </tr>                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bs-api-data bs-api-data-decorators">
+        <h5>Decorators augment a resource record with useful meta-data and are read-only</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>_href</em></td>
+                    <td>Record URI</td>
+                    <td><code>https://api.bip.io/rest/channel/cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code></td>
+                </tr>
+                <tr>
+                    <td><em>_repr</em></td>
+                    <td>Derived Channel Representation</td>
+                    <td><em>Post to my Timeline</em></td>
+                </tr>
+                <tr>
+                    <td><em>_available</em></td>
+                    <td>boolean, Channel is available to process messages.
+                        Where _available is false, this may mean further action is required.
+                        For example, <code>email.smtp_forward</code> require further verification
+                        by the intended recipient and are not immediately available.
+                        <br/><br/>
+                        <span class="label label-warning">IMPORTANT</span> Content delivered to unavailable channels will be silently dropped.
+                    </td>
+                    <td></td>
+                </tr>                
+                <tr>
+                    <td><em>_renderers</em></td>
+                    <td>
+                        Some channels have their own persistent data source and are able to render the content they've
+                        received in a useful way.  The available renderers substructure is keyed to a renderer name and subdocument schema containing
+                        keys <code>description</code> which is friendly english, <code>content_type</code> for client codec and parsing, and <code>_href</code>
+                        which is the URI for invoking the renderer.<br/><br/>
+                        @see Renderers in the Channel Pod section for more info.
+                        
+                    </td>
+                    <td>
+                        A <code>syndication.feed</code> renderer:    
+<pre>
+<code>
+"_renderers": {
+    "rss": {
+      "description": "RSS 2.0",
+      "contentType": "text/xml",
+      "_href": "https://api.bip.io/rpc/render/channel/ba63c4c8-e168-4935-a1cc-a59b1cffed0d/rss"
+    }
+  }
+  </code>
+</pre>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p class="lead">
+            REST Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-channel">            
+            <li class="active">
+                <a href="#rest-example-channel-get" data-toggle="pill">GET</a>
+            </li>
+            <li><a href="#rest-example-channel-post" data-toggle="pill">POST</a></li>
+            <li><a href="#rest-example-channel-put" data-toggle="pill">PUT</a></li>
+            <li><a href="#rest-example-channel-delete" data-toggle="pill">DELETE</a></li>
+        </ul>
+    </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-channel-get">
+            <strong>REQUEST</strong>
+            <pre><code>GET /rest/channel/23bb1de5-c950-c448-fbbf-000056c1eed6 HTTP/1.1</code></pre>
+                
+            <strong>RESPONSE</strong>
+<pre>
+<code>200 OK
+
+{
+  "id": "23bb1de5-c950-c448-fbbf-000056c1eed6",
+  "name": "Sample",
+  "action": "email.smtp_forward",
+  "config": {
+    "rcpt_to": "foo@bar.net",
+    "icon_url": "https://docs.bip.io/avatar/photo.png"
+  },
+  "_available": true,
+  "note": "Default Email Forwarder For Docs Account",
+  "_repr": "Forward to undefined",
+  "_href": "https://api.bip.io/rest/channel/23bb1de5-c950-c448-fbbf-000056c1eed6"
+}
+</code>
+</pre>           
+        </div>
+        <div class="tab-pane" id="rest-example-channel-post">
+            <strong>REQUEST</strong>
+            <pre><code>POST /rest/channel HTTP/1.1
+
+{
+  "name": "Sample",
+  "action": "email.smtp_forward",
+  "config": {
+    "rcpt_to": "foo@bar.net",
+    "icon_url": "https://docs.bip.io/avatar/photo.png"
+  },
+  "note": "Default Email For Docs Account"
+}
+</code></pre>
+            
+            <strong>RESPONSE</strong>
+<pre>
+<code>202 Accepted
+
+{
+  "id": "23bb1de5-c950-c448-fbbf-000056c1eed6",
+  "name": "Sample",
+  "action": "email.smtp_forward",
+  "config": {
+    "rcpt_to": "foo@bar.net",
+    "icon_url": "https://docs.bip.io/avatar/photo.png"
+  },
+  "_available": true,
+  "note": "Default Email For Docs Account",
+  "_repr": "Forward to foo@bar.net",
+  "_href": "https://api.bip.io/rest/channel/23bb1de5-c950-c448-fbbf-000056c1eed6"
+}
+</code>
+</pre>          
+        </div>
+        <div class="tab-pane" id="rest-example-channel-put">
+            <strong>REQUEST</strong>
+            <pre><code>PUT /rest/channel HTTP/1.1
+
+{
+  "id": "23bb1de5-c950-c448-fbbf-000056c1eed6",
+  "name": "Sample",
+  "action": "email.smtp_forward",
+  "config": {
+    "rcpt_to": "support@bip.io",
+    "icon_url": "https://docs.bip.io/avatar/photo.png"
+  },
+  "note": "Default Email For Docs Account"
+}
+</code></pre>
+            
+            <strong>RESPONSE</strong>
+<pre>
+<code>200 OK
+
+{
+  "id": "23bb1de5-c950-c448-fbbf-000056c1eed6",
+  "name": "Sample",
+  "action": "email.smtp_forward",
+  "config": {
+    "rcpt_to": "support@bip.io",
+    "icon_url": "https://docs.bip.io/avatar/photo.png"
+  },
+  "_available": true,
+  "note": "Default Email For Docs Account",
+  "_repr": "Forward to support@bip.io",
+  "_href": "https://api.bip.io/rest/channel/23bb1de5-c950-c448-fbbf-000056c1eed6"
+}
+</code>
+</pre>    
+        </div>
+        <div class="tab-pane" id="rest-example-channel-delete">
+            <strong>REQUEST</strong>
+            <pre><code>DELETE /rest/channel/23bb1de5-c950-c448-fbbf-000056c1eed6 HTTP/1.1</code></pre>                
+            <strong>RESPONSE</strong>
+            <pre><code>200 OK</code></pre>
+        </div>
+    </div>
+
+</section>

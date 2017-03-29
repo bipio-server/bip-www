@@ -1,0 +1,92 @@
+<h2>Session Mounts</h2>
+
+<!-- disabled :: Saved Mounts are remote mounts whose credentials are persisted between logins. -->
+<p class="lead">
+    Use mounts to communicate directly with a self-hosted installation of the Bipio server from your browser.
+
+    Mounts are destroyed when this browser session ends, storage is via <a href="http://dev.w3.org/html5/webstorage/#the-sessionstorage-attribute">HTML5 sessionStorage</a>
+</p>
+
+<script id="tpl-mount-entity" type="text/template">
+    <div id="mount-entity-<%= id %>" >
+        <div class="well alert-info">
+            <span class="mount-well">
+                <strong><%= label %> </strong>
+                <span>
+                    <small><%= url %> (<%= locality %> store) 
+					
+					<% if (version != '') { %> v<%= version %> <label class="label label-warning icon-warning-sign"> Out Of Date</label> please upgrade to <strong>v0.3.18</strong> <% } %>
+
+					</small>
+                </span>
+                <div class="pull-right" >                    
+                    <button data-model-id="<%= id %>" data-toggle="button" data-original-title="Mount" data-placement="top" type="button" data-selection="off" 
+                            class="btn-active tooltippable btn btn-small btn-info <%=(active ? 'active' : '')%>">
+                        <%=(!active ? '<i class="icon-play"></i> Inactive' : '<i class="icon-stop"></i> Active')%>
+                    </button>
+
+                    <button data-toggle="tooltip" data-original-title="Test Endpoint" data-placement="top" type="button" data-model-id="<%= id %>" id="mount-verify" class="btn btn-small btn-verify tooltippable">Test</button>
+                    <button data-toggle="tooltip" data-original-title="Delete Mount" data-placement="top" type="button" data-model-id="<%= id %>" class="btn btn-small btn-danger btn-delete tooltippable ">
+                        <i class=" icon-ban-circle"></i>
+                    </button>
+                </div>
+            </span>
+        </div>
+    </div>
+</script>
+
+<span id="mount-ctl">
+    <span id="mount-list">
+
+    </span>
+    <hr class="soften"/>
+    <span>
+        <form id="new-mount" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label" for="mount-label">Label</label>
+                <div class="controls">
+                    <input type="text" class="input" id="mount-label" name="mount-label" placeholder="My Local" >
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="mount-endpoint">URL</label>
+                <div class="controls">
+                    <input type="text" class="input" id="mount-endpoint" name="mount-endpoint" placeholder="https://api.domain.com" >
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="mount-username">Username</label>
+                <div class="controls">
+                    <input type="text" class="input" id="mount-username" name="mount-username" placeholder="myname" >
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="mount-token">Token</label>
+                <div class="controls">
+                    <input type="text" class="input" id="mount-token" name="mount-token" placeholder="4a4b27ec88763a3c371916d2e23a2000" >
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+            <!-- div class="control-group">
+                <label class="control-label" for="mount-session-only">This Session Only</label>
+                <div class="controls">
+                    <input type="checkbox" value="1" checked="checked" id="mount-session-only"> <small>Destroy mount credentials when this browser session ends, storage is via <a href="http://dev.w3.org/html5/webstorage/#the-sessionstorage-attribute">HTML5 sessionStorage</a></small>
+                </div>
+            </div -->
+
+            <div class="control-group">
+                <input type="button" id="mount-verify" class="btn btn-verify pull-left" value="Test">
+                <input type="button" id="mount-new-btn" class="btn btn-success pull-right" value="Create Mount">
+            </div>
+
+    </span>
+</span>
+
+<hr class="soften"/>

@@ -1,0 +1,45 @@
+<script data-main="static/js/signin-wl" src="/static/js/vendor/require/require.js"></script>
+
+<div id="signup-wrapper">
+  <div class="modal">
+    <header class="modal-header candy-strip">
+      <h2>
+        <a href="http://wot.io">
+          <img src="static/img/wl/logo.png"/>
+        </a>
+        <small class="pull-right" style="line-height: 35px;">Login</small>
+      </h2>
+    </header>
+    <div class="modal-body candy-strip">
+      <form id="signup_form" name="signup_form" class="form-horizontal">
+        <fieldset>
+
+          <div class="control-group alertable">
+            <label class="control-label">User Name</label>
+            <div class="controls">
+              <input tabindex="1" type="username" name="login_username" id="login_username" />
+            </div>
+          </div>
+
+          <div class="control-group alertable">
+            <label class="control-label">Password</label>
+            <div class="controls">
+              <input tabindex="2" type="password" name="login_password" id="login_password" />
+            </div>
+          </div>
+
+        </fieldset>
+      </form>
+
+      <div id="error-reset" class="alert" style="text-align:center; -webkit-border-radius: 10px; border-radius: 10px;padding: 10px; display:none;">
+      </div>
+
+    </div>
+    <footer class="modal-footer">
+      <div class="btn-row">
+        <button data-loading-text="Authorizing..." tabindex="3" id="sign-in-submit" type="button" class="btn btn-success">Sign in</button>
+      </div>
+    </footer>
+  </div>
+</div>
+

@@ -1,0 +1,372 @@
+<?php
+	$options = Zend_Registry::get('config')->toArray();
+?>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta property="og:title" content="BipIO - For People And Robots" />
+    <meta property="og:type" content="company" />
+    <meta property="og:site_name" content="BipIO - For People And Robots" />
+    <meta property="og:description" content="A Personal API for Email and Web Apps. Rapidly create workflows with the cloud components you love, no programming required." />
+    <meta property="og:url" content="https://bip.io" />
+    <meta property="og:image" content="https://bip.io/static/img/bip_badge.png" />
+
+    <title>BipIO - For People and Robots</title>
+
+    <meta name="description" content="Rapidly create workflows with the cloud components you love, no programming required" />
+
+    <?php if (DEV_ENVIRONMENT) { ?>
+      <link href="/static/css/bip.css" rel="stylesheet" />
+    <?php } else { ?>
+      <link href="/static/build/css/build.css?build=1450716766977" rel="stylesheet" />
+    <?php } ?>
+
+	 <?php if ($this->page == 'index') { ?>
+	     <link href="/static/css/lander-wl.css?build=1450716766977" rel="stylesheet" />
+	   <?php } ?>
+
+    <script type="text/javascript">
+
+      var require = {
+        urlArgs : 'build=1450716766977',
+        waitSeconds : 15
+      }
+
+      var BIPClientParams = {
+        endpoint : '<?php echo $options['api']['host']; ?>',
+        apiVersion : '<?php echo $options['api']['version']; ?>',
+        hostname : '<?php echo $options['env']['hostname']; ?>',
+        proto: '<?php echo $options['env']['proto']; ?>',
+        ifexe_version: '<?php if(isset($options['ws_host'])) { echo $options['ws_host']['ifexe_version']; } ?>',
+        auth_type: '<?php  echo $options['auth']['type']; ?>'
+      }
+
+      var UIModules = '<?php echo $options['ui']['modules']; ?>';
+
+      <?php if ($this->authed && $this->page !== 'index' && $this->page !== 'docs') { ?>
+        var userSettings = <?php echo json_encode($this->authUser['settings']); ?>,
+        __uid = <?php echo json_encode($this->authUser['id']); ?>;
+      <?php } else { ?>
+        var userSettings, userAuth;
+      <?php } ?>
+
+    </script>
+  </head>
+  <body class="shipiot">
+  <div class="page-wrap" class="reset" style="margin-bottom:0px;">
+    <?php if ($this->page !== 'index') { ?>
+      <div class="navbar-fixed-top <?php if ($this->page == 'dash') { echo 'greyified'; } ?>">
+        <div id="navbar">
+          <div class="container">
+            <div class="row">
+              <div class="span12">
+                  <a id="logo" class="brand" href="/">bip.io</a>
+                  <nav>
+                    <ul id="nav-menu-items">
+                    <?php if ($this->authed) { ?>
+                          <li><a id="upgrade-button" style="display:none;line-height: 1em;" class="btn btn-success btn-mini" href="/plans">Upgrade Now</a></li>
+                          <li class=" <?php if ($this->page == 'dash') echo 'active'; ?>"><a href="/dash">Dashboard</a></li>
+                          <li class="user loggedin">
+                            <div class="dropdown">
+                              <button class="dropdown-toggle btn-small btn-inverse" data-toggle="dropdown" href="#">
+                                <span class="name"><?php echo $this->authUser['name'] ?></span>
+                                <img class="user-avatar" src="<?php echo $this->authUser['settings']['avatar'] ?>" alt="" />
+                              </button>
+                              <ul class="dropdown-menu pull-right" role="menu">
+                                <li class=" <?php if ($this->page == 'account') echo 'active'; ?>"><a href="/dash/account#account_settings">My Account</a></li>
+                                <!-- li><a href="/dash/account#notifications">Notifications</a></li -->
+                                <li><a id="logout-btn" href="/logout">Logout</a></li>
+                              </ul>
+                            </div>
+                          </li>
+                      <?php } else { ?>
+                          <li class="user">
+                            <button class="signup-spawn dropdown-toggle btn-small btn btn-success" href="/signup">
+                               Sign Up
+                            </button>
+                          </li>
+                          <li class="user">
+                            <div class="dropdown" id="sign-in">
+                              <button title="Sign In" id="sign-in-btn" class="signin-spawn btn btn-small btn-inverse" data-toggle="dropdown" href="#">
+                                <i class="icon-signin"></i><span>Sign in</span>
+                              </button>
+                            </div>
+                          </li>
+                     <?php } ?>
+                    </ul>
+                  </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+		<?php if ($this->page == 'dash') { ?>
+        <div id="subnavbar">
+          <div class="container">
+            <div class="row">
+              <div class="span12">
+                <nav>
+                    <div class="">
+                      <span id="app-links" class="hide">
+                        <!-- h2>Apps</h2 -->
+                        <ul class="manage-links">
+                        </ul>
+                      </span>
+                    </div>
+                    <!-- temporary style -->
+                    <div class="growls fade out" style="padding-left: 5px; padding-right:5px; float:right; text-transform: uppercase;font-size: 12px;border-radius:5px;">
+                    </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+         <?php } ?>
+
+      </div>
+
+    <?php }else{ ?>
+    <div class="logo-container">
+        <div class="container">
+          <div class="row">
+            <div class="span12">
+            	<ul>
+            		<li class="pull-left"><a href="http://wot.io"><img src="/static/img/wotio_logo_cl.png" /></a></li>
+          	    <li class="pull-right"><img style="padding:8px" src="/static/img/bipio-logo.png" /></li>
+            	</ul>
+            </div>
+          </div>
+        </div>
+    </div>
+
+   <div class="green-bg">
+	    <div class="container">
+	          <div class="row">
+	            <div class="span12">
+	            <?php if ($this->authed) { ?>
+	            	 <nav class="index-links">
+		            	<ul>
+		            		<li><a href="/dash"" class="ProximaNovaS-Bold">Dashboard</a></li>
+		            		 <li><a href="/dash/account#account_settings"  class="ProximaNovaS-Bold">My Account</a></li>
+		            		<li><a href="/logout" class="ProximaNovaS-Bold">Logout</a></li>
+		            	</ul>
+	            	</nav>
+	            	<?php  } ?>
+	            </div>
+	          </div>
+	     </div>
+    </div>
+    <div class="vlight-grey intro-section">
+    	<div class="container">
+    	<div class="row">
+    		<div class="span12 middle">
+    			<img src="/static/img/lander/shipiot_bipio_graphic.png" />
+    			 <h1 class="ProximaNovaA-Bold">
+            		Rapid prototypes. Device data to Web APIs. Dozens of pods.
+          		</h1>
+          		 <?php if (!$this->authed) { ?>
+	          		<a class="btn btn-success signup-spawn" style="margin:20px; visibility: hidden;">SIGN UP</a>
+	    			<a class="btn btn-primary signin-spawn" style="visibility: hidden;">SIGN IN</a>
+    			<?php }?>
+    		</div>
+    	</div>
+    	</div>
+    </div>
+    <?php } ?>
+
+    <div class="settings"></div>
+
+    <div id="page-body" class="<?php echo $this->page;  if($this->page === 'index') { echo '-wl'; }?>">
+      <?php if ($this->page === 'index') { ?>
+        <div class="">
+      <?php } ?>
+
+      <?php if ($this->page !== 'index') { ?>
+        <div class="container">
+      <?php } ?>
+
+              <?php echo $this->layout()->content; ?>
+
+      <?php if ($this->page !== 'index') { ?>
+        </div>
+      <?php } ?>
+
+      <?php if ($this->page === 'index') { ?>
+        </div>
+      <?php } ?>
+    </div>
+</div>
+    <?php if ($this->page !== 'dash') { ?>
+	    <!-- FOOTER -->
+        <footer class="cta-section" style="padding-top:20px;background:#555559;color:white;">
+          <div class="container" style="padding-bottom:0;">
+            <div class="row">
+              <div class="span2">
+                <h3 class="middle">
+                  <a href="http://wot.io">
+                    <img src="/static/img/wotio-logo.png">
+                  </a>
+                  <small style="font-size:10px;"> (c) 2010-2015</small>
+                </h3>
+              </div>
+
+              <div class="span2 offset1">
+                <strong>
+                  <a style="color:white" target="_blank" href="http://blog.bip.io">Blog</a><br/>
+                  <a style="color:white" target="_blank" href="https://github.com/bipio-server/bipio">Open Source</a><br/>
+                  <a style="color:white" target="_blank" href="https://github.com/bipio-server/bipio/wiki">Developers</a><br/>
+                  <a style="color:white" target="_blank" href="https://bip.uservoice.com/knowledgebase">Knowledge Base</a><br/>
+
+                </strong>
+              </div>
+
+              <div class="span2">
+                <strong>
+
+                  <a style="color:white" target="_blank" href="/plans">Plans And Pricing</a><br/>
+                  <a style="color:white" target="_blank" href="/terms-of-service">Terms Of Service</a><br/>
+                  <a style="color:white" target="_blank" href="/privacy">Privacy Policy</a><br/>
+
+                  <!-- a style="color:white" href="/licensing">Commercial Licensing</a><br/ -->
+                </strong>
+              </div>
+
+              <div class="span2">
+                <strong>
+                  <a style="color:white" target="_blank" href="/docs/pods">Pods</a><br/>
+                  <a style="color:white" target="_blank" href="/status">Network Status</a><br/>
+                  <a style="color:white" target="_blank" href="/contact">Contact Us</a><br/>
+                </strong>
+              </div>
+
+              <div class="span2 offset1" style="font-size:2em;height:80px;padding-top: 20px;">
+                <a style="color:white" href="mailto:support@bip.io">
+                  <i class="icon-envelope"></i>
+                </a>
+                <a style="color:white" href="https://twitter.com/bipioapp">
+                  <i class="icon-twitter"></i>
+                </a>
+                <a style="color:white" href="https://github.com/bipio-server">
+                  <i class="icon-github"></i>
+                </a>
+                <a style="color:white" href="https://www.facebook.com/pages/Wotio">
+                  <i class="icon-facebook"></i>
+                </a>
+                <a style="color:white" href="https://www.linkedin.com/company/5213170">
+                  <i class="icon-linkedin"></i>
+                </a>
+              </div>
+
+            </div>
+            <div class="row middle">
+                <h5><small>
+                  The wot.io name and logo, the bip.io name and logo, and data service exchange are trademarks of WoT.io, Inc. All other company or product names, brands, trademarks, and logos on this site are the property of their respective owners. The companies listed are not affiliated with wot.io and they do not endorse or sponsor the products or services of wot.io. See our Legal Notices at <a style="color:white" target="_blank" href="http://wot.io/legal-notices">wot.io/legal</a>
+                  </small>
+                </h5>
+            </div>
+          </div>
+      </footer>
+    <?php } ?>
+
+<div id="modal-container" class="modal-overlay hide md-effect-1"></div>
+
+<script id="tpl-modal-signup" type="text/template">
+  <div class="modal md-content middle" style="top:0">
+    <header class="modal-header">
+      <h2 style="float:none">
+        Welcome to bip.io
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </h2>
+
+    </header>
+    <div class="modal-body signup-modal-container">
+      <p class="lead">
+        Let me set you up with your unique username and personal domain<br/>
+      </p>
+      <hr/>
+      <form id="signup_form" name="signup_form" class="form-horizontal">
+          <input name="campaignId" id="campaignId" type="hidden"/>
+          <legend>
+            <div class="help-block">
+                <label id="vanity-helper">Username</label>
+                <div class="message" style="font-size:0.9em;line-height:1em;">(5 character minimum, alphanumeric)</div>
+                <div class="control-group">
+                    <input value="" type="text" maxlength="20" class="input-xlarge required" id="signup_username" name="signup_username" minlength="5">
+                </div>
+            </div>
+            <div class="help-block">
+                <label>Email Address</label>
+                <div class="message" style="font-size:0.9em;line-height:1em;"></div>
+                <div class="control-group">
+                    <input
+                      type="text" maxlength="32" class="input-xlarge required"
+                      id="signup_email" name="signup_email" minlength="5">
+                </div>
+            </div>
+            <div class="help-block">
+                <label>Password</label>
+                <div class="message" style="font-size:0.9em;line-height:1em;"></div>
+                <div id="div_pw" class="control-group">
+                    <input type="password" maxlength="20" class="input-xlarge required" id="signup_password" name="signup_password" minlength="5">
+                </div>
+            </div>
+        </legend>
+
+      </form>
+
+      <div>
+        <input type="checkbox" id="tos-accept"> I Have Read And Accept The <a href="/terms-of-service" target="_blank">Terms Of Service</a>
+      </div>
+        <div id="error-signup" class="alert alert-danger fade out">
+            Sorry, that account or email address is not available
+        </div>
+    </div>
+    <footer class="modal-footer middle">
+        <button disabled id="btn_signup" data-loading-text="Setting Up..." name="btn_signup" class="btn">
+            SIGN UP
+        </button>
+    </footer>
+  </div>
+</script>
+
+<script id="tpl-modal-signin" type="text/template">
+  <div class="modal md-content middle" style="width:380px;">
+    <header class="modal-header">
+      <h2 style="float:none">
+        Welcome to bip.io
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </h2>
+    </header>
+    <div class="modal-body signin-modal-container">
+     <form class="form-horizontal">
+        <div class="help-block">
+          <label>Username</label>
+          <div class="control-group">
+            <input class="input-xlarge"  tabindex="1" type="username" name="login_username" id="login_username" />
+          </div>
+        </div>
+
+        <div class="help-block">
+          <label>Password</label>
+          <div class="control-group">
+            <input class="input-xlarge" tabindex="2" type="password" name="login_password" id="login_password" />
+          </div>
+        </div>
+      </form>
+      <button data-loading-text="Authorizing..." tabindex="3" id="sign-in-submit" data-target="/dash" type="button" class="btn btn-success input-xlarge" style="margin-left:10px">Sign in</button>
+    </div>
+    <footer class="modal-footer middle">
+      <p><button class="signup-spawn btn btn-primary input-xlarge">Not A User? Sign Up</button></p>
+      <p><a href="/reset">Forgot Password?</a></p>
+    </footer>
+  </div>
+</script>
+
+</body>
+</html>

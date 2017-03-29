@@ -1,0 +1,162 @@
+<script id="tpl-resource-account-options" type="text/template">
+    <h2>Account Settings <small>- <?php echo $this->planName ?> Plan <?php echo $this->plan_until ?></small></h2>
+    <div class="alert alert-info">
+        <span id="dash_token" name="dash_token" data-original-title="Click Token To Select" class="tokenWell">
+            <strong>API Token: </strong>
+            <span class="token_style" id="token_token"><?php echo $this->authUser['auth']['api_token']; ?></span>
+        </span>
+        <button id="key-regen" data-toggle="popover" data-title="Warning" data-html="true"
+                data-placement="left" data-trigger="hover" data-content="Regenerating your API key is irreversible. It will invalidate reliant clients."
+                class="btn btn-mini btn-danger pull-right">Regenerate Key</button>
+    </div>
+
+    <form class="form-horizontal form-inline">
+        <input type="hidden" name="_nonce" id="_nonce" value="<?php echo $this->nonce; ?>" >
+        <div class="list-widget config">
+
+            <div class="control-group">
+                <label class="control-label" for="node">Name</label>
+                <div class="controls">
+                    <input type="text" id="name-actual" name="name-actual" value="<?php echo $this->authUser['name']; ?>">
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+            <?php if (AUTH_TYPE !== 'auth_api') { ?>
+                <div class="control-group">
+                    <label class="control-label" for="avatar">Avatar</label>
+                    <div class="controls">
+                        <div class="thumbnail pull-left avatar" style="display:block; background-color: #eee; ">
+                            <img class="user-avatar" src="<?php echo $this->authUser['settings']['avatar']; ?>"  height="125px" width="125px" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="avatar">Avatar URL</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" id="avatar" name="avatar" placeholder="Avatar URL" value="<?php echo $this->authUser['settings']['avatar']; ?>">
+                    </div>
+                </div>
+            <?php } ?>
+
+            <div class="control-group">
+                <label class="control-label" for="node">Timezone</label>
+                <div class="controls">
+                    <select id="timezone" style="width:200px;">
+                        <?php
+                            function cb($t) {
+                                return trim($t, '"');
+                            };
+                            $timeZones = array_map('cb', explode(",", $this->timeZones) );
+                            for ($i = 0; $i < count($timeZones); $i++) {
+                                $selected = ($this->authUser['settings']['timezone'] == $timeZones[$i] ? 'selected="selected"' : '');
+
+                                echo '<option value="' . $timeZones[$i] . '" '.$selected.'>'
+                                    . $timeZones[$i]
+                                    . '</option>';
+                            }
+                        ?>
+                    </select>
+                </div>
+            </div>
+
+            <hr class="soften" />
+            <?php if (AUTH_TYPE !== 'auth_api') { ?>
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+                    <div class="controls">
+                        <input type="password" maxlength="20" class="input-xlarge required" placeholder="password" id="opt_password" name="opt_password" minlength="5">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Confirm</label>
+                    <div class="controls">
+                        <input type="password" maxlength="20" class="input-xlarge required" placeholder="that password, again" id="opt_password_c" name="opt_password_c" minlength="5">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <hr class="soften" />
+            <?php } ?>
+
+            <h4>Bip Defaults <small>When certain attributes are omitted when creating Bips, these settings will take effect</small></h4>
+            <br/>
+
+            <div class="control-group">
+                <label class="control-label" for="node">When a Bip Expires</label>
+                <div class="controls">
+                    <div class="btn-group" data-toggle="buttons-radio" id="bip_expire_behaviour">
+                        <button type="button" data-selection="pause" class="btn btn-info <% if (bip_expire_behaviour == 'pause') { %>active<% } %>"><i class="icon-pause"></i> Pause</button>
+                        <button type="button" data-selection="delete" class="btn btn-info <% if (bip_expire_behaviour == 'delete') { %>active<% } %>"><i class="icon-ban-circle"></i> Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="node">Use Type</label>
+                <div class="controls">
+                    <div class="btn-group" data-toggle="buttons-radio" id="bip_type">
+                        <button type="button" data-selection="http" class="btn btn-info <% if (bip_type == 'http') { %>active<% } %>"><i class="icon-cloud"></i> HTTP</button>
+                        <button type="button" data-selection="smtp" class="btn btn-info <% if (bip_type == 'smtp') { %>active<% } %>"><i class="icon-envelope"></i> SMTP</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="node">Use Domain</label>
+                <div class="controls">
+                    <div class="btn-group" data-toggle="buttons-radio">
+                        <select id="bip_domain_id">
+                            <% _(domainCollection).each(function(domain) { %>
+                            <% if (domain._available ) { %>
+                            <option value="<%= domain.id %>" <% if (domain.id == bip_domain_id) { %> selected="selected" <% } %> ><%= domain.name %></option>
+                            <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="control-group">
+                <label class="control-label" for="node">Expire After</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on tooltipped" data-toggle="tooltip" data-title="After Date" data-original-title="" title=""><i class="icon-time"></i></span>
+                        <input id="bip_expiry_time" class="input-small" id="appendedPrependedInput"  type="text" value="<%= expiry_time %>" placeholder="Never">
+                        <select class="input-small" id="bip_expiry_time_resolution">
+                            <option value="hour" <% if (expiry_time_period == 'h') { %> selected="selected" <% } %> >Hours</option>
+                            <option value="day" <% if (expiry_time_period == 'd') { %> selected="selected" <% } %>>Days</option>
+                            <option value="month" <% if (expiry_time_period == 'm') { %> selected="selected" <% } %>>Months</option>
+                            <option value="year" <% if (expiry_time_period == 'y') { %> selected="selected" <% } %>>Years</option>
+                        </select>
+                    </div>
+
+
+                    <span class="help-block"></span>
+                </div>
+                <div class="controls">
+                    <div class="input-prepend input-append">
+                        <span class="add-on"><i class="icon-heart"></i></span>
+                        <input id="bip_expiry_imp" class="input-small" id="appendedPrependedInput" type="text" value="<%= expiry_imp %>" placeholder="Never">
+                        <span class="add-on">Impressions</span>
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="form-actions">
+        <div class="btn-row">
+            <button type="submit" id="option-submit" class="btn btn-success pull-right">Save</button>
+        </div>
+
+    </footer>
+</form>
+</script>

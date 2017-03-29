@@ -1,0 +1,370 @@
+<?php
+$options = Zend_Registry::get('config')->toArray();
+?>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta property="og:title" content="<?php echo $this->share['name'] ?>" />
+    <meta property="og:type" content="company" />
+    <meta property="og:site_name" content="bip.io - For People And Robots" />
+    <meta property="og:description" content="<?php echo $this->share['note'] ?>" />
+    <meta property="og:url" content="<?php echo $this->options['env']['hostname'] ?>/share/<?php echo $this->share['id'] ?>" />
+    <meta property="og:image" content="https://bip.io/static/img/bip_badge.png" />
+
+    <title>bip.io - For People and Robots</title>
+    <meta name="description" content="Rapidly create workflows with the cloud components you love, no programming required" />
+    <?php if (DEV_ENVIRONMENT) { ?>
+      <link href="/static/css/bip.css" rel="stylesheet" />
+
+    <?php } else { ?>
+      <link href="/static/build/css/build.css?build=@@timestamp" rel="stylesheet" />
+    <?php } ?>
+    <link rel="alternate" type="application/json+oembed" href="<?php echo $this->options['api']['host'] ?>/rpc/oembed/?url=<?php echo $this->options['env']['hostname'] ?>/share/<?php echo $this->share['id'] ?>" title="<?php echo $this->share['name'] ?>" />
+
+    <script type="text/javascript">
+      var require = {
+        urlArgs : 'build=@@timestamp',
+        waitSeconds : 15
+      }
+
+      var BIPClientParams = {
+        endpoint : '<?php echo $options['api']['host']; ?>',
+        apiVersion : '<?php echo $options['api']['version']; ?>'
+      }
+
+      var UIModules = '<?php echo $options['ui']['modules']; ?>';
+
+      var _authPrompt = '<?php echo $this->authPrompt ?>';
+        shareId = '<?php echo $this->shareId ?>';
+
+      <?php if ($this->authed && $this->page !== 'index') { ?>
+        var userSettings = <?php echo json_encode($this->authUser['settings']); ?>,
+        __uid = <?php echo json_encode($this->authUser['id']); ?>;
+      <?php } else { ?>
+        var userSettings, userAuth;
+      <?php } ?>
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-XXXXX-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+  </head>
+  <body>
+  <div class="page-wrap">
+     <div class="navbar-fixed-top <?php if ($this->page == 'dash') {
+  echo 'greyified';
+} ?>">
+      <div id="navbar">
+        <div class="container">
+          <div class="row">
+            <div class="span12">
+              <table style="width:100%">
+                <tr>
+                  <td>
+                    <a id="logo" class="brand" href="/">bip.io</a>
+                  </td>
+                  <td align="center">
+                    <?php if ($this->page == 'dash') { ?>
+                      <a target="_blank" href="https://github.com/bipio-server/bipio">
+                      <h4 id="newsbanner">
+                        <i class="icon-star"></i>
+                        <small>BIP.IO IS OPEN SOURCE!</small>
+                        <label class="label label-success pull-right">learn more</label>
+                      </h4>
+                      </a>
+                    <?php } ?>
+                  </td>
+                  <td>
+                    <nav>
+                      <ul id="nav-menu-items">
+                        <?php if ($this->authed) { ?>
+                          <li class=" <?php if ($this->page == 'dash') echo 'active'; ?>"><a href="/dash">Dashboard</a></li>
+                          <li class="user loggedin">
+                            <div class="dropdown">
+                              <button class="dropdown-toggle btn-small btn-inverse" data-toggle="dropdown" href="#">
+                                <span class="name"><?php echo $this->authUser['name'] ?></span>
+                                <img class="user-avatar" src="<?php echo $this->authUser['settings']['avatar'] ?>" alt="" />
+                              </button>
+                              <ul class="dropdown-menu pull-right" role="menu">
+                                <li><a href="/dash/account#account_settings">My Account</a></li>
+                                <!-- li><a href="/dash/account#notifications">Notifications</a></li -->
+                                <li><a id="logout-btn" href="/logout">Logout</a></li>
+                              </ul>
+                            </div>
+                          </li>
+                        <?php } else { ?>
+                          <li class="user <?php echo ($this->page === 'index' ? 'fade out' : '') ?>">
+                            <button class="signup-spawn dropdown-toggle btn-small btn btn-success" href="/signup">
+                               Sign Up
+                            </button>
+                          </li>
+                          <li class="user <?php echo ($this->page === 'index' ? 'fade out' : '') ?>">
+                            <div class="dropdown" id="sign-in">
+                              <button title="Sign In" id="sign-in-btn" class="signin-spawn btn btn-small btn-inverse">
+                                <i class="icon-signin"></i><span>Sign In</span>
+                              </button>
+                            </div>
+                          </li>
+                        <?php } ?>
+                      </ul>
+                    </nav>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <?php if ($this->page !== 'index' && $this->page !== 'reset' && $this->page !== 'signup' && $this->page !== 'status'  && null !== $this->page) { ?>
+        <div id="subnavbar">
+          <div class="container">
+              <div>
+                <?php if ($this->page == 'dash') { ?>
+                  <div id="app-settings-container" class="pull-left animated" >
+                    <i class="icon-align-justify" data-toggle="tooltip" data-trigger="hover" data-placement="right"  title="Feed Settings"></i>
+                  </div>
+                <?php } ?>
+                <nav>
+                  <?php if ($this->page == 'dash') { ?>
+                    <div class="">
+                      <span id="app-links" class="hide">
+                        <ul class="manage-links">
+                        </ul>
+                      </span>
+                    </div>
+                    <!-- temporary style -->
+                    <div class="growls fade out" style="padding-left: 5px; padding-right:5px; float:right; text-transform: uppercase;font-size: 12px;border-radius:5px;">
+                    </div>
+
+                  <?php } else if ($this->page == 'account') { ?>
+                    <div class="">
+                      <h2>Account</h2>
+                      <ul class="manage-links">
+                        <li><a href="#section-settings"><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="#section-mounts"><i class="icon-hdd"></i> Mounts</a></li>
+                        <li><a href="#section-domains"><i class="icon-globe"></i> Domains</a></li>
+                        <li><a href="#section-stats"><i class="icon-eye-open"></i> Stats</a></li>
+
+                      </ul>
+                    </div>
+                  <?php } ?>
+                </nav>
+              </div>
+          </div>
+  </div>
+<?php } ?>
+    </div>
+
+    <div id="page-body" class="<?php echo $this->page ?>" style="margin-bottom:0px;">
+        <?php if ($this->page === 'index') { ?>
+        <div class="">
+        <?php } ?>
+
+          <?php if ($this->page !== 'index') { ?>
+          <div class="container">
+          <?php } ?>
+
+          <?php echo $this->layout()->content; ?>
+
+        <?php if ($this->page !== 'index') { ?>
+          </div>
+        <?php } ?>
+
+      <?php if ($this->page === 'index') { ?>
+        </div>
+      <?php } ?>
+
+    </div>
+
+  </div>
+
+    <!-- FOOTER -->
+    <div class="cta-section" style="padding-top:20px;background:#555559;color:white;">
+      <div class="container" style="padding-bottom:0;">
+        <div class="row">
+          <div class="offset1 span2">
+            <h3 class="pull-left middle" style="margin-bottom: 0px;margin-top: 5px;bottom:0px;">
+              <a href="http://wot.io">
+                <img style="height:32px;margin-top:-2px;" src="/static/img/wotio-logo.png">
+              </a>
+              <small style="font-size:10px;"> (c) 2010-2015</small>
+            </h3>
+          </div>
+
+          <div class="span2 offset1">
+            <strong>
+              <a style="color:white" href="http://blog.bip.io">Blog</a><br/>
+              <a style="color:white" href="https://github.com/bipio-server/bipio">Open Source</a><br/>
+              <a style="color:white" href="https://github.com/bipio-server/bipio/wiki">Developers</a><br/>
+
+              <a style="color:white" href="/docs/pods">Supported Services</a>
+            </strong>
+          </div>
+
+          <div class="span2">
+            <strong>
+              <a style="color:white" href="/status">Network Status</a><br/>
+              <a style="color:white" href="/terms-of-service">Terms Of Service</a><br/>
+              <a style="color:white" href="/privacy">Privacy Policy</a><br/>
+            </strong>
+          </div>
+
+          <div class="span2 offset1" style="font-size:2em;height:80px;padding-top: 20px;">
+            <a style="color:white" href="mailto:support@bip.io">
+              <i class="icon-envelope"></i>
+            </a>
+            <a style="color:white" href="https://twitter.com/bipioapp">
+              <i class="icon-twitter"></i>
+            </a>
+            <a style="color:white" href="https://github.com/bipio-server">
+              <i class="icon-github"></i>
+            </a>
+            <a style="color:white" href="https://www.facebook.com/pages/Wotio">
+              <i class="icon-facebook"></i>
+            </a>
+            <a style="color:white" href="https://www.linkedin.com/company/5213170">
+              <i class="icon-linkedin"></i>
+            </a>
+          </div>
+
+        </div>
+        <div class="row middle">
+            <h5><small>
+              The wot.io name and logo, the bip.io name and logo, and data service exchange are trademarks of WoT.io, Inc. All other company or product names, brands, trademarks, and logos on this site are the property of their respective owners. The companies listed are not affiliated with wot.io and they do not endorse or sponsor the products or services of wot.io. See our Legal Notices at <a style="color:white" target="_blank" href="http://wot.io/legal-notices">wot.io/legal</a>
+              </small>
+            </h5>
+        </div>
+      </div>
+  </div>
+
+
+<div id="modal-container" class="modal-overlay hide md-effect-1"></div>
+
+<script id="tpl-modal-signup" type="text/template">
+  <div class="modal md-content center-absolute middle" style="height:556px;">
+    <header class="modal-header">
+      <h2 style="float:none">
+        Welcome to bip.io
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </h2>
+
+    </header>
+    <div class="modal-body signup-modal-container">
+      <p class="lead">
+        Let me set you up with your unique username and personal domain<br/>
+      </p>
+      <hr/>
+      <form id="signup_form" name="signup_form" class="form-horizontal">
+          <legend>
+            <div class="help-block">
+                <label id="vanity-helper">Username</label>
+                <div class="message" style="font-size:0.6em;line-height:1em;">(5 character minimum, alphanumeric)</div>
+                <div class="control-group">
+                    <input value="" type="text" maxlength="20" class="input-xlarge required" id="signup_username" name="signup_username" minlength="5">
+                </div>
+            </div>
+            <div class="help-block">
+                <label>Email Address</label>
+                <div class="message" style="font-size:0.6em;line-height:1em;"></div>
+                <div class="control-group">
+                    <input
+                      type="text" class="input-xlarge required"
+                      id="signup_email" name="signup_email" minlength="5">
+                </div>
+            </div>
+            <div class="help-block">
+                <label>Password</label>
+                <div class="message" style="font-size:0.6em;line-height:1em;"></div>
+                <div id="div_pw" class="control-group">
+                    <input type="password" class="input-xlarge required" id="signup_password" name="signup_password" minlength="5">
+                </div>
+            </div>
+        </legend>
+
+      </form>
+
+      <div>
+        <input type="checkbox" id="tos-accept"> I Have Read And Accept The <a href="/terms-of-service" target="_blank">Terms Of Service</a>
+      </div>
+        <div id="error-signup" class="alert alert-danger fade out">
+            Sorry, that account or email address is not available
+        </div>
+    </div>
+    <footer class="modal-footer middle">
+        <button disabled id="btn_signup" data-loading-text="Setting Up..." name="btn_signup" class="btn">
+            SIGN UP
+        </button>
+    </footer>
+  </div>
+</script>
+
+<script id="tpl-modal-signin" type="text/template">
+  <div class="modal md-content middle center-absolute" style="width:380px;height:373px;">
+    <header class="modal-header">
+      <h2 style="float:none">
+        Welcome to bip.io
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </h2>
+    </header>
+    <div class="modal-body signin-modal-container">
+     <form class="form-horizontal">
+        <div class="help-block">
+          <label>Username</label>
+          <div class="control-group">
+            <input class="input-xlarge"  tabindex="1" type="username" name="login_username" id="login_username" />
+          </div>
+        </div>
+
+        <div class="help-block">
+          <label>Password</label>
+          <div class="control-group">
+            <input class="input-xlarge" tabindex="2" type="password" name="login_password" id="login_password" />
+          </div>
+        </div>
+      </form>
+      <button data-loading-text="Authorizing..." tabindex="3" id="sign-in-submit" data-target="/dash" type="button" class="btn btn-success input-xlarge" style="margin-left:10px">Sign in</button>
+    </div>
+    <footer class="modal-footer middle">
+      <p><button class="signup-spawn btn btn-primary input-xlarge">Not A User? Sign Up</button></p>
+      <p><a href="/reset">Forgot Password?</a></p>
+    </footer>
+  </div>
+</script>
+
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VdiQPNk8sSBkun1mqL21ng.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+<!-- A tab to launch the Classic Widget -->
+<script>
+UserVoice = window.UserVoice || [];
+UserVoice.push(['showTab', 'classic_widget', {
+  mode: 'full',
+  primary_color: '#0194a4',
+  link_color: '#0194A4',
+  default_mode: 'support',
+  forum_id: 281363,
+  topic_id : 74330,
+  tab_label: 'Feedback & Support',
+  tab_color: '#555559',
+  tab_position: 'middle-right',
+  tab_inverted: true
+}]);
+</script>
+
+  </body>
+</html>

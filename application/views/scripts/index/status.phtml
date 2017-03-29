@@ -1,0 +1,36 @@
+<script data-main="/static/js/status-main" src="/static/js/vendor/require/require.js"></script>
+
+<script type="text/javascript">
+    var _chordChannels = <?php echo $this->chordChannels ?>,
+    _chordMatrix = <?php echo $this->chordMatrix ?>;
+</script>
+
+<script id="tpl-resource-stats" type="text/template">
+
+    <h2 id="stat-title">Network Strength and Activity
+      <small>today's running actions</small>
+    </h2>
+    <hr/>
+    <div class="row middle">
+        <div class="span12">
+            <div id="network-chords" class="span9"></div>
+            <?php foreach ($this->generalStats as $key => $struct) { ?>
+                <div class="span2 stat-metric middle pull-right">
+                    <h1><?php echo $struct['data']; ?></h1>
+                    <p><?php echo $struct['label']; ?></p>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+</script>
+
+<section id="account_stats">
+    <?php
+    echo $this->partial('/dash/partials/admin/stats.phtml', array(
+        'generalStats' => $this->generalStats,
+        'chordChannels' => $this->chordChannels,
+        'chordMatrix' => $this->chordMatrix,
+            )
+    );
+    ?>
+</section>

@@ -1,0 +1,110 @@
+/** Hub svg line colors **/
+.node {
+    stroke: #0194a4;
+    cursor: pointer;
+    stroke-width: 4;
+    fill : transparent;
+}
+
+/* nasty */
+.node_nofill {
+    stroke: #0194a4;
+    cursor: pointer;
+    stroke-width: 4;
+}
+
+.node_selected {
+    border-color: #76d668;
+    stroke: #76d668 !important;
+    stroke-width: 6;
+}
+
+.node_orphan {
+    border-color: #999;
+    stroke: #999;
+}
+.node_invalid {
+    border-color: #f05a79;
+    stroke: #f05a79;
+}
+.node_init {
+    stroke: none !important;
+}
+
+.node_collide {
+    border-color: #76d668;
+    stroke : #76d668 !important;
+    animation: throb 700ms ease infinite;
+    display: inline-block;
+    transform-origin: center center;
+}
+
+@-moz-document url-prefix() {
+    .node_collide {
+        animation: none;
+    }
+}
+
+.drag_line {
+    stroke: @grayLight;
+    stroke-width: 5;
+    pointer-events: none;
+}
+
+.drag_line_hidden {
+    stroke: @grayLight;
+    stroke-width: 0;
+    pointer-events: none;
+}
+
+.link {
+    stroke: #0194a4 ;
+    stroke-width: 6;
+    cursor: crosshair;
+    marker-end: url(#end-arrow)
+}
+
+.link-fat {
+    stroke: #0194a4 ;
+    stroke-width: 9;
+    cursor: crosshair;
+    marker-end: url(#end-arrow)
+}
+.link_selected {
+    stroke: #76d668;
+    stroke-width: 12;
+    marker-end: url(#end-arrow-selected)
+}
+.arrow {
+    stroke:#0194a4;
+    fill: #0194a4
+}
+
+.arrow_selected {
+	stroke: #76d668;
+	fill: #76d668;
+}
+
+
+.hub-tooltip {
+    background: @white;
+    padding: 4px;
+    min-height: 1px;
+    .border-radius(5px);
+    text-transform: capitalize;
+    span {
+    	display: inline-block;
+    	}
+	label {
+	 	float:left;
+	}
+}
+
+#svg-scale {
+    position: absolute;
+    margin-left: 5px;
+    margin-top: 2px;
+    background: #eee;
+    padding: 2px;
+    .border-radius(11px);
+}

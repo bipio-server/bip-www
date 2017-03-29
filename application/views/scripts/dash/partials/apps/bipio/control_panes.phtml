@@ -1,0 +1,321 @@
+<!-- START POSITION (deprecated) -->
+<script id="tpl-bipio-hub-start" type="text/template">
+
+  <div class="control-group" style="padding-top:10px; padding-right:10px">
+    <div>
+      <label class="control-label" for="bip_name">Name</label>
+    </div>
+    <div class="controls">
+
+      <input class="input-large" type="text" id="bip_name" placeholder="bip name, alphanumeric only" value="<%= name %>">
+
+      <span class="help-block"></span>
+    </div>
+
+    <div>
+      <label class="control-label" for="bip_domain">Domain</label>
+    </div>
+    <div class="controls">
+      <select id="domain_id">
+        <% _(domainCollection).each(function(domain) { %>
+        <% if (domain._available ) { %>
+        <option value="<%= domain.id %>" <% if (domain.id == domain_id) { %> selected="selected" <% } %> ><%= domain.name %></option>
+        <% } %>
+        <% }); %>
+      </select>
+      <span class="help-block"></span>
+    </div>
+
+    <% if (false && type !== 'trigger') { %>
+    <div id="bip-repr" class="">
+      <label>Endpoint </label>
+      <div id="bip-repr-actual" class=" alert alert-info" data-toggle="tooltip" title="Click To Select" >
+        <%= _repr || 'none' %>
+      </div>
+    </div>
+    <% } %>
+  </div>
+
+  <!-- description ctl grp -->
+  <div class="control-group" style="padding-right:10px">
+    <label class="control-label" for="node">Description</label>
+    <div class="controls">
+      <textarea type="text" id="bip_note" placeholder="short description"><%= note %></textarea>
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <!-- help section -->
+  <div style="position:absolute; bottom:0;">
+    <div class="arrow"></div>
+    <h3 class="popover-title">
+      <i class="icon-hand-up"></i> Building a Workflow is easy
+    </h3>
+    <div class="popover-content">
+       <strong>Drag</strong> from any icon in the panel below to connect a new channel
+        <br><br>
+       <strong>Click</strong> to (de)select Channels or connections.<br><br>
+       <strong>Double-Click</strong> an icon to configure a Channel
+       <br><br>
+       The <strong>[DELETE]</strong> key removes the selected Channel or connection.
+       <!-- br/><br/>
+       <strong>Drag</strong> with your mouse to pan.<br/><br/>
+       <strong>Scroll</strong> your mouse to zoom. -->
+    </div>
+  </div>
+</script>
+
+<!-- CHANNEL SELECT -->
+<script id="tpl-bipio-channel-select" type="text/template">
+  <section class="ag-list ag-list-channels">
+    <a href="#" id="link-channel-create" class="btn btn-success <%=(waiting ? 'waiting' : '')%>" style="width: 100%;border-radius: 0;margin-bottom: 3px;">
+      <%=(emitter ? 'Select Event Source' : 'Add An Action')%>
+      <i class="icon-arrow-right"></i>
+    </a>
+
+    <div class="form-search">
+      <input type="text" id="channel-search-form" autocomplete="off" placeholder="Quick Search <%=(emitter ? 'Event' : 'Action')%> Library">
+      <button type="submit">
+        <i class="icon-search"></i>
+      </button>
+    </div>
+
+    <div id="channel-list-container" style="position:absolute;top:74px;bottom:0px;left:0px;right:0px;">
+      <ul class="ag-list-results" style="
+          overflow-y: auto;
+          overflow-x:hidden;
+          position: absolute;
+          top: 0px;
+          bottom: 32px;
+          left: 0;
+          right: 0;
+        ">
+      </ul>
+
+      <nav class="ag-list-pagination channel-list-pagination"
+        style="
+            position: absolute;
+            bottom: 0;
+            background: white;
+            width: 100%;
+            padding: 0.3em 0.5em;
+        ">
+        <p class="result-note">Displaying
+            <span class="current">1-11</span> of
+            <span class="total">11</span>
+        </p>
+        <ul class="pagination-pages">
+            <li class="prev"><a href="#" class="prev disabled"><i class="icon-caret-left"></i></a></li>
+            <li class="next"><a href="#" class="next disabled"><i class="icon-caret-right"></i></a></li>
+        </ul>
+      </nav>
+
+    </div>
+
+    <% if (!sourceConnections) { %>
+      <div id="helper-gifs">
+        <div class="gif-container">
+            <img src="/static/img/drag.gif">
+        </div>
+      </div>
+    <% } %>
+
+  </section>
+</script>
+
+<!-- CHANNEL LIST ENTITY -->
+<script id="tpl-bipio-list-channel-entity" type="text/template">
+  <li class="channel-list-item create-action">
+    <a data-action="<%=action%>" href="#pods/" data-channel-id="">
+      <strong class="name"><%= (title.length> 28 ? title.substr(0,28) : title) %></strong>
+
+      <% if (icon && '' !== icon) { %>
+        <img src="<%= icon %>" alt="" class="hub-icon" />
+      <% } else if (!podContext) { %>
+        <img src="/static/img/channels/32/color/<%=pod%>.png" class="hub-icon" />
+      <% } %>
+    </a>
+    <button class="btn btn-success" style="
+        position: absolute;
+        right: -65px;
+        z-index: 10;
+        top: 0;
+        height: 50px;
+    ">Add</button>
+  </li>
+</script>
+
+<!-- CHANNEL LIST DELIMITER -->
+<script id="tpl-bipio-list-title" type="text/template">
+  <li class="configured-channel">
+    <%=label%>
+  </li>
+</script>
+
+<!-- CHANNEL LIST DELIMITER -->
+<script id="tpl-bipio-list-title" type="text/template">
+  <li class="configured-channel">
+    <%=label%>
+  </li>
+</script>
+
+<script id="tpl-bipio-edge" type="text/template">
+  <fieldset class="ctrl-panel-info middle">
+    <div>
+		<img class="hub-icon hub-icon-32" src="<%=source.pod.icon%>"/> FROM <%=source.name%>
+    </div>
+	<div id="arrowDown" style="margin: 25px;">
+			<div class="arrowHead"></div>
+			<span class="arrowD"></span>
+	</div>
+
+    <div>
+		<img class="hub-icon hub-icon-32" src="<%=target.pod.icon%>"/> TO <%=target.name%>
+    </div>
+   </fieldset>
+</script>
+<!-- TRANSFORM CONFIGURE -->
+<script id="tpl-bipio-transform" type="text/template">
+  <fieldset class="ctrl-panel-info middle">
+    <div>
+      <img class="hub-icon hub-icon-32" src="<%=icon%>"/>
+      <br/><br/>
+      <h2>
+        <%=pod.title%>
+        <%=pod.auth._repr ? ( '<br/><label class="label">' + pod.auth._repr + '</label>') : '' %>
+      </h2>
+
+      <h3>
+          <%= (name !== _action.title ? _action.title : '') %>
+      </h3>
+    </div>
+
+    <% if (name) { %>
+      <h4 style="background-color: rgb(55, 77, 82);color: white;margin: 0px;padding: 10px;">
+        <% if (!_hover) { %>
+          <div style="line-height:1.6em">
+
+            <span id="node-title" style="display:inline">
+              <span>
+                <i class="icon-edit"></i>
+              </span>
+              <span id="node-title-repr">
+                <%= name %>
+              </span>
+            </span>
+
+            <input maxlength="30" id="node-title-edit" type="text" value="<%= name %>">
+          </div>
+        <% } else { %>
+          <%= name %>
+
+        <% } %>
+      </h4>
+    <% } %>
+
+    <% if (note || _action.description) { %>
+      <div class="alert alert-info middle" style="max-height: 120px;overflow: auto;">
+        <%=(note ? note :_action.description) %>
+      </div>
+    <% } %>
+
+  </fieldset>
+
+  <% if (_hover) { %>
+    <div id="helper-gifs">
+      <div class="gif-container">
+        <% if ('click' === _hover) { %>
+          <img style="height:141px" src="/static/img/doubleclick.gif">
+        <% } %>
+
+        <% if (!isNewTrigger) { %>
+          <img src="/static/img/drag.gif">
+        <% } %>
+
+      </div>
+    </div>
+  <% } %>
+</script>
+
+<script id="tpl-bipio-pod-info" type="text/template">
+  <div>
+    <img class="hub-icon hub-icon-32" src="<%=pod.getIcon()%>"/>
+    <br/><br/>
+    <h2>
+      <%=podJSON.title%>
+      <%=podJSON.auth._repr ? ( '<br/><label class="label">' + podJSON.auth._repr + '</label>') : '' %>
+    </h2>
+  </div>
+
+  <% if (hover) { %>
+    <% if ('accepted' === podJSON.auth.status || ignore_auth) { %>
+      <p class="middle" style="background-color: rgb(55, 77, 82);color: white;margin: 0px;padding: 10px;">
+       <label>
+          <i class="icon-unlock"></i> Activated
+        </label>
+      </p>
+    <% } else { %>
+      <p class="middle" style="background-color: #f89406;color: white;margin: 0px;padding: 10px;">
+        <label>
+          <i class="icon-lock"></i> Needs Activation
+        </label>
+      </p>
+    <% } %>
+  <% } else { %>
+    <p class="middle" style="background-color: rgb(55, 77, 82);color: white;margin: 0px;padding: 10px;">
+      <% if (!ignore_auth && 'none' !== podJSON.auth.strategy) { %>
+          <% if ('accepted' === podJSON.auth.status) { %>
+            <a href="#" data-pod="<%=podJSON.name%>" title="Authentication" data-toggle="tooltip" data-placement="left"
+              data-trigger="hover" id="pod-auth" class="reauth btn btn-small btn-inverse">
+              <i class="icon-unlock"></i> Activated.
+            </a>
+          <% } else { %>
+            <a href="#" data-pod="<%=podJSON.name %>"  title="Authentication" data-toggle="tooltip" data-placement="left"
+              data-trigger="hover" id="pod-auth" class="btn btn-small btn-warning">
+              <i class="icon-lock"></i> Click To Activate
+            </a>
+          <% } %>
+      <% } else { %>
+       <button class="reauth btn btn-small btn-inverse">
+          <i class="icon-unlock"></i> Activated
+        </button>
+      <% } %>
+    </p>
+  <% } %>
+
+  <div class="alert alert-info">
+    <%  reg = new RegExp(podJSON.title, 'gi'); %>
+    <%=
+      (podJSON.url
+            ? podJSON.description.replace(reg, '<a target="_blank" href="' + podJSON.url + '">' + podJSON.title + '</a>')
+            : podJSON.description) %>
+  </div>
+</script>
+
+<!-- POD SELECT -->
+<script id="tpl-bipio-pod-select" type="text/template">
+  <section class="ag-list ag-list-channels">
+    <a href="#" id="link-channel-search" class="btn btn-success" style="width: 100%;border-radius: 0;margin-bottom: 2px;">
+      <i class="icon-arrow-left"></i>
+      Back
+    </a>
+
+    <fieldset class="ctrl-panel-info middle">
+    </fieldset
+  </section>
+</script>
+
+<!-- CHANNEL CREATE -->
+<script id="tpl-bipio-channel-create" type="text/template">
+  <section class="ag-list ag-list-channels">
+    <a href="#" id="link-pod-select" class="btn btn-success" style="width: 100%;border-radius: 0;margin-bottom: 3px;">
+      <i class="icon-arrow-left"></i>
+      <span>
+      Select A Pod
+      </span>
+    </a>
+  </section>
+  <fieldset class="ctrl-panel-info middle">
+  </fieldset>
+</script>
+

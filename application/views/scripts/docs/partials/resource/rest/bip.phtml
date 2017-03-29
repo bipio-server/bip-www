@@ -1,0 +1,869 @@
+<section id="resource_rest_bip">
+    <div class="page-header">
+        <h3>Bips <small>generate the content you love</small></h3>
+        <h4><code>/rest/bip</code></h4>
+    </div>
+
+    <p class="lead">
+        A Bip is a very fast and light weight endpoint definition for your personal domain(s)
+        that receives, transforms and distributes messages across a distributed graph.  It has an
+        endpoint type, a unique name, some type specific configuration, and an action graph (or <a href="/docs/resource/rest/bip#resource_rest_bip_hubs">Hub</a>).
+    </p>
+
+    <div class="alert alert-block">
+        <h4><i class="icon-info-sign"></i> Try keeping these characteristics in mind</h4><br/>
+
+        <strong>Dynamic</strong> By omitting the 'name' parameter, a short, unique
+        name will be generated in place, similar to how a link shortener works.
+        You can also use the <code>create_from_referer</code> <a href="/docs/resource/rpc/create_from_referer">RPC
+            helper</a> to generate a bip whose name is derived from a parseable domain referer,
+        such as an external website or email address.  This lets you bind bips to
+        certain content providers, or generate things like moderated email aliases,
+        like the <a href="http://goo.gl/ZVIkfr">Chrome Plugin</a> does for signup forms.<br/><br/>
+
+        <strong>Lifelike</strong> Bips can be configured to expire automatically after
+        a certain time or impressions volume (hits) basis.  Expired Bips are automatically
+        paused by default, and paused bips will silently drop any message they receive.  This
+        behaviour can be tweaked as an Account Option.  Lifetimes are useful if you want to
+        automatically moderate the volume of messages received on a bip and not have to think about it.<br/><br/>
+
+        <strong>Faithful</strong> Its easy to bind one message sender to a bip and ignore all others,
+        simply set a <code>binder</code> option, and that sender will have an exclusive lock on your bip for its lifetime, or is otherwise reconfigured/
+        Binder's aren't true ACL's however, they should be used in conjunction with Bip specific authentication<br/><br/>
+
+        <strong>Consistent</strong> Bips are just like Channels such they import and
+        export messages for processing. Think of SMTP or HTTP Bips as being special case channels
+        able to receive data from anywhere and fire a realtime event.  A Bips <code>hub</code> and associated <code>transform</code>
+        can be modified any time via a PUT request, changing the delivery strategy of a bip without modifying its endpoint in your application.
+    </div>
+
+
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>id</em></td>
+                    <td>UUID (string)</td>
+                    <td>Unique Bip ID
+                        <br/><br/>eg: <code>cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>name</em></td>
+                    <td>String, alphanumeric, '_'</td>
+                    <td>
+                        Unique Bip Name.  Any name provided is normalised to lowercase, alphanumeric with '_' in place of spaces.<br/>
+                        Leave empty to generate a random, unique name
+                        <br/><br/>eg: <code>great_startups</code></td>
+                </tr>
+
+                <tr>
+                    <td><em>domain_id</em></td>
+                    <td>UUID String,
+                        <br/><br/>default
+                        <code>account_option.bip_domain_id</code>
+                    </td>
+                    <td>Domain Id.
+                        <br/><br/>eg: <code>cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>type</em></td>
+                    <td>String<br/><br/>
+                        default <code>account_option.bip_type</code>
+                    </td>
+                    <td>Bip type, where
+                        <ul>
+                            <li><strong>smtp</strong> accepts content via email</li>
+                            <li><strong>http</strong> is via HTTP(s)</li>
+                            <li><strong>trigger</strong> is a periodic event</li>
+                        </ul>
+                        @see the <code>config</code> attribute for more info
+                        <br/><br/>eg: <code>smtp</code></td>
+                </tr>
+                <tr>
+                    <td><em>config**</em></td>
+                    <td>Object</td>
+                    <td>
+                        <code>type</code> dependant config.  See <a href="#resource_rest_bip_type_config">Type Configs</a> section below, for the type you wish to configure.
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>hub</em></td>
+                    <td>
+                        Object<br/><br/> default
+                        <code>account_option.bip_hub</code>
+                    </td>
+                    <td>
+                        Graph and Import Transform structure.  See <a href="#resource_rest_bip_hubs">Hubs</a> section below.
+                        <pre>'source' : {
+        edges : [ 'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' ],
+        transforms : {
+            'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' : {
+                'subject' : 'title'
+            }
+        }
+    }
+                        </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>note</em></td>
+                    <td>String</td>
+                    <td>An optional text note to be stored with this record
+                        <br/>
+                        <code>my tacocopter.com beta invite address</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>end_life</em></td>
+                    <td>Object,<br/><br/> default <code>account_option.bip_end_life</code></td>
+                    <td>
+                        Expiry structure, keyed to <br/>
+                        <ul>
+                            <li><strong>time</strong> any <a href="http://www.datejs.com">datejs</a> parseable time</li>
+                            <li><strong>imp</strong> maximum impressions</li>
+                        </ul>
+                        Bips will automatically pause when these limits are reached.
+                        Set as '0' for each of time or impressions to disable these limits.
+                        <br/><br/>
+                        <span class="label label-warning">IMPORTANT</span> Times are stored and enforced
+                        based on your <code>account_option.timezone</code> setting.
+
+                        <br/><br/>eg:
+                        <pre>{
+  'time' : '+1m',
+  'imp' : 50
+}
+                        </pre>
+                        </code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>paused</em></td>
+                    <td>Booelan, default false</td>
+                    <td>
+                        bip has been paused, does not accept or generate any
+                        content.
+                        <br/><code>false</code></td>
+                </tr>
+                <tr>
+                    <td><em>binder</em></td>
+                    <td>Array</td>
+                    <td>
+                        smtp or http bip types only, is an array of sender email addresses
+                        or Client IP's, respectively.  Binders are soft validators that
+                        only accept connections from these clients over the bips lifetime.
+                        To bind with the first connection that is made use an array of
+                        length 1 containing the string 'first'.
+
+                        <br/>
+                        <code>[ 'noreply@mydomain.com' ]</code> or<br/>
+                        <code>[ '75.19.207.20' ]</code> or<br/>
+                        <code>[ 'first' ]</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>icon</em></td>
+                    <td>String</td>
+                    <td>
+                        Image URL which can be rendered for this bip
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        ** You read right, no fields are required to create a bip, except a <code>config</code>
+        parameter when using a trigger.  We'll otherwise fill any blanks in the request structure with
+        your configured Account Options and a randomized <code>name</code>.
+    </div>
+
+    <div class="bs-api-data bs-api-data-decorators">
+        <h5>Decorators augment a resource record with useful meta-data and are read-only</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>_href</em></td>
+                    <td>Record URI</td>
+                    <td><code>https://api.bip.io/rest/bip/cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code></td>
+                </tr>
+                <tr>
+                    <td><em>_repr</em></td>
+                    <td>Derived Bip Representation</td>
+                    <td><code>great_startups@docs.bip.io</code></td>
+                </tr>
+                <tr>
+                    <td><em>_imp_actual</em></td>
+                    <td>Actual Impressions, the number of messages received by this bip</td>
+                    <td>349587</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p class="lead">
+            REST Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-bip">
+            <li class="active">
+                <a href="#rest-example-bip-get" data-toggle="pill">GET</a>
+            </li>
+            <li><a href="#rest-example-bip-post" data-toggle="pill">POST</a></li>
+            <li><a href="#rest-example-bip-put" data-toggle="pill">PUT</a></li>
+            <li><a href="#rest-example-bip-delete" data-toggle="pill">DELETE</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-bip-get">
+            <strong>REQUEST</strong>
+            <pre><code>GET /rest/bip/bc928113-0a98-4975-a821-98373aa72552 HTTP/1.1</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>200 OK
+
+{
+    id: "bc928113-0a98-4975-a821-98373aa72551",
+    name: "test",
+    domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    type: "smtp",
+    config: { },
+    hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+                ]
+            }
+    },
+    note: "sample smtp bip",
+    end_life: {
+        time: 0,
+        imp: 0
+    },
+    paused: false,
+    icon: "",
+    created: "1358816085282",
+    _imp_actual: 14,
+    _repr: "test@docs.bip.io",
+    _href: "https://api.bip.io/rest/bip/bc928113-0a98-4975-a821-98373aa72552"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-bip-post">
+            <strong>REQUEST</strong>
+            <pre><code>POST /rest/bip HTTP/1.1
+
+{
+    name: "test",
+    type: "smtp",
+    note: "sample smtp bip",
+    end_life: {
+        time: 0,
+        imp: 0
+    },
+    _comment: "This sample overrides end_life, type and name but uses account defaults otherwise"
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>201 Created
+
+{
+    id: "bc928113-0a98-4975-a821-98373aa72551",
+    name: "test",
+    domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    type: "smtp",
+    config: { },
+    hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+                ]
+            }
+    },
+    note: "sample smtp bip",
+    end_life: {
+        time: 0,
+        imp: 0
+    },
+    paused: false,
+    icon: "",
+    created: "1358816085282",
+    _imp_actual: 0,
+    _repr: "test@docs.bip.io",
+    _href: "https://api.bip.io/rest/bip/bc928113-0a98-4975-a821-98373aa72552"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-bip-put">
+            <strong>REQUEST</strong>
+            <pre><code>PUT /rest/bip HTTP/1.1
+
+{
+    id: "bc928113-0a98-4975-a821-98373aa72551",
+    name: "test",
+    type: "smtp",
+    note: "sample smtp bip - now we're expiring",
+    end_life: {
+        time: +1m,
+        imp: 100
+    }
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>200 OK
+
+{
+    id: "bc928113-0a98-4975-a821-98373aa72551",
+    name: "test",
+    domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    type: "smtp",
+    config: { },
+    hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+                ]
+            }
+    },
+    note: "sample smtp bip - now we're expiring",
+    end_life: {
+        time: 1361494485282,
+        imp: 100
+    },
+    paused: false,
+    icon: "",
+    created: "1358816085282",
+    _imp_actual: 14,
+    _repr: "test@docs.bip.io",
+    _href: "https://api.bip.io/rest/bip/bc928113-0a98-4975-a821-98373aa72552"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-bip-delete">
+            <strong>REQUEST</strong>
+            <pre><code>DELETE /rest/bip/bc928113-0a98-4975-a821-98373aa72552 HTTP/1.1</code></pre>
+            <strong>RESPONSE</strong>
+            <pre><code>200 OK</code></pre>
+        </div>
+    </div>
+
+    <section class="subsection_head" id="resource_rest_bip_type_config">
+        <div>
+            <p class="lead">
+            <div class="page-header">
+                <h3>Types and Configs</h3>
+            </div>
+            Every Bip requires a <code>type</code>, and a <code>config</code> for that type, and
+            each type has its own exports.  An Export is the message packet a Bip (or Channel) sends
+            for transform and delivery to adjacent channels in a hub.
+            <br/><br/>
+            In addition to Type specific exports, all Bips may also export :<br/>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Data Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><em>_files</em></td>
+                        <td>array</td>
+                        <td>
+                            An array of file attachment meta data, of the form<br/>
+                            <pre>{
+    name : 'file name',
+    size : 'size in bytes',
+    type : 'file extension, lowercase'
+}
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><em>_client#{attribute}</em></td>
+                        <td>string</td>
+                        <td>Originating client identifier attribute, where attribute
+                            is one of :
+                            <ul>
+                                <li><strong>host</strong> Remote Host IP</li>
+                                <li><strong>repr</strong> Message producer symbol, for smtp it will be the sending email address, for http it will be the IP.
+                                    sender from a Trigger will be marked with the Channels pod.action</li>
+                            </ul>
+                            <br/>eg: <code>_client.repr</code> export value of <code>hipchat.instruction</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><em>_bip#{attribute}</em></td>
+                        <td>string</td>
+                        <td>Originating Bip attributes, where attribute
+                            is a Bip datapoint of <code>name</code>, <code>type</code>, <code>config</code>, <code>_repr</code>.
+                            <br/>eg: <code>_bip#repr</code> export value of <code>https://docs.bip.io/bip/http/test_this</code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </p>
+        </div>
+    
+        
+        <h3>Available Types</h3>
+        
+
+        <div class="accordion" id="bip-type-accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#bip-type-accordion" href="#bip-type-trigger">
+                        <h4>
+                            <img src="/static/img/channels/32/color/bip_trigger.png" /> Trigger 
+                            <small>(periodic events)</small>
+                            <code class="pull-right">type : trigger</code>
+                        </h4>
+                    </a>
+                </div>
+                <div id="bip-type-trigger" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <p>
+                            A trigger is a special type of Bip with a Channel as its source.  It does not get pushed content
+                            but rather requests content from a Channel every 10 minutes.  Generating content when someone posts a new
+                            message to your Facebook wall is an example of a Trigger Bip with a (Facebook) channel source.                            
+                            <br/><br/>
+                            To check which of your configured channels can be used as triggers, GET <code>/rest/channel/emitters</code>.
+                        </p>
+                        <div class="bs-api-data">
+                            <h5>Config</h5>                            
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Description</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><em>channel_id</em></td>
+                                        <td>Triggering Channel Id, must be a Channel where <code>_emitter : true</code>
+                                            <br/><br/>eg: <code>cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <strong>Exports</strong>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><em>?</em></td>
+                                        <td>mixed</td>
+                                        <td>
+                                            Trigger exports are inherited from the configured Channel (channel_id).  See the configured Channel's exports to
+                                            derive an appropriate <code>source</code> transform.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#bip-type-accordion" href="#bip-type-smtp">                        
+                        <h4>
+                            <img src="/static/img/channels/32/color/bip_smtp.png" />  SMTP 
+                            <small>(email)</small>
+                            <code class="pull-right">type : smtp</code>
+                        </h4>
+
+                    </a>
+                </div>
+                <div id="bip-type-smtp" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <p>
+                            SMTP Bips are email aliases for your domain(s), which deliver content.  They
+                            might be dedicated to handling alert emails, processing incoming enquiry leads,
+                            or moderating an untrusted email sender.                            
+                        </p>
+                        <div class="bs-api-data">
+                            <h5>Config</h5>                            
+                            No config is required for SMTP Bips.<br/><br/>
+                            Send messages to SMTP Bips via
+                            <div class="alert alert-info">
+                                <h4>{bip name}@<?php echo $this->domainPfx; ?>.bip.io</h4>
+                            </div>
+                        </div>
+
+                        <div>
+                            <strong>Exports</strong>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><em>body_html</em></td>
+                                        <td>string</td>
+                                        <td>HTML body, if available</td>
+                                    </tr>
+                                    <tr>
+                                        <td><em>body_text</em></td>
+                                        <td>string</td>
+                                        <td>Text body, if available</td>
+                                    </tr>
+                                    <tr>
+                                        <td><em>subject</em></td>
+                                        <td>string</td>
+                                        <td>Subject, if available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#bip-type-accordion" href="#bip-type-http">
+                        <h4>
+                            <img src="/static/img/channels/32/color/bip_http.png" />  HTTP 
+                            <small>(web hooks)</small>
+                            <code class="pull-right">type : http</code>
+                        </h4>
+
+                    </a>
+                </div>
+                <div id="bip-type-http" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <p>
+                            HTTP Bips are named endpoints you can GET or POST content to via the HTTPS protocol.
+                        </p>
+                        <div class="bs-api-data">
+                            <h5>Config</h5>
+                            Message HTTP Bips via
+                            <div class="alert alert-info">
+                                <h4>https://<?php echo $this->domainPfx; ?>.bip.io/bip/http/{bip name}</h4>
+                            </div>
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><em>exports</em></td>
+                                        <td>Array of named attributes to transform.  These named attributes are hints for transformation
+                                            against GET parameters supplied when invoking the Bip, or JSON decoded body data.  Export hints for embedded
+                                            objects (eg: <code>{ some_object : { abc : "123" }  }</code>) are not currently supported.<br/><br/>
+                                            The system provides two default exports 'for free' which are interpreted as query parameters
+                                            for the purpose of generating transforms:<br/><br/>
+                                            <ul>
+                                                <li><code>title</code> A message title</li>
+                                                <li><code>body</code> Message body</li>
+                                            </ul>
+
+                                            <br/><br/>
+                                            eg: <code>[ 'message' ]</code>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><em>auth</em></td>
+                                        <td>Auth means the <a href="http://www.w3.org/Protocols/HTTP/1.0/draft-ietf-http-spec.html#BasicAA">HTTP Basic Auth</a> credentials that are required by a client of this HTTP bip.<br/><br/>
+                                            String of type
+                                            <ul>
+                                                <li><strong>none</strong> Disables authentication</li>
+                                                <li><strong>token</strong> To use default account token (Basic Auth)</li>
+                                                <li><strong>basic</strong> To use custom username/password (Basic Auth)<br/>
+                                                    <span class="label label-warning">IMPORTANT</span> we strongly advise to
+                                                    use either 'basic' or 'none' authentication strategy to minimize the risk of your account level
+                                                    API token being exposed.
+                                                </li>
+                                            </ul>
+                                            <br/>
+                                            eg: <code>auth : 'none'</code>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><em>username</em></td>
+                                        <td>Auth Username, where <code>auth : basic</code>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><em>password</em></td>
+                                        <td>Auth Password, where <code>auth : basic</code>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><em>renderer</em></td>
+                                        <td>
+                                            Allows Bips to serve Channel content directly while
+                                            inheriting 'bip-like' characteristics (lifespan, custom credentials etc)
+                                            <br/><br/>
+                                            Object keyed by :
+                                            <ul>
+                                                <li><strong>channel_id</strong> Target Channel Id</li>
+                                                <li><strong>renderer</strong> Renderer name</li>
+                                                <li><strong>query</strong> Additional URI GET query string</li>
+                                            </ul>
+                                            eg:
+<pre> {
+    "channel_id" : "cf01c8ec-e542-46ce-9895-74b6ea3fcf5b",
+    "renderer" : "csv"
+}</pre>
+                                            <br/>
+                                            <div class="alert alert-block">
+                                            HTTP Bips with a <code>renderer</code> setting make <code>hub</code> configs non-mandatory
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <strong>Exports</strong>
+                            HTTP Exports
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><em>?</em></td>
+                                        <td>mixed</td>
+                                        <td>
+                                            HTTP Bips export whatever parameters they receive.
+                                            Hint the exports for transform with the <code>exports</code> configuration helper.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </section>
+
+    <section class="subsection_head" id="resource_rest_bip_hubs">
+        <div>            
+            <div class="page-header">
+                <h3>Hubs</h3>
+            </div>
+            A 'Hub' is a graph structure of vertices (Channels) and directed edges (transforms)
+            for mapping the exports of one Channel to the imports of an
+            adjacent Channel.  A Hub may describe for example, how to transform a file upload
+            such that it can be instantly saved to Dropbox.<br/><br/>
+            In a nutshell, Hubs describe the delivery strategy for a Bip.<br/><br/>
+            
+
+            <div class="alert alert-block">
+                <h4><i class="icon-info-sign"></i> Hub Validation Rules</h4><br/>
+
+                <strong>Edges are singly directed </strong> For the meantime, edges can be
+                defined for any vertices of <a href="http://en.wikipedia.org/wiki/Directed_graph#Indegree_and_outdegree">
+                    outdegree >= 1, and indegree 1</a>.
+
+                Directionality is therefore implicit to the outdegree of the <code>source</code> vertex,
+                which is always a Bip of <code>type:smtp</code>, <code>type:http</code> or <code>type:trigger</code>
+                or a defined Channel vertex with an existing edge.
+
+                <br/><br/>Loops or multiple edge dependencies (indegree > 1) are currently not supported.
+                <br/><br/>
+
+                <!-- strong>Maximum Vertices</strong> The number of vertices in a hub may be
+                limited depending upon your account capabilities.  Beta users
+                are gifted a maximum 3 vertices additional to <code>source</code> per hub
+                <br/><br/ -->
+
+                <strong>Transforms are not Mandatory</strong> By setting a transform value
+                of <code>default</code>, the system will do its best to infer a proper
+                transform between channels based on a democratic best-guess.
+                This transform will be unpacked during the save process, and can be tweaked on subsequent PUT requests.
+            </div>
+
+            <div class="bs-api-data">
+                The Hub graph structure is an object keyed by channel id, each with
+                a substructure detailing edges and transforms to adjacent upstream channels. <br/><br/>
+                Edges are keyed to the originating Channel Id, Transforms are simply an export => import
+                map from one Channel's exports, to the adjacent Channels imports.  <code>source</code> is a special
+                case vertex which indicates that messages are originating from the Bip via smtp,http or a channel trigger.
+                Hubs require a <code>source</code> with at least 1 edge.<br/><br/>
+                <br/><br/>
+                For Example, a HTTP Bip which delivers to an <code>email.smtp_forward</code> Channel may look like this :
+                <div style="text-align:center">
+                    <img src="/static/img/docs/resource_rest_bip_hubs_1.png" />
+                </div>
+                <pre>
+'source' : {
+        edges : [ 'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' ],
+        transforms : {
+            'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' : {
+                'subject' : 'title' // transform Email
+            }
+        }
+    }</pre>
+
+                Or more simply if the originating source was a <code>type: smtp</code> bip and
+                did not require any transforms (simple message proxy), we could use the simplest possible graph.
+                <pre> 'source' : { edges : [ 'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' ] }</pre>
+
+                <br/>
+
+                A more complex example, with a HTTP Bip exporting to an email and an optionally
+                filtered RSS Channel
+                <div style="text-align:center">
+                    <img src="/static/img/docs/resource_rest_bip_hubs_2.png" />
+                </div>
+                <pre>
+'source' : { // << bip source
+    edges : [
+            'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b', // Email Channel
+            'ba63c4c8-e168-4935-a1cc-a59b1cffed0d' // Filter Channel
+            ],
+    transforms : {
+        'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' : {
+            'subject' : 'title' // transform Email
+        }
+        // !! no transform for Filter - simply proxy the export !!
+    }
+},
+'ba63c4c8-e168-4935-a1cc-a59b1cffed0d' : {   // Filter source Channel Id
+    edges : [ '74b6ea3f-cf5b-cf01-c8ec-e54246ce9895' ], // RSS Channel
+    transforms : {
+        '74b6ea3f-cf5b-cf01-c8ec-e54246ce9895' : 'default' // default map
+    }
+}</pre>
+
+                <span class="label label-info">NOTE</span> There are two content producers in the above example
+                which needed their content transformed, <code>source</code> and Filter (<code>ba63c4c8-e168-4935-a1cc-a59b1cffed0d</code>)
+
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Data Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><em>edges**</em></td>
+                            <td>Array</td>
+                            <td>List of channels that this source channel will export to.
+
+                                <br/><br/>eg: <code>[ "cf01c8ec-e542-46ce-9895-74b6ea3fcf5b" ]</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><em>transforms</em></td>
+                            <td>Object
+                            </td>
+                            <td>Object keyed to an edge channel id, containing either Key/Value pairs describing the exports for this source, and how
+                                they map to imports across an edge, or reserved strings of
+                                <ul>
+                                    <li><code>default</code> to use a system provided transform</li>
+                                </ul>
+                                eg:
+                                <pre>
+transforms : {
+    'cf01c8ec-e542-46ce-9895-74b6ea3fcf5b' : {
+        'import' : 'export'
+    }
+    'ba63c4c8-e168-4935-a1cc-a59b1cffed0d' : 'default'
+}
+                                </pre>
+                                By Omitting a transform, exports will remain unmodified across the edge.
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="subsection_head" id="resource_rest_bip_transforms">
+        <div>
+            <div class="page-header">
+                <h3>Transforms</h3>
+            </div>
+            <p>
+                Transforms are Hub attributes for mapping the exports and imports between adjacent
+                Channels in the graph.  They're a key/value collection where key is the target import, and
+                value is the source export template.  Exports can be literal imports or interpolated into
+                templates, of the form <code>[% attribute %]</code>.  Template variables can be derived
+                from any available upstream export.
+                <br/><br/>
+                Exports which can not be found as export literals in their originating channels will
+                be interpreted as templated text, and therefore do not raise any validation errors.
+                <br/><br/>
+                To reference an export from a non-adjacent channel, simply
+                reference the channel id and export with hash (#) delimiters.  For example,
+                <code>"body" : "cf01c8ec-e542-46ce-9895-74b6ea3fcf5b#body"</code> Imports upstream 
+                Channel cf01c8ec-e542-46ce-9895-74b6ea3fcf5b's body export into the local import.
+                <br/><br/>
+                For example, a transform with literals and templates
+
+            <pre>transforms : {    
+    'ba63c4c8-e168-4935-a1cc-a59b1cffed0d' : {
+        "reply_to" : "from",
+        "rcpt_to" : "cf01c8ec-e542-46ce-9895-74b6ea3fcf5b.mail_from",
+        "subject" : "Hi there [% name %] we got your email via [% _bip#name %] from IP [% _client#host %]"
+    }
+}
+            </pre>
+            </p>
+        </div>
+    </section>
+</section>

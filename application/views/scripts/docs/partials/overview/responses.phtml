@@ -1,0 +1,91 @@
+<section id="overview_responses">
+    <div class="page-header">
+        <h3><i class="icon-info-sign"></i> Response Codes and Errors</h3>
+    </div>
+
+    <p>
+    <h4>Response Codes <small> are standard <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">HTTP Status Codes</a></small></h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>200</em></td>
+                    <td>OK - Request Successful</td>
+                </tr>
+                <tr>
+                    <td><em>201</em></td>
+                    <td>Created - Object created successfully</td>
+                </tr>
+                <tr>
+                    <td><em>202</em></td>
+                    <td>Accepted - Object created but further validation required.</td>
+                </tr>
+                <tr>
+                    <td><em>400</em></td>
+                    <td>Bad Request - The request was improperly formatted or payload failed validation. Please review API specification.</td>
+                </tr>
+                <tr>
+                    <td><em>401</em></td>
+                    <td>Not Authorized - The client is not authorized to make this request</td>
+                </tr>
+                <tr>
+                    <td><em>402</em></td>
+                    <td>Payment Required - Ceiling has been reached, out of credit or trying to access a higher tier service.</td>
+                </tr>
+                <tr>
+                    <td><em>403</em></td>
+                    <td>Forbidden - Refusing to fulfill request</td>
+                </tr>
+                <tr>
+                    <td><em>404</em></td>
+                    <td>Not Found - One or more requested objects could not be found.</td>
+                </tr>
+                <tr>
+                    <td><em>409</em></td>
+                    <td>Conflict - Unique Key Constraint.  Conflicting resource will be returned in payload</td>
+                </tr>
+                <tr>
+                    <td><em>410</em></td>
+                    <td>Gone - Object once existed but is no longer active</td>
+                </tr>
+                <tr>
+                    <td><em>415</em></td>
+                    <td>Unsupported Media Type - The entity of the request is in a format not supported by the requested resource for the requested method.</td>
+                </tr>
+                <tr>
+                    <td><em>500</em></td>
+                    <td>Internal Server Error - An internal runtime error was encountered and logged</td>
+                </tr>
+                <tr>
+                    <td><em>502</em></td>
+                    <td>Bad Gateway - Rate Limit exceeded for requesting client or target account</td>
+                </tr>
+                <tr>
+                    <td><em>503</em></td>
+                    <td> Service Unavailable - System is in maintenance mode, hopefully on purpose</td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+     
+    <p class="lead">
+        <h4>Errors <small>HTTP 400 response format</small></h4>
+        400 Error responses will generally be raised due to validation errors in the request payload.  Errors are returned within the context
+        of the resource being requested, with the message body of the form <code>errors.{attribute}.message</code>, for example
+        <br/><br/>
+        <pre><code>{
+    errors : {
+        type : {
+            message : 'Expected "smtp", "http" or "trigger"'
+        }
+    }
+}
+</code></pre>  
+    </p>
+    
+</section>

@@ -1,0 +1,114 @@
+<!-- POD SELECT -->
+<script id="tpl-bipio-modal-pod-select" type="text/template">
+  <header class="modal-header">
+    <h2>Select a Pod Below to Get Started</h2>
+  </header>
+
+  <div id="channel-setup" class="modal-body candy-strip create-new-channel" style="position: absolute; bottom: 69px; top: 37px; left: 0px; right: 0px; overflow: auto;">
+
+    <div class="ag-list">
+      <div class="form-search">
+        <input type="text" id="channel-search-form" autocomplete="off" placeholder="Search Available Pods">
+        <button type="submit" tabindex="-1".>
+          <i class="icon-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="pod-list" class="hub-list"></div>
+  </div>
+
+  <footer class="modal-footer" style="position: absolute; bottom: 0px; left: 0px; right: 0px;">
+    <div class="btn-row">
+      <a type="submit" data-loading-text="Saving..." class="btn btn-success pull-right save-channel hidden">Save New <%=(emitter ? 'Event' : 'Action')%></a>
+      <a class="btn modal-close pull-right" style="margin-right:10px" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    </div>
+  </footer>
+</script>
+
+<!-- action select -->
+<script id="tpl-bipio-action-select" type="text/template">
+  <form class="create-new-channel">
+  	<div class="ag-list" id='action-search' >
+   		 <div class="form-search">
+    		 <input type="text" id="action-search-form" autocomplete="off" placeholder="Search">
+     	 	 <button type="submit" tabindex="-1".>
+        		 <i class="icon-search"></i>
+          	  </button>
+   		 </div>
+ 	 </div>
+
+    <% if (channel.id || configure) { %>
+      <% if (channel.app_id) {%>
+        <small class="pull-right">via <%=channel.app_id%></small>
+      <% } %>
+      <div class="basic-info <%= (channel.id) ? '' : 'hidden' %>">
+        <div class="control-group">
+          <label class="control-label">Name</label>
+          <div class="controls" required>
+            <span class="help-block"></span>
+            <input type="text" id="channel_name" name="name" class="input input-xlarge" value="<%= channel.name %>"/>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label">Description</label>
+          <div class="controls">
+            <span class="help-block"></span>
+            <textarea id="channel_note" name="note" placeholder="<%= channel.note %>"></textarea>
+          </div>
+        </div>
+      </div>
+    <% } %>
+
+    <div class="select-action">
+      <ul class="action-list">
+      </ul>
+    </div>
+  </form>
+</script>
+
+<!-- action entity  -->
+<script id="tpl-bipio-action-entity" type="text/template">
+  <li id="action-<%=id%>" class="action-selectable action <%= active_class %>">
+    <div class="channel-config hidden">
+      <input class="action-selected" type="radio" name="action" id="action" value="<%= name %>" />
+      <% if (schema.config.properties && Object.keys(schema.config.properties).length) { %>
+        <h4>Preferences</h4>
+        <div class="action-config">
+          <% _.each(schema.config.properties, function(config, idx) { %>
+          <div class="control-group">
+            <label class="control-label"><%= config.title %></label>
+            <div <%=(!config.oneOf && schema.config.required && -1 !== schema.config.required.indexOf(idx) ? 'required' : '') %> class="controls">
+              <%= config._html %>
+              <span class="help-block"></span>
+            </div>
+          </div>
+            <span class="input-hint"><%=config.description%></span>
+          <% });%>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="channel-config show">
+      <input class="action-selected" type="radio" name="action" id="action" value="<%= name %>" />
+      <h4><%= schema.title %></h4>
+
+      <p class="description"><%= schema.description %></p>
+
+      <div class="action-config">
+        <% _.each(schema.config.properties, function(config, idx) { %>
+        <div class="control-group">
+          <label class="control-label"><%= config.title %></label>
+          <div <%=(!config.oneOf && schema.config.required && -1 !== schema.config.required.indexOf(idx) ? 'required' : '') %> class="controls">
+            <span class="input-hint"><%=config.description%></span>
+            <span class="help-block"></span>
+            <%= config._html %>
+          </div>
+        </div>
+        <% });%>
+      </div>
+    </div>
+  </li>
+</script>
+

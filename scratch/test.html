@@ -1,0 +1,104 @@
+<?php
+$options = Zend_Registry::get('config')->toArray();
+?>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <title>bipio - For People and Robots</title>
+        <link href='http://fonts.googleapis.com/css?family=Audiowide&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link href="../public/static/css/bip.css" rel="stylesheet" />
+        <script src="/../publicstatic/js/min/preload-min.js"></script>
+
+        <style>
+
+.node {
+  cursor: crosshair;  
+  stroke-width: 4;
+}
+
+.node_selected {
+  /*fill: #ff7f0e;*/
+  stroke: #000;
+}
+
+.drag_line {
+  stroke: #999;
+  stroke-width: 5;
+  pointer-events: none;
+}
+
+.drag_line_hidden {
+  stroke: #999;
+  stroke-width: 0;
+  pointer-events: none;
+}
+
+.link {
+  stroke: #999;
+  stroke-width: 5;
+  cursor: crosshair;
+}
+
+.link_selected {
+  stroke: #ff7f0e;
+}
+
+</style>
+    </head>
+    <body style="<?php if (null != $this->bgURL) { ?>background-image: url(<?php echo $this->bgURL ?>); <?php } ?>" data-spy="scroll" data-target=".subnav" data-offset="50">
+
+        <div id="navbar">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <a id="logo" class="brand" href="/">bip<span style="color: #0099FF;">io</span></a>
+                        <nav>
+                            <ul>
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-body">
+            <div class="container">
+                <div class="row">
+                    <div id="chart"></div>
+                </div>
+                <footer class="global">
+                    <p class="copyright">Copyright 2012 - <a href="">Cloudspark</a></p>
+                    <nav class="legal">
+                        <li><a href="">Terms of Use</a></li>
+                        <li><a href="">Privacy Policy</a></li>
+                    </nav>
+                </footer>
+            </div>
+        </div>          
+
+        <script src="../public/static/js/libs/jquery/jquery-min.js"></script>
+        <script src="../public/static/js/min/scripts-min.js"></script>
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-dropdown.js"></script>
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-modal.js"></script>
+
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-button.js"></script>
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-tooltip.js"></script>
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-scrollspy.js"></script>
+        <script src="../public/static/js/libs/datejs/date.js"></script>
+        <script src="../public/static/js/vendor/bootstrap/bootstrap-datepicker.js"></script>
+        
+        <script src="../public/static/js/bipio.js"></script>
+        
+        <script src="http://d3js.org/d3.v2.min.js"></script>
+        <script src="force_view.js"></script>
+    </body>
+</html>
+

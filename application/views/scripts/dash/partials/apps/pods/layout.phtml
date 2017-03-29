@@ -1,0 +1,552 @@
+<!-- module layout -->
+<script id="tpl-layouts-pods" type="text/template">
+  <div class="row">
+    <div id="pods-container" class="span12">
+      <div id="channel-modal-container"></div>
+      <div id="channel-modal-post-container"></div>
+
+      <!-- NEW Channel Editor Page (Begin) -->
+      <div id="manage-channels">
+        <div class="row">
+          <div class="span4 channel-list">
+            <h2 class="middle">Configured Actions And Events</h2>
+            <section class="ag-list ag-list-channels">
+              <form class="form-search">
+                <input type="text" id="channel-search-form" placeholder="Search Your Saved Presets" />
+                <button type="submit"><i class="icon-search"></i></button>
+              </form>
+
+              <ul class="ag-list-results">
+                <span class="list-widget" id="channel-list-widget"></span>
+              </ul>
+
+              <nav class="ag-list-pagination channel-list-pagination"></nav>
+            </section>
+
+          </div>
+          <div class="span8" id="channel-setup"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="authModal"></div>
+</script>
+
+<script id="tpl-pods-inline-channel-select" type="text/template">
+  <div id="channel-inline">
+    <div class="control-group">
+    	<label class="control-label" for="import-project_id">Presets</label>
+      <select>
+        <option value="">No Preference</option>
+      </select>
+       <input id="channel-name" type="text" placeholder="Description" value="" />
+      <button class="btn action-save btn-mini btn-primary" data-loading-text="Saving...">
+        Save Presets
+      </button>
+
+      <button style="display:none" data-toggle="modal" data-target="#channel-delete-dialog" class="btn btn-mini action-delete btn-danger" data-loading-text="Deleting...">
+          Delete
+      </button>
+    </div>
+  </div>
+</script>
+
+<div id="channel-delete-dialog" class="modal-overlay hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-container">
+    <div class="modal center-absolute" style="height:150px">
+      <div class="modal-header candy-strip">
+        <h2>
+          Are you sure?
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </h2>
+      </div>
+      <div class="modal-body candy-strip">
+        All data associated with this Preset will be permanently removed
+      </div>
+      <div class="modal-footer">
+        <div class="btn-row">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button id="channel-delete-confirm" class="btn btn-danger">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- channel list container -->
+<script id="tpl-resource-list-channel" type="text/template">
+  <!-- header class="header-channel"></header -->
+
+  <div id="list-channel-container">
+    <ul id="channel-list" class="ag-list-results list-channels"></ul>
+  </div>
+</script>
+
+
+<!-- channel list entity (model view) copied from channel list templates -->
+<script id="tpl-list-channel-entity" type="text/template">
+  <li class="channel-list-item">
+    <a class="<%=( (podContext && !config.icon) ? 'pod-context' : '')%>"" href="#pods/<%= id %>" data-channel-id="<%= id %>">
+      <strong class="name"><%= name %></strong>
+      <small class="description"><%= note %></small>
+
+      <% if (config.icon && '' !== config.icon) { %>
+        <img src="<%= config.icon %>" alt="" class="hub-icon hub-icon-24" />
+        <% if (!podContext) { %>
+          <img style="top:auto; bottom: 1rem;" src="/static/img/channels/32/color/<%=pod%>.png" alt="" class="hub-icon hub-icon-24" />
+        <% } %>
+      <% } else if (!podContext) { %>
+        <img src="/static/img/channels/32/color/<%=pod%>.png" alt="" class="hub-icon hub-icon-24" />
+      <% } %>
+    </a>
+  </li>
+</script>
+
+<!-- pod representation template -->
+<script id="tpl-pod-entity" type="text/template">
+  <div class="span2 __pod-select" data-pod="<%=name%>">
+    <div class="hub <%= (auth.status !== 'accepted' && auth.strategy != 'none') ? 'not-connected' : ''  %>">
+      <a class="pod-selector" href="#pods/pod/<%=name%>">
+        <% if (level_locked) { %>
+          <div class="pro-box">
+           <div class="ribbon"><span>premium</span></div>
+          </div>
+        <% } %>
+        <img src="<%=icon%>" alt="" class="hub-icon hub-icon-32" />
+        <strong class="name"><%= title %></strong>
+        <span class="note"><%= (auth.status !== 'accepted' && auth.strategy != 'none') ? 'Needs Activation' : 'Available'  %></span>
+      </a>
+    </div>
+  </div>
+</script>
+
+<!-- action entity-->
+<script id="tpl-action-entity" type="text/template">
+  <li id="action-<%=id%>" class="action-selectable action <%= active_class %>">
+    <input class="action-selected" type="radio" name="action" id="action" value="<%= name %>" <%= ('' != active_class ? 'checked' : '')%> />
+    <h4><%= schema.title %> <span class="label action-type"><%= ('invoke' !== schema.trigger ? 'Emitter' : 'Action') %></span></h4>
+    <p class="description"><%= schema.description %></p>
+
+    <fieldset class="action-config">
+      <% _.each(schema.config.properties, function(config, idx) { %>
+      <div class="control-group">
+        <label class="control-label"><%= config.title %></label>
+        <span class="help-block"></span>
+        <div <%=(!config.oneOf && schema.config.required && -1 !== schema.config.required.indexOf(idx) ? 'required' : '') %> class="controls">
+          <%= config._html %>
+          <span class="help-block"></span>
+        </div>
+      </div>
+      <span class="input-hint"><%=config.description%></span>
+      <% });%>
+    </fieldset>
+  </li>
+</script>
+
+<script id="tpl-auth-issuer-token" type="text/template">
+  <form class="form-horizontal" style="margin-bottom:0px;padding-top:10px;">
+    <fieldset>
+      <% _.each(auth.properties, function(props, localName) { %>
+      <div class="control-group">
+        <label class="control-label" for="<%=localName%>"><%=props.title%></label>
+        <div class="controls">
+          <input type="text" id="<%=localName%>" name="<%=localName%>" placeholder="<%=props.title%>">
+          <span class="help-block"></span>
+        </div>
+      </div>
+      <% }); %>
+    </fieldset>
+  </form>
+</script>
+
+<!-- authentication modal -->
+<script id="tpl-modal-auth" type="text/template">
+  <div class="modal-overlay hide">
+    <div class="modal-container">
+      <div class="modal">
+        <header class="modal-header candy-strip">
+          <img src="/static/img/channels/32/color/<%= name %>.png" alt="" class="hub-icon hub-icon-32 pull-left" />
+          <h2>
+            <%=(reauth ? 'Re-Authorizing' : 'Activating') %> <%= title %>
+            <button type="button" class="close modal-close">×</button>
+          </h2>
+
+
+        </header>
+        <div class="modal-body candy-strip middle">
+          <p class="alert alert-info">
+            <%= (url
+              ? description.replace(title, '<a target="_blank" href="' + url + '">' + title + '</a>')
+              : description) %>
+          </p>
+
+          <% if (auth && auth._repr) { %>
+            <h4><i class="icon-exclamation-sign"></i> Currently Authorized for <strong>"<%=auth._repr%>"</strong></h4>
+          <% } else { %>
+            <br/>
+          <% } %>
+
+
+
+          <p>
+            <% if (reauth) { %>
+            bip.io can Re-Authorize your <%= title %> account, or forget its credentials completely.<br/><br/>  To
+            activate, <% if (auth.strategy == 'issuer_token') { %> you must supply <%= authEntities %> for <% } else { %>you will be redirected to <% } %>the <%= title %> website.
+            <% } else { %>
+            bip.io needs to authorize your <%= title %> account to activate the service<br/><br/>  To
+            activate, <% if (auth.strategy == 'issuer_token') { %> you must supply <%= authEntities %> for <% } else { %>you will be redirected to <% } %> <%= title %>.
+            <% } %>
+          </p>
+
+          <% if (auth.strategy == 'issuer_token') { %>
+          <hr class="soften"/>
+          <form class="form-horizontal" style="margin-bottom:0px;">
+            <fieldset>
+              <% _.each(auth.properties, function(props, localName) { %>
+              <div class="control-group">
+                <label class="control-label" for="<%=localName%>"><%=props.title%></label>
+                <div class="controls">
+                  <input type="text" id="<%=localName%>" name="<%=localName%>" placeholder="<%=props.title%>">
+                  <span class="help-block"></span>
+                </div>
+                <% if (props.description) { %>
+                  <span class="input-hint"><%=props.description%></span>
+                <% } %>
+              </div>
+              <% }); %>
+            </fieldset>
+          </form>
+          <% } %>
+        </div>
+
+        <footer class="modal-footer">
+          <div class="btn-row">
+
+            <a class="btn modal-close" data-dismiss="modal" href="">Cancel</a>
+
+            <% if (!reauth) { %>
+              <a class="btn modal-continue" href="">Continue Browsing</a>
+            <% } else { %>
+              <a class="btn btn-danger modal-deauth" href="" data-model-id="<%= id %>">Forget Credentials</a>
+            <% } %>
+
+            <a data-model-id="<%= id %>" data-loading-text="Authorizing..." class="btn btn-success modal-authenticate " href="">
+              <% if (!reauth) { %>
+              Activate
+              <% } else { %>
+              Re-Authorize
+              <% } %>
+            </a>
+
+            <% if (auth.strategy == 'oauth' && auth.scopes.length) { %>
+            <i data-toggle="popover" data-html="true" data-trigger="hover" data-title="Requesting Permissions For"
+               data-placement="left" data-content="<strong><%= auth.scopes ? auth.scopes.join("<br/>") : '' %></strong>" class="icon-question-sign pull-right" style="font-size:32px;"></i>
+            <% } %>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl-link-list-entity" type="text/template">
+  <li data-link="<%=_href%>">
+    <span><%=(img ? '<img class="mini" src="' + img + '" />' : '' )%> <%= title %> (<%=type%>)</span>
+    <span class="pull-right"><%=description%></span>
+  </li>
+</script>
+
+<!-- action select -->
+<script id="tpl-action-select" type="text/template">
+  <form class="create-new-channel">
+    <header>
+      <h2>
+        <% if  (configure ) { %>
+        <%= (channel.id ? 'Editing ' + ('"' + channel.name + '"') : 'Configuring A New Action' ) %>
+          <% if ('none' !== pod.auth.strategy && 'accepted' === pod.auth.status) { %>
+          <a href="#" data-pod="<%=pod.name%>"  title="Authentication" data-toggle="tooltip" data-placement="left" data-trigger="hover" class="reauth btn btn-small pull-right btn-success" style="margin-right: 5px;"><i class="icon-unlock"></i></a>
+          <% } %>
+        <% } else { %>
+          Browsing <%= pod.title %>
+        <% } %>
+      </h2>
+      <p class="alert alert-info">
+        <%= (pod.url
+          ? pod.description.replace(pod.title, '<a target="_blank" href="' + pod.url + '">' + pod.title + '</a>')
+          : pod.description) %>
+      </p>
+    </header>
+
+    <% if (configure) { %>
+
+      <% if (channel.id) { %>
+        <ul class="nav nav-tabs">
+          <div class="btn-group pull-right">
+            <% if (false && /^syndication/.test(channel.action)) { %>
+            <button type="button" data-action="create-share" class="btn btn-small btn-success create-trigger-action"><i class="icon-share"></i> Share Feed</button>
+            <% } %>
+            <% if (false && channel._emitter) { %>
+            <button type="button" data-action="create-trigger" class="btn btn-small btn-success create-trigger-action"><i class="icon-sitemap"></i> Create Trigger</button>
+            <% } %>
+          </div>
+
+          <li class="active"><a href="#setup" data-toggle="tab"><i class="icon-cogs"></i> Setup</a></li>
+
+          <% if (hasBips) { %>
+            <li><a href="#channel_bips" data-toggle="tab"><i class="icon-sitemap"></i> Bips</a></li>
+          <% } %>
+          <li><a href="#channel-data-panel" data-toggle="tab"><i class="icon-wrench"></i> Data View</a></li>
+
+          <li><a href="#channel-logs-panel" data-toggle="tab"><i class="icon-tasks"></i> Logs</a></li>
+
+          <% if (channel._links.length > 0) { %>
+            <li><a href="#renderers" data-toggle="tab"><i class="icon-eye-open"></i> RPC's</a></li>
+          <% } %>
+
+        </ul>
+      <% } %>
+
+      <% if (channel.id) { %>
+      <div class="tab-content">
+        <div class="tab-pane active" id="setup">
+      <% } %>
+
+    <% } %>
+
+        <fieldset class="select-action">
+          <% if (!channel.id) { %>
+            <% if (configure) { %>
+              <h3>What Should Your New Action Do?</h3>
+            <% } else { %>
+              <h3>Available Actions and Emitters</h3>
+            <% } %>
+          <% } else { %>
+          <!-- h3>Action</h3 -->
+          <% }  %>
+
+          <ul class="action-list">
+            <div class="alert alert-warning">
+              <strong>Nothing left to do!</strong>
+              It looks like everything that could
+              possibly be installed for <%= pod.title %> has already been done.  When new channels become available, you'll know right away.
+            </div>
+          </ul>
+        </fieldset>
+
+        <% if (channel.id || configure) { %>
+          <% if (channel.app_id) {%>
+            <small class="pull-right">via <%=channel.app_id%></small>
+          <% } %>
+          <fieldset class="basic-info <%= (channel.id) ? '' : 'hidden' %>">
+            <div class="control-group">
+              <label class="control-label">Name</label>
+              <div class="controls" required>
+                <span class="help-block"></span>
+                <input type="text" id="channel_name" name="name" value="<%= channel.name %>"/>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">Description</label>
+              <div class="controls">
+                <span class="help-block"></span>
+                <textarea id="channel_note" name="note" placeholder="<%=channel.note%>"><%= (channel.id ? channel.note : '') %></textarea>
+              </div>
+            </div>
+          </fieldset>
+        <% }  %>
+
+        <% if (channel.id) { %>
+      </div>
+      <% if (channel._links.length > 0) { %>
+      <div class="tab-pane" id="renderers">
+        <p><i class="icon-exclamation-sign"></i> Retrieve stored content from this channel by invoking an RPC</p>
+        <ul class="link-list">
+          <% _.each(channel._links, function(r) { %>
+          <li data-cid="<%=channel.id%>" data-renderer="<%=r.name%>">
+            <%=r.title%> (<%=r.contentType%>)
+            <span class="pull-right"><%=r.description%></span>
+          </li>
+          <% }); %>
+        </ul>
+      </div>
+      <% } %>
+
+      <% if (hasBips) { %>
+        <div class="tab-pane" id="channel_bips">
+          <h3><%= channel.name %> Is In Use By</h3>
+          <span id="bip-list-container">
+            <section class="ag-list ag-list-bips">
+              <nav class="ag-list-pagination bip-list-pagination"></nav>
+              <ul class="ag-list-results">
+                <span class="list-widget" id="bip-list-widget">
+                </span>
+              </ul>
+              <nav class="ag-list-pagination bip-list-pagination"></nav>
+            </section>
+          </span>
+        </div>
+      <% } %>
+
+      <div class="tab-pane" id="channel-data-panel">
+        <p class="lead">Raw JSON Config</p>
+        <pre class="prettyprint">
+        </pre>
+      </div>
+
+      <div class="tab-pane" id="channel-logs-panel">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Message</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="log-body"></tbody>
+        </table>
+      </div>
+
+
+    </div>
+    <% } %>
+
+    <% if (configure) { %>
+    <div class="form-actions">
+      <a  type="submit" data-loading-text="Saving..." class="btn btn-success save-channel <%= (channel.id) ? '' : 'hidden' %>">Save Action</a>&nbsp;
+      <% if (channel.id) { %>
+        <a href="#pods" data-pod="<%=pod.name%>" type="button" class="btn cancel-channel">Cancel</a>
+      <% } else { %>
+
+        <a href="#pods" data-pod="<%=pod.name%>" type="button" class="btn cancel-channel">Cancel</a>
+      <% } %>
+
+      <% if (channel.id) { %>
+      <a data-toggle="modal" data-target="#channel-delete-dialog" href="#pods" class="danger-link pull-right remove-channel">
+        <i class="icon-ban-circle"></i> Delete This Action
+      </a>
+      <p class="note">Any changes made to this action will take effect immediately upon saving.</p>
+      <% } %>
+
+      <div id="channel-delete-dialog" class="modal-overlay hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-container">
+          <div class="modal">
+            <div class="modal-header candy-strip">
+              <h2>
+                Are you sure?
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </h2>
+            </div>
+            <div class="modal-body candy-strip">
+              All data associated with this Action will be permanently removed
+            </div>
+            <div class="modal-footer">
+              <div class="btn-row">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button id="channel-delete-confirm" class="btn btn-danger">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } else { %>
+    <a href="#pods" type="button" class="btn cancel-channel">Cancel</a>
+    <% } %>
+  </form>
+</script>
+
+<!-- -->
+<script id="tpl-post-save-dialog" type="text/template">
+  <div class="modal-overlay hide" role="dialog">
+    <div class="modal-container">
+      <div id="channel-post-save-dialog" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header candy-strip">
+          <h2>
+            <%=preamble%>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          </h2>
+        </div>
+        <div class="modal-body candy-strip">
+          <%=body%>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Do Nothing</button>
+          <button id="channel-post-confirm" class="btn btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<!-- pod list -->
+<script id="tpl-pod-select" type="text/template">
+  <div class="channel-cta">
+    <header >
+      <h2>
+        Pods
+      </h2>
+      <div class="ag-list">
+        <form class="form-search">
+          <input type="text" id="pod-search-form" placeholder="Search By Pod Name, Tag or Action. Use ',' to separate terms" />
+          <button type="submit"><i class="icon-search"></i></button>
+        </form>
+      </div>
+    </header>
+    <nav id="pod-list" class="hub-list row"></nav>
+  </div>
+</script>
+
+<script id="tpl-renderers" type="text/template">
+  <ul class="link-list">
+    <li class="renderer-selected">
+    </li>
+  </ul>
+  <h3>
+    Select
+    <small class="pull-right"><input type="checkbox" id="include-channel-invoke" />
+      Include All Invoke RPC's
+    </small>
+  </h3>
+  <ul class="link-list renderer-container">
+    <% _.each(rendererPods, function(pod) { %>
+      <div class="create-new-channel select-renderer">
+        <header>
+          <h5>
+          <img class="hub-icon hub-icon-24" src="<%= pod.getIcon() %>">
+            <%= pod.get('title') %>
+          </h5>
+          <% _.each(pod.get('rpcs'), function(r) { %>
+
+          <li class="<%=('invoke' === r.name ? 'hide' : '')%>" data-link="<%= r._href %>" data-pod-id="<%= pod.get('name') %>" data-renderer="<%= r.name %>">
+              <%=r.title%> (<%=r.contentType%>)
+              <button class="btn btn-mini btn-success btn-enable-renderer pull-right">Enable</button>
+              <button class="btn btn-mini pull-right btn-preview-renderer">Preview</button>
+              <span class="pull-right"><%=r.description%></span>
+            </li>
+          <% }); %>
+          </header>
+      </div>
+    <% }); %>
+
+    <% _.each(rendererChannels, function(channel) { %>
+
+      <div class="create-new-channel select-renderer <%=( (1 === channel._links.length && channel._links[0].name == 'invoke') ? 'hide' : '')%>">
+        <header>
+          <h5>
+          <img class="hub-icon hub-icon-24" src="/static/img/channels/32/color/<%= channel.pod.name %>.png">
+            <%= channel.pod.title + ' : ' + channel.name %>
+          </h5>
+          <% _.each(channel._links, function(r) { %>
+
+          <li class="<%=('invoke' === r.name ? 'hide' : '')%>" data-link="<%= r._href %>" data-channel-id="<%= channel.id%>" data-renderer="<%= r.name %>">
+              <%=r.title%> (<%=r.contentType%>)
+              <button class="btn btn-mini btn-success btn-enable-renderer pull-right">Enable</button>
+              <button class="btn btn-mini pull-right btn-preview-renderer">Preview</button>
+              <span class="pull-right"><%=r.description%></span>
+            </li>
+          <% }); %>
+          </header>
+      </div>
+    <% }); %>
+  </ul>
+</script>

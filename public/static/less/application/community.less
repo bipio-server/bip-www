@@ -1,0 +1,246 @@
+.shared-bip-container {
+  background: @flatlightgreen;
+  .transition(all 0.3s ease-in-out);
+  padding-top: 5px;
+}
+
+element.style {
+}
+
+.ag-list .ag-list-results li .user-info {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.3em;
+  color: #555559;
+  margin: .3rem 0 0 0;
+  a {
+  	background: white;
+  	padding: 1rem;
+  }
+}
+
+.bip-preview {
+  background: rgba(242,242,242, 0.8);
+  height: 94px;
+  margin: 0;
+  width: 94px;
+  position:relative;
+	border-top-left-radius: 50%;
+	border-bottom-left-radius: 50%;
+	padding-left: 3px;
+}
+
+/*
+.bip-preview img {
+  margin-top: 2px;
+}
+*/
+
+.ag-list .ag-list-results li .bip-select-info a {
+	margin-left: 94px;
+	height: 94px;
+}
+
+#community-container {
+	.bip-select {
+		width: 100%;
+		height: 94px;
+		overflow: hidden;
+		margin: 0 0 12px 0;
+		.bip-select-info {
+			margin: 0;
+		}
+		.bip-select-actions {
+			display: table;
+			.bip-wrap {
+				height: 94px;
+				display: table-cell;
+				vertical-align: middle;
+				button {
+					margin-bottom: 2px;
+				}
+			}
+			.user-avatar {
+				height: 64px;
+				max-height: 64px;
+			}
+		}
+		&.bip-share-compact {
+			.ag-list .ag-list-results li .bip-select-info a {
+				width: 456px;
+			}
+			button {
+				width: 60px;
+	      background: #0194a4;
+	      color: white;
+	      font-size: 3rem;
+	      position: absolute;
+	      height: 94px; margin: 0;
+	      width: 28px;
+	      top: 0;
+	      right: 0;
+	      padding: 0;
+			}
+		}
+	}
+}
+
+.share-bip-description {
+	padding-bottom:5px;
+	label {
+		cursor: default;
+	}
+	p {
+		margin: 0;
+		padding: 0;
+	}
+	small {
+		color: @petrolblue;
+	}
+}
+
+.bip-manifest {
+  text-align: center;
+  background-color: @popoverTitleBackground;
+  padding: 5px;
+  margin-top: 5px;
+  position: absolute;
+	left: 0;
+	right: 0;
+	top: 27px;
+	bottom:0px;
+}
+
+.bip-manifest img {
+  margin-bottom : 2px;
+  margin-top: 2px;
+}
+
+#share-setup-content {
+	li {
+  		list-style: none;
+	}
+	h4 {
+	  font-weight: bold;
+	  margin-bottom: 10px;
+	}
+	input[type=radio] {
+	  display:none;
+	}
+	p.lead {
+		&:before {content: '\201C';}
+		&:after {content: '\201C';}
+	}
+}
+
+#sharedModal .modal {
+	.activated {
+		color: @green;
+	}
+
+	.needs_activation {
+		color: @red;
+	}
+
+	span.needs_activation:before {
+		content : "\f057";
+		margin-left: 32px;
+		position: absolute;
+		padding: 2px;
+		line-height: 13px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		font-family: FontAwesome;
+		font-weight: normal;
+		font-style: normal;
+		text-decoration: inherit;
+		-webkit-font-smoothing: antialiased;
+		color: #9d261d;
+	}
+
+	span.activated:before {
+		content : "\f058";
+		margin-left: 32px;
+		position: absolute;
+		padding: 2px;
+		line-height: 13px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		font-family: FontAwesome;
+		font-weight: normal;
+		font-style: normal;
+		text-decoration: inherit;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.lead {
+		padding-bottom: 0px;
+	}
+
+	.legend {
+		padding: 10px 0px;
+	}
+
+	.alert {
+		margin-bottom: 0px;
+	}
+
+	hr {
+		border: none;
+		border-bottom: 1px dashed #eee;
+		margin-bottom: 5px;
+	}
+	#loader-wrapper {
+		position:absolute;
+		bottom: 70px;
+	}
+}
+
+// --- DEPRECATE \/\/\/
+
+// generate circular translations for manifest
+.ag-list .ag-list-results .bip-preview ul {
+	margin: 0;
+	padding: 0;
+	li {
+  	position: absolute;
+		display: block;
+		position: absolute;
+		background-color: rgba(0,0,0, 0.07);
+		border-radius: 50%;
+		width: 21px;
+		height: 21px;
+		transition: all 0.4s ease;
+	}
+
+}
+
+@iterations: 8;
+@radius: 32;
+@cx: 36; // center x
+@cy: 36; // center y
+
+.radIterator (@index) when (@index > 0) {
+
+    @x: floor(@cx + @radius * cos( 2 * pi() * (@index / @iterations)));
+    @y: floor(@cy + @radius * sin( 2 * pi() * (@index / @iterations)));
+
+    .bip-preview ul {
+			li:nth-child(@{index}) {
+	      .translate( @x*(1px), @y*(1px) );
+			}
+		}
+
+    .radIterator(@index - 1);
+}
+.radIterator (0) {}
+.radIterator (@iterations);
+
+img.source-icon {
+	position:absolute;
+	left: 33px;
+	top: 30px;
+}
+

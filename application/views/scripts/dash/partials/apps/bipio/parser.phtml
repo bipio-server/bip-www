@@ -1,0 +1,34 @@
+<script id="tpl-bipio-parser" type="text/template">
+	<div class="alert alert-warning middle">
+		<i class="icon-exclamation-sign"></i> Use Parser to supply a sample JSON payload for this Web Hook.  A sample payload will make it easier to discover and use the attributes posted by your device or web service.
+	</div>
+	<div class="row fill">
+		<div class="span6" style="height:80%">
+			<label class="control-label">Sample <a href="http://json.org" target="_blank">JSON</a> Payload</label>
+			<textarea class="fill" style="resize:none;" id="sample-request">{}</textarea>
+			<button class="btn btn-primary pull-right" data-loading-text="Working..." id="parse-json">Parse <i class="icon-chevron-right"></i></button>
+		</div>
+		<!-- div class="span1">
+			<i class="icon-chevron-right"></i>
+		</div -->
+		<div class="span6"  style="height:80%">
+			<label class="control-label">Generated <a href="http://json-schema.org/" target="_blank">JSON Schema</a></label>
+			<pre class="fill" id="json-schema"></pre>
+		</div>
+	</div>
+</script>
+
+<script id="tpl-bipio-parser-mini" type="text/template">
+	<div style="position:relative" class="fill">
+		<div class="pull-left" style="width: 48%;position: absolute;top: 0;bottom: 139px;">
+			<label class="control-label">Sample <a href="http://json.org" target="_blank">JSON</a> Payload</label>
+			<textarea class="fill" style="resize:none;" id="sample-request">{}</textarea>
+			<button class="btn btn-primary pull-right" data-loading-text="Working..." id="parse-json">Parse <i class="icon-chevron-right"></i></button>
+		</div>
+
+		<div class="pull-right" style="width: 48%;position: absolute;top: 0;bottom: 92px;right: 0;">
+			<label class="control-label">Generated <a href="http://json-schema.org/" target="_blank">JSON Schema</a></label>
+			<pre class="fill" id="json-schema"></pre>
+		</div>
+	</div>
+</script>

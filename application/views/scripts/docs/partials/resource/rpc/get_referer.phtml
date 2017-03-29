@@ -1,0 +1,92 @@
+<section id="resource_rpc_get_referer_hint">
+    <div class="page-header">
+        <h3>Get Referer Hint</h3>
+        <h4><code>/rpc/get_referer</code></h4>
+    </div>
+
+    <p class="lead">
+        Given a HTTP Referer header or explicit <code>referer</code> argument, returns
+        a usable referer name.
+    </p>
+    
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>referer</em></td>
+                    <td>String, URI</td>
+                    <td>Referring URI, Any <a href="http://en.wikipedia.org/wiki/URI_scheme#Official_IANA-registered_schemes">URI Scheme</a></td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+    
+    <div class="bs-api-data bs-api-data-decorators">
+        <h5>Decorators augment a resource record with useful meta-data and are read-only</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>hint</em></td>
+                    <td>Referer Hint</td>
+                    <td><code>ycombinator</code></td>
+                </tr>
+                <tr>
+                    <td><em>referer</em></td>
+                    <td>Referer Source</td>
+                    <td><code>http://news.ycombinator.com/user?id=feralmoan</code></td>
+                </tr>
+                <tr>
+                    <td><em>scheme</em></td>
+                    <td>URI Scheme</td>
+                    <td><code>http</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        <p class="lead">
+            RPC Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-get-referer">            
+            <li class="active">
+                <a href="#rest-example-get-referer-get" data-toggle="pill">GET</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-get-referer-get">
+            <strong>REQUEST</strong> <span class="label label-info">NOTE</span> you can use either a Referer header or a referer argument
+            <pre><code>GET /rpc/get_referer?referer=http://news.ycombinator.com/user?id=feralmoan HTTP/1.1
+Referer: http://news.ycombinator.com/user?id=feralmoan</code></pre>
+                
+            <strong>RESPONSE</strong>
+<pre>
+<code>200 OK
+
+{
+    hint: "ycombninator",
+    referer: "http://news.ycombinator.com/user?id=feralmoan",
+    scheme : "http"
+}
+</code>
+</pre>           
+        </div>
+    </div>
+    
+</section>

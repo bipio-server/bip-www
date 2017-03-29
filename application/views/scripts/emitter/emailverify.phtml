@@ -1,0 +1,26 @@
+<div class="container">
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <div class="">
+        <div class="row">
+            <div class="span11">
+                <div style="text-align: center">
+                    <h1>thanks! 
+                        <small>Your email has been 
+                            <strong><?php echo $this->mode === 'accept' ? 'verified' : 'opted out'; ?></strong>
+                            <?php echo $this->mode === 'accept' ? '' : ' of future verification requests'; ?>
+                        </small>
+                    </h1>
+                    <?php if ($this->mode !== 'accept') { ?>
+                        <!-- div class="alert alert-block">
+                            <strong><i class="icon-exclamation-sign"></i></strong> Although you've opted out now, come back any time.  You can still sign up with your email to manage this setting. 
+                        </div -->
+                    <?php } else { ?>
+                        <!-- div class="alert alert-block">
+                            <strong><i class="icon-exclamation-sign"></i></strong> Come back any time.  You can still sign up with your email to manage this setting. 
+                        </div -->
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

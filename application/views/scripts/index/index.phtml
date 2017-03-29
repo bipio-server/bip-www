@@ -1,0 +1,201 @@
+<?php if (DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/index-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/index-built"></script>
+<?php } ?>
+
+<header id="cover" style="background: rgb(1,148,164);">
+  <canvas id="cover-mesh-circles" class="layer"></canvas>
+  <canvas id="cover-mesh-lines" class="layer"></canvas>
+
+  <div style="z-index: 1;min-height: 100%;position: relative;margin-top:63" class="">
+    <div class="cta-section middle" id="above-fold" style="
+    width: 100%;
+    height: 500px;
+    margin: auto;
+    position:relative;
+    background-color: rgba(1,148,164,0.92);
+">
+
+<div class="container">
+  <div class="offset2 row cta-section" style="bottom: 0;
+max-height: 80%;
+left: 0;
+margin: auto;
+position: absolute;
+top: 0;
+color: white;
+right: 0;">
+
+    <div id="feature-carousel" class="carousel slide " style="height:265px;overflow:hidden;">
+      <div class="carousel-inner" style="height:234px;overflow:hidden;">
+        <!-- VPROP -->
+        <div id="cell1" class="item active">
+          <h1>Web Automation For People And Robots</h1>
+          <h2 style="line-height:40px;">
+            </br>
+            Drag, Drop, and Connect The Services You Love<br/>
+            No Programming Required
+          </h2>
+        </div>
+
+        <!-- ALSO -->
+        <div id="cell2" class="item">
+          <div  style="line-height:20px;">
+            <h1>A Community Learning Engine With Total Flexibility</h1>
+            <h2 style="line-height:40px;">
+              </br>
+              From Personal Workflows To Powerful Application Logic</br>
+              <img src="/static/img/logo.png"> Learns With You</br>
+              Community Powered And Built For Efficiency
+            </h2>
+          </div>
+        </div>
+
+        <!-- OPEN PLATFORM -->
+        <div id="cell3" class="item">
+          <div  style="line-height:20px;">
+            <h1>Open Source, People First</h1>
+            <h2 style="line-height:42px;">
+              Total Ownership Of Your Personal Data,
+              Workflows, And Credentials.<br/>
+              Open Source
+              <a href="http://nodejs.org/" target="_blank"><img style="width:100px;margin-top:-10px;height:27px;" src="static/img/cta/node_logo.svg"/></a>
+              In The Cloud, On Premise, At Home
+              <br/>
+              <a class="btn btn-inverse" href="https://github.com/bipio-server/bipio" target="_blank">Fork bip.io on Github</a>
+            </h2>
+
+            <br/>
+
+            <h3>
+              <i class="icon-smile"></i> Happy Hacking
+            </h3>
+          </div>
+        </div>
+
+        <!-- PREMIUM -->
+        <div id="cell4" class="item">
+          <h1>Announcing bip.io Premium</h1>
+          <h2 style="line-height:40px;">
+            Unlock more Bips, more Pods and more power.<br/><br/>
+            <a href="/plans" class="btn btn-inverse">Learn More</a>
+          </h2>
+        </div>
+
+      </div>
+
+      <ol class="carousel-indicators large-indicators">
+        <li data-target="#feature-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#feature-carousel" data-slide-to="1"></li>
+        <li data-target="#feature-carousel" data-slide-to="2"></li>
+        <li data-target="#feature-carousel" data-slide-to="3"></li>
+      </ol>
+
+    </div>
+
+    <a class="btn btn-success signup-spawn">SIGN UP</a>
+
+    <p style="margin:20px;">
+    - OR -
+    </p>
+
+    <a class="btn btn-inverse signin-spawn ">SIGN IN</a>
+  </div>
+    <p class="scroll-down"><a id="more-nav" href="#more" class="animate">More</a></p>
+  </div>
+
+</div>
+
+  <div id="more" class="cta-section" style="padding-top:60px; width:100%;height:100%;background:white">
+    <div class="container">
+      <div class="row">
+        <div class="span6 middle" style="height: 285px;position: relative;">
+          <div style="position: absolute;left: 0;right: 0;margin: auto;  top: 40%;">
+            <h1>Drag & Drop<br/> Interface</h1>
+          </div>
+        </div>
+
+        <div class="span6 middle" style="position:relative">
+          <img src="/static/img/lander/dragdropinterface.png">
+          <div style="  width: 250px;margin: 0;position: absolute;top: 124px;left: 45%;">
+            Drag, drop, and connect your favorite web services
+            to create personal workflows called 'bips'
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="more-panel2" class="cta-section" style="padding-top:60px;width:100%;height:100%;background: #f2f2f2;">
+      <div class="container">
+        <div class="row">
+
+          <div class="span6 middle">
+            <h1>Personal Workflows</h1>
+            <div class="share-preview">
+              <div id="hub_svg_simple"></div>
+              <p class="share-description">
+              </p>
+              <a href="/install/share/8865874a-03e8-4c34-aef1-db82fd6d3ee7" type="button" class="btn btn-primary">INSTALL THIS BIP NOW</a>
+            </div>
+          </div>
+
+          <div class="span6 middle">
+            <h1>Powerful Application Logic</h1>
+            <div class="share-preview">
+              <div id="hub_svg_complex"></div>
+              <p class="share-description">
+              </p>
+              <a href="/install/share/3a68311e-1fed-4ea4-94e3-cc5f9a848c81" type="button" class="btn btn-primary">INSTALL THIS BIP NOW</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+  <div id="more-panel3" class="cta-section" style="padding-top:60px;width:100%;height:100%;background:white;padding-top:20px;border-bottom: 1px dashed #eee;">
+    <div class="container">
+      <div class="row">
+        <div class="span6 middle" style="height: 285px;position: relative;">
+          <div style="position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  top: 30%;max-width:65%;">
+            <h1>Community</h1>
+            Share and discover your favorite bips for instant use<br/>
+          </div>
+        </div>
+
+        <div class="span6">
+          <img src="/static/img/lander/community.png">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="integrations" class="cta-section" style="width: 100%;background: white;">
+
+    <h1 class="middle" style="padding: 30px 0;">
+      Rapidly Integrate Any Supported Service
+    </h2>
+
+    <?php echo $this->partial($this->podPartialPath); ?>
+
+    <div class="container">
+      <div class="row">
+        <div class="span12 middle">
+          <!-- a id="toggle-all-pods" class="fade in btn btn-primary">SEE ALL AVAILABLE SERVICES</a -->
+          <a id="suggest-pod" class="fade in btn btn-primary" target="_blank" href="https://bip.uservoice.com/forums/281363-general">Something Missing? Let Us Know!</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta-section container middle" style="width:100%;background:white;">
+    <button style="width:50%" class="signup-spawn btn btn-success">SIGN UP TO GET STARTED</button>
+  </div>
+</header>

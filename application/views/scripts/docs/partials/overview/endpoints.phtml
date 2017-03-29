@@ -1,0 +1,51 @@
+<section id="overview_endpoints">
+    <div class="page-header">
+        <h3><i class="icon-globe"></i> Endpoints and Authentication</h3>
+    </div>
+
+    <h4>bipio has 2 endpoints that you'll likely be using</h4>
+    
+    <p class="lead">   
+        <div class="alert alert-info">
+            <h3>https://api.bip.io <small> for modifying system REST and RPC resources</small></h3>
+        </div>
+    </p>    
+    
+    <p class="">
+        All endpoints require authentication with <a href="http://www.w3.org/Protocols/HTTP/1.0/draft-ietf-http-spec.html#BasicAA">HTTP Basic Authentication</a>, where username is
+        your username, and password is an API token as displayed in your Account Settings.        
+        <pre>
+GET /rest/bip/cf01c8ec-e542-46ce-9895-74b6ea3fcf5b HTTP/1.1
+Host: api.bip.io
+Authorization: Basic aHR0cHdhdGNoOmY=
+</pre>
+        
+    </p>  
+    
+    <hr class="soften" />
+    
+    <p class="lead">   
+        <div class="alert alert-info">
+            <h3>https://<?php echo $this->domainPfx; ?>.bip.io <small> for transacting with your own HTTP Bips and Channel Renderers</small></h3>
+        </div>
+    </p>    
+    
+    <p class="">
+        Authentication credentials for account level endpoints (bips and renderers) can and should be tweaked individually via their
+        relevant configurations.
+    </p>
+    
+    <hr class="soften" />
+    
+    <p class="lead">
+        <h4>A Note on SMTP Bip Endpoints</h4>
+        
+        Bipio is not an SMTP Relay, Smart Host or 'Email Service' but rather an API provider that supports an SMTP transport.  We do not suggest binding your custom domain MX to Bipio unless it is a dedicated subdomain - 
+        in which case set your subdomain CNAME/MX as <strong><?php echo $this->domainPfx; ?>.bip.io</strong>.  For more info, see the <a href="/docs/resource/rest/domain">domains</a> section.
+    </p>
+    
+    <p class="lead">
+        <h4>Rate Limiting</h4>
+        Your account and API access will be subject to a rate limiting policy.  Should you experience HTTP 502 responses and feel this is in error, please <a href="/contact-us">reach us</a>.
+    </p>    
+</section>

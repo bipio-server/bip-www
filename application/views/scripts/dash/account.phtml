@@ -1,0 +1,93 @@
+<div id="loader-wrapper">
+  <div id="loader-container">
+    <ul class="roto">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <h2><?php echo MOTD?></h2>
+  </div>
+</div>
+
+<?php if (DEV_ENVIRONMENT) { ?>
+	<script data-main="/static/js/account-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+  <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/account-built"></script>
+<?php } ?>
+
+<?php
+  echo $this->partial(
+    '/dash/partials/admin/account_settings.phtml',
+    array(
+      'authUser' => $this->authUser,
+      'timeZones' => $this->timeZones,
+      'nonce' => $this->nonce,
+      'planName' => $this->planName,
+      'plan_until' => $this->plan_until
+    )
+  );
+?>
+
+<div class="row" id="account-content">
+    <div class="span12" id="inner-content">
+
+        <span class="anchor" id="section-settings"></span>
+        <section id="account_options" class="anchor-scroll-large"></section>
+
+        <hr/>
+        <h2>Cancel Account</h2>
+        <div class="alert alert-danger">
+          <strong><i class="icon-warning-sign"></i> WARNING</strong> Your account data cannot be recovered after account deletion <a href="#delete-modal" role="button" data-toggle="modal" id="remove-user" class="btn btn-mini btn-danger pull-right">CANCEL MY ACCOUNT</a>
+        </div>
+        <hr/>
+
+
+        <?php if (AUTH_TYPE === 'login_primary') { ?>
+          <span class="anchor" id="section-mounts"></span>
+          <section id="mounts" class="anchor-scroll-large"><?php echo $this->partial('/dash/partials/admin/mounts.phtml', array('authUser' => $this->authUser)); ?></section>
+
+          <span class="anchor" id="section-domains"></span>
+          <section id="domains" class="anchor-scroll-large"><?php echo $this->partial('/dash/partials/admin/domains.phtml', array('authUser' => $this->authUser, 'config' => Zend_Registry::get('config')->toArray())); ?></section>
+
+          <span class="anchor" id="section-stats"></span>
+          <section id="account_stats" class="anchor-scroll-large">
+              <?php echo $this->partial('/dash/partials/admin/stats.phtml',
+                      array(
+                          'authUser' => $this->authUser,
+                          'generalStats' => $this->generalStats,
+                          'chordChannels' => $this->chordChannels,
+                          'chordMatrix' => $this->chordMatrix,
+                      )
+              ); ?>
+          </section>
+        <?php } ?>
+    </div>
+</div>
+
+<div id="delete-modal" class="modal-overlay hide" tabindex="-1" role="dialog">
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2>Permanently Removing Account</h2>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger">Your account data cannot be recovered after account deletion.  Continue?</div>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-row">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button id="account-delete-confirm" class="btn btn-danger" data-loading-text="Cancelling...">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    var msg = "<?php echo $this->status == 'accepted' ? $this->provider . ' pod enabled' : 'Access Denied By User'; ?>",
+            level = "<?php echo $this->status == 'accepted' ? 'success' : 'error'; ?>";
+         
+    var statusEvent = new CustomEvent("bip.authstatus.change", {
+      detail: {
+        provider: "<?php echo $this->provider; ?>",
+        status : "<?php echo $this->status; ?>"
+      }
+    });
+
+    if (window.opener) {
+      // Trigger it!
+      window.opener.dispatchEvent(statusEvent);         
+      window.close();
+    } else {
+      document.write(msg);
+    }
+</script>

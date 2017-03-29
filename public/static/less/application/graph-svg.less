@@ -1,0 +1,57 @@
+/*** Chart list styles ***/
+.axis path,
+.axis line {
+  fill: none;
+  stroke: @black;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: limegreen;
+  stroke-width: 1.5px;
+}
+
+
+/*** Network Stats Svg styles ***/
+svg.statchords {
+  font: 10px sans-serif;
+  background: transparent;
+  border: none;
+}
+
+#circle circle {
+  fill: none;
+  pointer-events: all;
+}
+
+.group path {
+  fill-opacity: .2;
+}
+
+path.chord {
+  stroke: #000;
+  stroke-width: .25px;
+  .opacity(60);
+  transition: linear 0.5s;
+  stroke-opacity: 1;
+}
+
+path.chord.focused {
+  .opacity(100);
+  transition: linear 0.5s;
+  stroke-opacity: 1;
+}
+
+#circle:hover path.fade {
+  .opacity(0);
+  transition: linear 0.5s;
+}
+
+circle:hover,path:hover {
+  stroke : #f89406 !important
+}

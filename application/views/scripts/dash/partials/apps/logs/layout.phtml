@@ -1,0 +1,31 @@
+<script id="tpl-layouts-logs" type="text/template">
+  <div id="logs-container" class="row">
+  	<div class="span12">
+  		<h2 style="border-bottom: 1px dashed #eee;
+		    padding-bottom: 10px;
+		    margin-bottom: 20px;">Todays Logs <small id="limit-note"></small>
+		  	<small class="pull-right">
+		    	Mode
+		  		<div class="btn-group" data-toggle="buttons-radio">
+					  <button data-mode="raw" class="btn btn-mini ">Raw</button>
+					  <button data-mode="errors" class="btn btn-mini active">Errors</button>
+					  <button data-mode="usage" class="btn btn-mini ">Configuration Failures</button>
+					  <button data-mode="uncaught" class="btn btn-mini ">Uncaught Exceptions</button>
+					</div>
+
+					<!-- button class="btn-refresh btn btn-mini"><i class="icon-refresh"></i> Refresh</button -->
+		  	</small>
+	  	</h2>
+
+
+	  	<table id="result-table" class="table table-striped">
+	  		<thead>
+
+	  		</thead>
+	  		<tbody>
+
+	  		</tbody>
+	  	</table>
+	  </div>
+  </div>
+</script>

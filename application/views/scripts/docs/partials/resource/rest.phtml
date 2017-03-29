@@ -1,0 +1,73 @@
+<section id="resource_rest">
+    <div class="page-header">
+        <h2>REST Resources</h2>
+    </div>
+
+    <p>
+        HTTP Methods GET, POST, PUT and DELETE are supported for all REST resources described in this documentation
+        besides collections.
+    </p>
+    
+    <div class="page-header">
+      <h3>Collections</h3>
+    </div>
+    
+    <p>
+        Collections may be retrieved and paginated by calling GET on the resource and omitting
+        the id parameter.  The following pagination settings are optional.
+    </p>
+    
+    <table class="table table-striped">
+        <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>page</td>
+                    <td>Integer, page #</td>
+                </tr>
+                <tr>
+                    <td>page_size</td>
+                    <td>Integer, maximum # records per page</td>
+                </tr>
+                <tr>
+                    <td>order_by</td>
+                    <td>One of 
+                        <ul>
+                            <li><code>recent</code> Most Recently Created</li>
+                            <li><code>active</code> Most Active (traffic)</li>
+                            <li><code>alphabetical</code> Name Alphabetical</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+    </table>
+    
+    Response Example for <code>GET /rest/domain?page=1&page_size=10&order_by=recent</code>    
+    <pre>
+{
+  "page": 1,
+  "page_size": 10,
+  "num_pages": 1,
+  "order_by": "recent",
+  "total": 2,
+  "data": [
+    {
+      "id": "664616d3-5caf-ab09-b398-000012b5e920",
+      "name": "docuser.bip.io",
+      "_repr": "docuser.bip.io",
+      "_href": "https://api.bip.io/rest/domain/664616d3-5caf-ab09-b398-000012b5e920"
+    },
+    {
+      "id": "61bea7bc-37dd-3368-9b36-00006fa6319e",
+      "name": "mydomain.com",
+      "_repr": "mydomain.com",
+      "_href": "https://api.bip.io/rest/domain/61bea7bc-37dd-3368-9b36-00006fa6319e"
+    }
+  ]
+}
+    </pre>    
+</section>

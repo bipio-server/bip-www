@@ -1,0 +1,40 @@
+.profile-tab {
+  //width: 31%; // for three tabs
+  width: 48%; // for two tabs
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  margin: 0 1%;
+  float: left;
+  height: 50px;
+  background-color: #fff;
+  h3 {
+    color: #555559;
+    line-height: 1.5em;
+  }
+}
+
+.profile-tabs {
+  cursor: pointer;
+  .selected {
+    background-color: #555559;
+    h3 {
+      color: #fff;
+    }
+  }
+}
+
+.profile-shared-bips, .profile-public-feed, .profile-network-strength {
+  padding: 20px;
+  width: 100%;
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
+  margin: auto;
+  float: none;
+}
+
+.profile-shared-bips .bipio-share {
+  display: inline-block;
+  margin: 20px auto;
+  float: none;
+}

@@ -1,0 +1,101 @@
+<?php if (true || DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/profile-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/profile-built"></script>
+<?php } ?>
+
+<script type="text/javascript">
+    var _chordChannels = <?php echo $this->chordChannels ?>,
+        _chordMatrix = <?php echo $this->chordMatrix ?>;
+</script>
+
+<div class="profile-top middle" style="  background-color: rgba(242,242,242,.8);
+  margin-top: -32px;
+  padding-top: 40px;
+  padding-bottom: 40px;">
+
+	<img class="user-avatar" src="/static/cdn/img/av/<?php echo $this->user['id'] ?>.png" alt="" ><br><br>
+	<h1>
+		<?php echo $this->user['username'] ?>
+	</h1>
+	<br/>
+</div>
+<div class="profile-content" style="text-align: center;margin-top: -50px;">
+	<ul class="profile-tabs span8" style="list-style-type: none; height: 50px; float: none; margin: 0 auto;">
+		<a data-tab="shared-bips">
+			<li class="profile-tab selected">
+				<h3>Shared Bips</h3>
+			</li>
+		</a>
+		<!--<a data-tab="public-feed">
+			<li class="profile-tab">
+				<h3>Public Feed</h3>
+			</li>
+		</a>-->
+		<a data-tab="network-strength">
+			<li class="profile-tab">
+				<h3>Network Strength</h3>
+			</li>
+		</a>
+	</ul>
+	<div class="profile-shared-bips">
+		<div class="container">
+			<?php foreach ($this->userShares as $item) { ?>
+				<div class="bipio-share span6" data-share-id="<?php echo $item['id'] ?>">
+					<script async type="text/javascript" data-embed-host="<?php echo $this->options['api']['host'] ?>" src="<?php echo $this->options['env']['proto'] ?>://<?php echo $this->options['env']['hostname'] ?>/static/js/widget-loader.js">
+					</script>
+				</div>
+			<?php } ?>
+		</div>
+	</div>
+	<!--<div class="profile-public-feed" style="display: none;">
+	<div class="container">
+	</div>
+	</div>-->
+
+	<div class="profile-network-strength" style="display: none;">
+		<div class="container">
+			<div id="account-stats">
+				<div class="row middle">
+			        <div class="alpha-soften">
+			        <div id="network-chords" class="row middle">
+			        </div>
+			            </div>
+
+			        <hr/>
+			        <h2>Last 30 Days</h2>
+
+			        <div class="row middle">
+			            <?php foreach ($this->generalStats as $key => $struct) { ?>
+			                <div class="span2 stat-metric middle">
+			                    <h1><?php echo $struct['data']; ?></h1>
+			                    <p><?php echo $struct['label']; ?></p>
+			                </div>
+			            <?php } ?>
+			        </div>
+			    </div>
+			</div>
+			<script id="tpl-resource-stats" type="text/template">
+			    <div class="row middle">
+
+			        <div class="alpha-soften">
+			        <div id="network-chords" class="row middle">
+			        </div>
+			            </div>
+
+			        <hr/>
+			        <h2>Last 30 Days</h2>
+
+			        <div class="row middle">
+			            <?php foreach ($this->generalStats as $key => $struct) { ?>
+			                <div class="span2 stat-metric middle">
+			                    <h1><?php echo $struct['data']; ?></h1>
+			                    <p><?php echo $struct['label']; ?></p>
+			                </div>
+			            <?php } ?>
+			        </div>
+			    </div>
+			</script>
+		</div>
+	</div>
+</div>

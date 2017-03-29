@@ -1,0 +1,70 @@
+<?php if (DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/index-main-shipiot" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/index-shipiot-built"></script>
+<?php } ?>
+    <div id="more-panel2" class="cta-section white-grey">
+	    <div class="container ">
+			<div class="row">
+		        <div class="span6 middle">
+		            <h2 class="ProximaNova-Bold" style="padding-top: 50px;">bip.io exposes a simple HTTP API for easy access from any device.
+		            You can then use the drag and drop simplicity of bip.io to automate connections to web APIs with dozens of pods</h2>
+		        </div>
+	          	<div class="span6 middle" style="position:relative">
+		          <img src="/static/img/lander/dragdropinterface.png">
+		          <div style="width: 250px;margin: 0;position: absolute;top: 124px;left: 45%; line-height: 20px; color:#555559;">
+		            Drag, drop, and connect your favorite web services
+		            to create personal workflows called 'bips'
+		          </div>
+		        </div>
+		   </div>
+	   </div>
+   </div>
+  <div id="more-panel2" class="cta-section vlight-grey">
+      <div class="container">
+        <div class="row">
+
+          <div class="span6 middle">
+            <h1 class="ProximaNova-Bold">Personal Workflows</h1>
+            <div class="share-preview">
+              <!-- div id="hub_svg_simple"></div -->
+              <div class="bip-sample" style="min-height:358px">
+                <img src="/static/img/shipiot/sample_simple.png" />
+              </div>
+              <p class="share-description">
+              Send sensor data over HTTP from your device to this bip, and route it to http://keen.io for storage and further analysis
+              </p>
+            </div>
+          </div>
+
+          <div class="span6 middle">
+            <h1 class="ProximaNova-Bold">Powerful Application Logic</h1>
+            <div class="share-preview">
+              <!-- div id="hub_svg_complex"></div -->
+              <div class="bip-sample" style="min-height:358px">
+                <img src="/static/img/shipiot/sample_complex.png" />
+              </div>
+              <p class="share-description">
+              This integration monitors the temperature and logs it to another saved http url integration. When the weather is nice, this one notifies us in an email and sends out a tweet to tell everyone else as well!
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+
+  <!-- div  class="cta-section white-grey hide">
+    <div class="container">
+      <div class="row">
+        <div class="span12 middle">
+         	<iframe
+         	type="text/html" width="640" height="390" src="//www.youtube.com/embed/M7lc1UVf-VE"
+         	frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+
+  </div -->
+

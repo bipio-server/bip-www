@@ -1,0 +1,46 @@
+<script id="tpl-resource-list-bip" type="text/template">
+    <header class="header-bip"></header>
+
+    <div id="list-bip-container">
+        <ul id="bip-list" class="ag-list-results list-bips"></ul>
+        <footer>
+            <nav id="bip-list-pagination" class="pagination">
+            </nav>
+        </footer>
+    </div>
+</script>
+
+<!-- list entity (model view) -->
+<script id="tpl-list-bip-entity" type="text/template">
+    <li class="bip-select" data-model-id="<%= id %>">
+        <a href="#<%= baseRoute %>/<%= id %>" data-bip-id="<%= id %>">
+            <strong class="name"><%= name %></strong>
+            <small class="description"><%= note %></small>
+            <% if (paused) { %>
+                <span class="bip-paused pull-right">
+                    <i class="icon-pause"></i> Paused
+                </span>
+            <% } %>
+            <dl class="expiry">
+                <% if (end_life.imp !== 0 || end_life.time !== 0) { %>
+                    <dt>Expires :</dt>
+                    <% if (end_life.imp !== 0) { %>
+                        <dd data-toggle="tooltip" title="Expires after <%= end_life.imp %> Impressions " class="instances expiry"><i class="icon-heart-empty"></i> <%= end_life.imp %></dd>
+                    <% } %>
+                    <% if (end_life.time !== 0) { %>
+                        <%= (end_life.imp !== 0 ?  ' or ' : '') %>
+                        <dd data-toggle="tooltip" title="Expires After <%= moment(new Date(end_life.time * 1000)).format('MMM Do YYYY')  %>" class="time expiry">
+                            <i class="icon-time"></i> <%= moment(new Date(end_life.time * 1000)).format('MMM Do YYYY')  %>
+                        </dd>
+                    <% } %>
+                <% } %>
+            </dl>
+            <span>
+                <img src="/static/img/channels/32/color/bip_<%= type%>.png" alt="" class="hub-icon hub-icon-24"/>
+                <% if (icon) { %>
+                    <img style="top:auto; bottom: 1rem;" src="<%= icon %>" alt="" class="hub-icon hub-icon-24"/>
+                <% } %>
+            <span>
+        </a>
+    </li>
+</script>

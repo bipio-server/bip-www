@@ -1,0 +1,361 @@
+/** Bip io section setup workflow **/
+#channel-connect {
+		.position(@z: 0);
+    border-right: 1px solid @flatlightgreen;
+    padding: 0px 8px 0px 4px;
+	.box-shadow(0 0 0 transparent);
+    overflow-y: hidden;
+	position:relative;
+  	header {
+    	border-bottom: 1px solid #192a2d;
+    	padding: 1rem 2.4rem;
+  	}
+  	.channel-connect-content {
+			.position(@type: absolute, @t: 0, @r: 0, @b: 0, @l: 0);
+	    background: @white;
+	    overflow-y: auto;
+	    overflow:hidden;
+	    .ag-list-results {
+	    	li {
+	    		a {
+	    			background:@white;
+	    			border: none;
+	    			border-bottom: 1px solid @petrolblue;
+	    		}
+	    	&:last-child a {
+	    		border-top: none;
+	    		}
+	    	}
+	    }
+  	}
+  }
+
+.modal-overlay.modal-overlay-lower {
+	z-index: 700;
+}
+
+/** Bips create app end point buttons ***/
+div.create-bip-buttons {
+  margin-top: -18px;
+  padding-left:96px;
+  margin-left: 0;
+  	h2 {
+  		line-height: 56px;
+  	}
+  	a {
+	  margin-left: 20px;
+	  display: table-cell;
+	  float: left;
+	  padding: 10px;
+	  .border-radius(10px);
+	  border: 2px solid transparent;
+	  .transition(all 0.3s ease-in-out);
+			img {
+	  			width:32px;
+	  			height:32px;
+	  			line-height:32px;
+				.border-radius(50%);
+			}
+		&:hover {
+			border-color: #a6e6f0;
+  			background: #edfafc;
+		}
+	}
+}
+
+/** Bip Button paused ***/
+.bip-paused {
+  background-color: @errorBackground;
+  border-color: @errorBorder;
+  color: @errorText;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/*** Renderer tabs in bipio and bips section ***/
+.link-list {
+  margin-left: 0px;
+
+  li {
+	  list-style: none;
+	  display:block;
+	  padding:1.2rem;
+	  .border-radius(0);
+	  border:1px solid transparent;
+	  .transition(all 0.3s ease-in-out);
+	  color:@linkColor;
+	}
+}
+
+#channel-connect .channel-list-item a:active:after {
+	content: "\f055\f101";
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	-webkit-font-smoothing: antialiased;
+	float: right;
+	margin-top: -18px;
+}
+
+#bipio-container {
+	margin-top: -15px;
+	.bip-select {
+		width: 100%;
+		margin: 0 0 12px 0;
+		height: 96px;
+		overflow: hidden;
+		.bip-select-info {
+			margin: 0;
+		}
+		.bip-select-actions {
+			display: table;
+			.bip-wrap {
+				height: 56px;
+				display: table-cell;
+				vertical-align: middle;
+				.btn-group {
+					white-space: inherit;
+					width: 100%;
+					text-align: right;
+					button {
+						margin-bottom: 2px;
+					}
+				}
+			}
+			.delete-action {
+				margin-left: 10px;
+			}
+		}
+	}
+}
+
+#bip-list .bip-select {
+	height: 96px;
+	overflow: hidden;
+	margin : 0 0 12px 0;
+}
+
+#bip-create {
+	margin: 15px 0;
+	}
+
+/*** Config modal ***/
+#config-modal {
+	position: relative;
+	margin-left: 0;
+	.modal {
+        left: 0;
+        top: 0;
+        width: 100%;
+        z-index:1150;
+        margin: 0;
+        .modal-header {
+        	border-radius: 0!important;
+        	background: none;
+        	border: none;
+        	background-color: rgba(55, 77, 82, 1);
+        	h2 {
+        		width: 100%;
+        		color: @white;
+        		line-height:30px;
+        	}
+        }
+	}
+}
+
+#bip-repr {
+	width: 492px;
+	display:inline-block;
+	background: #eefafc;
+	text-align:center;
+	line-height:25px;
+}
+
+#bip-endpoint {
+	display:inline-block;
+}
+
+/*** fixing tabs with borders ***/
+.config-wrapper {
+	border-bottom: 1px solid @flatdarkgrey;
+	.controls {
+		margin-top: 7px;
+		#bip-endpoint {
+			select {
+				height: 24px;
+				font-size: 13px;
+				}
+			input[type='text'] {
+				font-size: 1.3rem;
+				padding: 0.3rem 0.75rem;
+				}
+			}
+		}
+	}
+
+#bip-setup .tab-pane:not(#bip-config-panel) {
+	padding-top: 10px;
+}
+
+#helper-gifs {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+  .gif-container {
+		border-top: 2px solid #F2F2F2;
+		width: 100%;
+		margin: 0 auto;
+		text-align: center;
+		img {
+			padding-bottom: 10px;
+		}
+	}
+}
+
+.input-hint {
+	margin : 8px 4px 0px 0px;
+	line-height: 24px;
+	font-size: 1.2rem;
+}
+
+#hub {border-bottom: none;}
+.collapsible-content {
+  border-left: 1px dashed @grayLight;
+  background-color: #f4f4f4;
+  float: right;
+  clear: both;
+  width: 900px;
+  margin-bottom: 20px;
+  position: relative;
+  	.collapisble-wrapper {
+  		position: absolute;
+  		bottom: 0;
+  		right: 0;
+  		width: 100%;
+		  background-color: #f4f4f4;
+  	}
+  	.button-collapse {
+  		cursor: pointer;
+  		width: 100%;
+  		height: 10px;
+  		background: transparent url('/static/img/legend-button.png') no-repeat center center;
+  	}
+  	.collapse {
+  		border-top: 1px solid #d7d7d7;
+  		margin: 0;
+  		h3 {
+  			text-transform: uppercase;
+  			text-align: center;
+  			margin: 20px 0;
+  			font-size: 0.9em;
+  			font-weight: bold;
+  		}
+  		.legend {
+  			list-style-type: none;
+  			width: 100%;
+  			li {
+  				float: left;
+  				width: 20%;
+  				margin-bottom: 25px;
+  				font-size: 0.9em;
+  					i {
+						display: block;
+						float: left;
+						width: 25px;
+						height: 25px;
+						border-width: 2px;
+						border-style: solid;
+						border-radius: 20px 20px 20px 20px;
+						-moz-border-radius: 20px 20px 20px 20px;
+						-webkit-border-radius: 20px 20px 20px 20px;
+						margin-right: 20px;
+						margin-top: -3px;
+							&.color1 {
+								border-color: #999;
+							}
+							&.color2 {
+								border-color: green;
+							}
+							&.color3 {
+								border-color: orange;
+							}
+							&.color4 {
+								border-color: red;
+							}
+					}
+  			}
+  		}
+  	}
+ }
+
+ #bip-controls {margin-bottom: 20px;}
+
+ .arrowHead {
+	background-color: #333;
+	height: 60px;
+	margin-left: 49.5%;
+	width: 4px;
+}
+
+.arrowD {
+	background-color: #333;
+	height: 100px;
+	position: relative;
+	width: 100px;
+	&:after {
+		content: ' ';
+		height: 0;
+		position: absolute;
+		width: 0;
+		border: 10px solid transparent;
+		border-top-color: #333;
+		top: 100%;
+		left: 50%;
+		margin-left: -10px;
+		}
+}
+
+.edge-connect {
+	display: table;
+	width: 100%;
+	vertical-align: middle;
+	#control-pane {
+		display: table-cell!important;
+  		vertical-align: middle;
+ 		position: relative!important;
+	}
+}
+
+.bip-sample {
+  height:358px;
+}
+
+.bip-sample:after {
+  content: "";
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+li a.tab-error {
+	background: #f89406;
+	color : white;
+	border-bottom: 1px solid #555559;
+}
+
+label.profile {
+  background-color: #edfafc;
+  color: black;
+  padding: 8px;
+  margin-top:10px;
+}
+
+#node-title-edit {
+	display:none;
+  padding: 3px 4px 0px 3px;
+  width: 74%;
+  text-align:center;
+}
+

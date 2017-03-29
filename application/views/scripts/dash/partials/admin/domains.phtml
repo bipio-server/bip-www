@@ -1,0 +1,112 @@
+<h2>Domains</h2>
+
+<p class="lead">
+  Ensure the domain or host you are entering is a CNAME for <strong><?php echo $this->authUser['username']; ?>.<?php echo $this->config['env']['hostname']; ?></strong>
+  before verifying.  Depending on your DNS provider, changes may take up to 24 hours
+  to propagate.  Setting a CNAME will ensure that both HTTP and SMTP Bips will deliver correctly.
+  <br/><br/>
+  If you require SSL or TLS certificates installed for this host name, please <a href="/contact-us">reach us</a>.
+</p>
+
+<hr class="soften"/>
+
+<script id="tpl-domain-entity" type="text/template">
+
+  <div id="domain-entity-<%= id %>" data-domain-id="<%= id %>" class="accordion-group">
+    <div class="accordion-heading alert-<%= alert_mode %>">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#domain-entity-<%= id %>" href="#collapse-<%= id %>">
+        <h4><%= name %>
+          <div class="pull-right">
+            <% if (mode === 'system') { %>
+              <i class="icon-ok-sign"></i> SYSTEM
+            <% } else if (mode === 'unverified') { %>
+              <button type="button" data-model-id="<%= id %>" class="btn btn-warning btn-verify">
+                <i class=" icon-ban-circle"></i> Verify
+              </button>
+            <% } else if (mode === 'verified') { %>
+              <i class="icon-ok-sign"></i> AVAILABLE
+              <button type="button" data-model-id="<%= id %>" class="btn btn-small btn-danger btn-delete" data-toggle="tooltip" data-original-title="Delete">
+                <i class=" icon-ban-circle"></i>
+              </button>
+            <% } %>
+          </div>
+          <div class="renderer-label pull-right"> <i class="icon-eye-open"></i> Renderer
+            <div class="renderer-selected inline"></div>
+          </div>
+        </h4>
+      </a>
+    </div>
+    <div id="collapse-<%= id %>" class="accordion-body collapse">
+      <div class="accordion-inner domain-renderers">
+      </div>
+    </div>
+  </div>
+</script>
+
+<div id="domain-ctl">
+  <div id="domain-list">
+  </div>
+  <div id="domain-controls" class="control-group">
+    <div class="controls">
+      <input type="text" class="input-xxlarge" id="domain-name-new" name="domain-name-new" placeholder="your.domain.com">
+      <input type="button" id="domain-name-new-btn" data-selection="pause" class="btn btn-success pull-right" value="Add New">
+      <span class="help-block"></span>
+    </div>
+  </div>
+</div>
+
+<hr class="soften"/>
+
+<script id="tpl-renderers" type="text/template">
+  <ul class="link-list">
+    <li class="renderer-selected">
+    </li>
+  </ul>
+  <h3>
+    Select
+    <small class="pull-right"><input type="checkbox" id="include-channel-invoke" />
+      Include All Invoke RPC's
+    </small>
+  </h3>
+  <ul class="link-list renderer-container">
+    <% _.each(rendererPods, function(pod) { %>
+      <div class="create-new-channel select-renderer">
+        <header>
+          <h5>
+          <img class="hub-icon hub-icon-24" src="<%= pod.getIcon() %>">
+            <%= pod.get('title') %>
+          </h5>
+          <% _.each(pod.get('rpcs'), function(r) { %>
+
+          <li class="<%=('invoke' === r.name ? 'hide' : '')%>" data-link="<%= r._href %>" data-pod-id="<%= pod.get('name') %>" data-renderer="<%= r.name %>">
+              <%=r.title%> (<%=r.contentType%>)
+              <button class="btn btn-mini btn-success btn-enable-renderer pull-right">Enable</button>
+              <button class="btn btn-mini pull-right btn-preview-renderer">Preview</button>
+              <span class="pull-right"><%=r.description%></span>
+            </li>
+          <% }); %>
+          </header>
+      </div>
+    <% }); %>
+
+    <% _.each(rendererChannels, function(channel) { %>
+      <div class="create-new-channel select-renderer <%=( (1 === channel._links.length && channel._links[0].name == 'invoke') ? 'hide' : '')%>">
+        <header>
+          <h5>
+          <img class="hub-icon hub-icon-24" src="/static/img/channels/32/color/<%= channel.pod.name %>.png">
+            <%= channel.pod.title + ' : ' + channel.name %>
+          </h5>
+          <% _.each(channel._links, function(r) { %>
+
+          <li class="<%=('invoke' === r.name ? 'hide' : '')%>" data-link="<%= r._href %>" data-channel-id="<%= channel.id%>" data-renderer="<%= r.name %>">
+              <%=r.title%> (<%=r.contentType%>)
+              <button class="btn btn-mini btn-success btn-enable-renderer pull-right">Enable</button>
+              <button class="btn btn-mini pull-right btn-preview-renderer">Preview</button>
+              <span class="pull-right"><%=r.description%></span>
+            </li>
+          <% }); %>
+          </header>
+      </div>
+    <% }); %>
+  </ul>
+</script>

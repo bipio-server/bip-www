@@ -1,0 +1,180 @@
+.share-description {
+  width: 50%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  color: #999;
+}
+
+.cta-section {
+	h1 {
+		color: #0194A4;
+		font-weight: 300;
+	}
+	h2 {
+		font-weight: 300;
+		font-size: 2.3rem;
+	}
+}
+
+#feature-carousel {
+	h1 {
+		color: white;
+		font-weight: 400;
+		font-size: 3.1rem;
+	}
+}
+
+#page-body.index {
+  padding-top:0px;
+  transition:none;
+}
+
+.cta-section {
+	.carousel-indicators {
+	  margin: 0 auto;
+	  width: 150px;
+	  position: relative;
+	  top: 0;
+	  right: 0;
+	}
+	.carousel-indicators.large-indicators {
+		li {
+		  width: 25px;
+		  height: 25px;
+		  margin-left: 10px;
+		}
+	}
+}
+
+#atf {
+  padding-top: 0;
+  width: 100%;
+  height: auto;
+  min-height: 615px;
+  position: relative;
+  top: 15%;
+
+  .cta-section {
+	  background: rgba(0,148,164, 0.85);
+	  padding-top: 40px;
+	  color: @white;
+	  line-height: 20px;
+	  line-height: 1.5em;
+	  .box-shadow(8px 2px 122px rgba(20, 207, 227, 0.35));
+	  background-image: url('/static/img/lander/pattern.png');
+
+		.container {
+		  min-height: 590px;
+
+			#pod-list-doc.hub-list {
+				.pod-select {
+  					margin: 0px;
+
+  					.hub {
+  					margin-bottom: 0px;
+  						a {
+	  						&:hover {
+	  								border: 2px solid rgb(0,148,164);
+	  							}
+							.name {
+							 color: @white;
+							}
+							img.hub-icon-github {
+								background: @white;
+							}
+  						}
+  					}
+  				}
+			}
+		}
+		.carousel-indicators {
+			  margin: 0 auto;
+			  width: 115px;
+			  position: relative;
+		}
+		.carousel-indicators.large-indicators {
+			li {
+			  width: 25px;
+			  height: 25px;
+			  margin-left: 10px;
+			}
+		}
+	}
+}
+
+
+
+#cell1 img {
+  box-shadow: 0 0 0px rgba(255,255,255,0.5) , 0 0 0px rgba(255,255,255,0.5) , 0 0 8px rgba(255,255,255,0.5) , 0 0 0px #09bab4 , 0 0 0px #09bab4 , 0 0 32px #09bab4 , 0 0 0px #09bab4;
+  .border-radius(15px);
+}
+
+#features {
+  text-align:center;
+  padding: 40px;
+  /*background-image: url(/static/img/strip.png);*/
+  background-position-y: 0;
+  background-repeat: repeat-x;
+  background-size: contain;
+  background-position-x: 0;
+	.bip-summary {
+	  margin: 0;
+	}
+}
+
+.index #atf h3 {
+  font-weight: bold;
+}
+
+.label.label-bipio-success {
+  background : #94c83d;
+}
+
+.label.label-bipio-success a {
+  color : @black;
+}
+
+/*** Sign up ***/
+#signup_form {
+  background: rgba(255, 255, 255, 0.9);
+
+	  legend {
+	  	border: none;
+	  }
+
+		input[type=text],
+		input[type=password],
+		input[type=name] {
+			width: 80%;
+		}
+}
+
+
+/*** Landing page cover mesh circles ***/
+.___cover {
+  height: 1100px;
+  position: relative;
+  background-image: url("/static/img/ao.gif");
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color: @white;
+}
+
+.cover {
+  background-image: url("/static/img/ao.gif");
+  color: @white;
+
+  canvas.layer {
+	  position: absolute;
+	  z-index: 0;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  #atf .cta-section #pod-list-doc.hub-list .span2.pod-select {
+    width: 120px;
+  }
+}

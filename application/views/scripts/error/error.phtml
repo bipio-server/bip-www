@@ -1,0 +1,25 @@
+<script data-main="/static/js/signin" src="/static/js/vendor/require/require.js"></script>
+
+<div class="middle">
+  <img src="/static/img/bot_timeout.png" style="width: 256px;height: 256px;">
+  <h2><i class="icon-exclamation-sign"></i> <?php echo $this->message ?></h2>
+  <h3>Please email <a href="mailto:hello@bip.io">hello@bip.io</a> for more info</h3>
+
+  <?php if (isset($this->exception)): ?>
+    <div style="text-align: left">
+      <h1>Exception</h1>
+      <p>
+          <?php echo $this->exception->getMessage() ?>
+      </p>
+
+      <h3>Trace</h3>
+      <pre><?php echo $this->exception->getTraceAsString() ?>
+      </pre>
+
+      <h3>Request Parameters</h3>
+      <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+      </pre>
+    </div>
+
+  <?php endif ?>
+</div>

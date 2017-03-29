@@ -1,0 +1,30 @@
+<section id="overview_responses">
+    <div class="page-header">
+        <h3>Hello Proxy <small>Creating your first simple proxy</small></h3>
+    </div>
+
+    <p>
+    This small tutorial explains how to create one of the most basic type of Bips - an email <a href="http://en.wikipedia.org/wiki/Proxy_server">proxy</a>.
+All that an email proxy bip will do is receive an email payload and pass it along to an email channel for delivery.
+    
+        
+    <h4>Response Codes <small> are standard <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">HTTP Status Codes</a></small></h4>
+        
+    </p>
+     
+    <p class="lead">
+        <h4>Errors <small>HTTP 400 response format</small></h4>
+        400 Error responses will generally be raised due to validation errors in the request payload.  Errors are returned within the context
+        of the resource being requested, with the message body of the form <code>errors.{attribute}.message</code>, for example
+        <br/><br/>
+        <pre><code>{
+    errors : {
+        type : {
+            message : 'Expected "smtp", "http" or "trigger"'
+        }
+    }
+}
+</code></pre>  
+    </p>
+    
+</section>

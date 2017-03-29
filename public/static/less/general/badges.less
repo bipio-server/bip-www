@@ -1,0 +1,18 @@
+// Core
+.badge {
+	font-size: 1.1rem;
+	font-weight: 900;
+	line-height: 2rem;
+	text-align: center;
+	.square(2.2rem);
+	display: inline-block;
+	padding: 0;
+	border: 1px solid transparent;
+	.border-radius(100%);
+}
+
+// Colors
+.badge { .makeButton(#d0e4e8, #a4b4b6, @textColor, static); }
+.badge-primary { .makeButton(#00a7b6, #0095a5, @white, static); }
+.badge-success { .makeButton(#76d668, #52ab46, @white, static); }
+.badge-danger { .makeButton(#bf5656, #993636, @white, static); }

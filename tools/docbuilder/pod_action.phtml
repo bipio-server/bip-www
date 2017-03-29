@@ -1,0 +1,120 @@
+<div class="accordion-group">
+    <div class="accordion-heading">
+        <a class="accordion-toggle <?php echo ($firstAction ? '' : 'collapsed') ?>" data-toggle="collapse" data-parent="#pod-schema-<?php echo ($trigger ? 'events' : 'actions') ?>" href="#collapse-<?php echo $actionName ?>">
+            <h3>
+                <strong><?php echo $actionDescription; ?></strong> [<?php echo $podName . '.' . $actionName; ?>]
+            </h3>
+        </a>
+    </div>
+    <div id="collapse-<?php echo $actionName ?>" class="accordion-body <?php echo ($firstAction ? 'in' : '') ?> collapse">
+        <div class="accordion-inner">
+
+            <div>
+                <div>
+                    <label style="min-height: 18px;"></label>
+                    <blockquote style="padding:0px;">
+                        <p>
+                        <?php echo $actionDescriptionLong; ?>
+                        </p>
+                    </blockquote>
+                </div>
+                <!-- div class="span5" style="margin-left: -12px;">
+                    <label>Channel config, at a glance</label>
+                    <pre class="config-sample"><?php echo $configSample; ?></pre>
+                </div -->
+            </div>
+            <div class="">
+                <ul class="nav nav-pills">
+                    <?php if (!empty($configRows)) { ?>
+                    <li class="active"><a href="#<?php echo $actionName; ?>-config" data-toggle="tab">Config</a></li>
+                    <?php } ?>
+
+                    <?php if (!empty($importRows)) { ?>
+                        <li class="<?php echo (empty($configRows) ? 'active' : '')?>"><a href="#<?php echo $actionName; ?>-imports" data-toggle="tab">Imports</a></li>
+                    <?php } ?>
+
+                    <?php if (!empty($exportRows)) { ?>
+                        <li class="<?php echo ((empty($importRows) && empty($configRows)) ? 'active' : '')?>"><a href="#<?php echo $actionName; ?>-exports" data-toggle="tab">Exports</a></li>
+                    <?php } ?>
+
+                    <?php if (!empty($renderRows)) { ?>
+                        <li class="<?php echo (empty($importRows) && empty($configRows) && empty($exportRows) ? 'active' : '')?>"><a href="#<?php echo $actionName; ?>-renderers" data-toggle="tab">Renderers</a></li>
+                    <?php } ?>
+                </ul>
+
+                <div class="tab-content">
+                    <?php if (!empty($configRows)) { ?>
+                        <div class="tab-pane active" id="<?php echo $actionName; ?>-config">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $configRows; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty($importRows)) { ?>
+                        <div class="tab-pane <?php echo (empty($configRows) ? 'active' : '')?>" id="<?php echo $actionName; ?>-imports">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $importRows; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty($exportRows)) { ?>
+                        <div class="tab-pane <?php echo ( (empty($importRows) && empty($configRows)) ? 'active' : '')?>" id="<?php echo $actionName; ?>-exports">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Parameter</th>
+                                        <th>Data Type</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $exportRows; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty($renderRows)) { ?>
+                        <div class="tab-pane <?php echo ((empty($importRows) && empty($configRows) && empty($exportRows)) ? 'active' : '')?>" id="<?php echo $actionName; ?>-renderers">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Renderer</th>
+                                        <th>Content Type</th>
+                                        <th>URL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php echo $renderRows; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

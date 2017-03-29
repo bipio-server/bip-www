@@ -1,0 +1,34 @@
+<?php
+$options = Zend_Registry::get('config')->toArray();
+?>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 ie oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <meta property="og:title" content="bip.io - For People And Robots" />
+    <meta property="og:type" content="company" />
+    <meta property="og:site_name" content="bip.io - For People And Robots" />
+    <meta property="og:description" content="A Personal API for Email and Web Apps. Rapidly create workflows with the cloud components you love, no programming required." />
+    <meta property="og:url" content="https://bip.io" />
+    <meta property="og:image" content="https://bip.io/static/img/bip_badge.png" />
+
+    <title>bip.io - For People and Robots</title>
+    <meta name="description" content="Rapidly create workflows with the cloud components you love, no programming required" />
+    <?php if (DEV_ENVIRONMENT) { ?>
+      <link href="/static/css/share-widget.css" rel="stylesheet" />
+
+    <?php } else { ?>
+      <link href="/static/build/css/share-widget.css?build=1450716766977" rel="stylesheet" />
+    <?php } ?>
+
+  </head>
+  <body style="background: none transparent; padding: 0;">
+  <?php echo $this->layout()->content; ?>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<section id="resource_rpc_domain_confirm">
+    <div class="page-header">
+        <h3>Domain Confirm </h3>
+        <h4><code>/rpc/domain/confirm/{domain_id}</code></h4>
+    </div>
+
+    <p class="lead">
+        Checks that an external domain (ie: not *.bip.io) has been properly configured and if so,
+        enables the domain for use.  If the domain was once properly configured
+        but is no longer, then takes no action but returns a list of unreachable
+        bip id's.
+        <br/><br/>
+        Returns either 200 OK, 202 Accepted (If unverified) or 409 Conflict if
+        Bips for the domain are no longer internet resolvable.
+    </p>
+    
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>domain_id</em></td>
+                    <td>String, UUID</td>
+                    <td>Domain UUID to check.  External domains only.</td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+    
+    <div>
+        <p class="lead">
+            RPC Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-domain-confirm">            
+            <li class="active">
+                <a href="#rest-example-domain-confirm-get" data-toggle="pill">GET</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-domain-confirm-get">
+            <strong>REQUEST</strong> Example response when domain is misconfigured for active Bips
+            <pre><code>GET /rpc/domain/confirm/31b3a2db-4ea4-d1c8-b35d-00004d00b4d7 HTTP/1.1</code></pre>
+                
+            <strong>RESPONSE</strong>
+<pre>
+<code>409 Conflict
+
+{
+    'bip' : [ 
+        {
+            id: "bc928113-0a98-4975-a821-98373aa72551",
+            _repr: "test@docs.bip.io",
+            _href: "https://api.bip.io/rest/bip/bc928113-0a98-4975-a821-98373aa72552"
+        },
+        {
+            id: "ad928113-0a98-4975-a899-98373aa72551",
+            _repr: "https://docs.bip.io/bip/http/somethingelse",
+            _href: "https://api.bip.io/rest/bip/ad928113-0a98-4975-a899-98373aa72552"
+        }
+    ]
+}
+</code>
+</pre>           
+        </div>
+    </div>
+</section>

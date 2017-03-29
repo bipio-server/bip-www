@@ -1,0 +1,110 @@
+.modal-overlay {
+	.square(100%);
+	.position(fixed, 1100, 0, auto, auto, 0);
+	background: fade(@petrolblue, 80%);
+}
+
+.modal {
+	.position(absolute, 1200, 7%, auto, auto, 50%);
+	width: 60rem;
+	margin-left: -30rem;
+	border:none;
+	.box-shadow(0 0 0 transparent);
+
+	&.modal-small {
+		width: 47.6rem;
+		margin-left: 47.6rem * -.5;
+	}
+
+	&.modal-medium {
+    	width: 61rem;
+    	margin-left: 61rem * -.5;
+	}
+
+	&.modal-large {
+    	width: 92.6rem;
+    	margin-left: 92.6rem * -.5;
+	}
+
+	.modal-header {
+		.clearfix;
+    background-color: rgba(55,77,82, 0.9);
+		border-bottom: 1px solid #192a2d;
+		padding: 0.25rem 2.4rem;
+
+		h2 {
+			font-size: 2rem;
+	    line-height: 1.8em;
+	    color: #fff;
+	    float: none;
+	    margin: .5rem 0;
+		}
+
+
+
+		.close {
+			color: @flatlightgreen;
+	    line-height: 1.8em;
+/*    	margin-top: 0.2em;*/
+
+			&:hover, &:focus {
+				color: @white;
+			}
+
+		}
+
+		.hub-icon {
+	    margin-right: 8px;
+	    margin-top: 4px;
+			border: 1px solid #192a2d;
+		}
+	}
+
+	.modal-body {
+		background: @white;
+		padding: 1.2rem;
+		.clearfix;
+	}
+
+	.modal-footer {
+		padding: 1.6rem 2.4rem;
+		background: @flatlightgreen;
+		border-top: 1px solid @petrolblue;
+	}
+}
+
+#create-bip.modal {
+	input[type='text'] {
+		width: 100%;
+		font-size: 1.8rem;
+		padding: 6px 8px;
+		height: auto;
+		font-weight: 200;
+		color: @textColor;
+	}
+
+	.col {
+		float: left;
+		width: 180px;
+	}
+
+	.col + .col { margin-left: 44px; }
+
+	.btn-row {
+		margin-top: 15px;
+		text-align: right;
+	}
+}
+
+@media (min-height: 701px) {
+  .modal.modal-large.select-channel-modal {
+    min-height: 634px;
+  }
+}
+
+
+@media (max-height: 700px) {
+  .modal.modal-large.select-channel-modal {
+    height: 515px;
+  }
+}

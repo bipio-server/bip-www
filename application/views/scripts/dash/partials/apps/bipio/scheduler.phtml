@@ -1,0 +1,278 @@
+    <table class="scheduler-table">
+        <tr class="scheduler-start">
+            <td class="scheduler-label"><label class="control-label">Start</label></td>
+            <td>
+                <div class="datepicker dropdown">
+                    <div class="input-append">
+                        <div class="dropdown-menu"></div>
+                        <input type="text" class="span2" value="" data-toggle="dropdown">
+                        <button type="button" class="btn btn-small" data-toggle="dropdown"><i class="icon-calendar"></i></button>
+                    </div>
+                </div>
+                <div class="input-append dropdown combobox">
+                    <input class="input-small" type="text">
+                    <button type="button" class="btn btn-small" data-toggle="dropdown">
+                        <i class="caret"></i>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <?php
+                            for ($i = 0; $i < 24; $i++) {
+                                for ($j = 0; $j < 60; $j += 15) {
+                                    echo '<li><a href="">' . date('g:i A',mktime($i, $j, 0, 1, 1, 2011)) . "</a></li>";
+                                }
+                            }
+                        ?>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="scheduler-timezone">
+            <td class="scheduler-label"><label class="control-label">Timezone</label></td>
+            <td>
+                <select id="timezone" style="width:200px;">
+                    <?php
+                        function cb($t) {
+                            return trim($t, '"');
+                        };
+                        $timeZones = array_map('cb', explode(",", $this->timeZones) );
+                        for ($i = 0; $i < count($timeZones); $i++) {
+                            echo '<option value="' . $timeZones[$i] . '">'
+                                . $timeZones[$i]
+                                . '</option>';
+                        }
+                    ?>
+                </select>
+              <!-- input type="text" id="timezone" name="timezone" data-provide="typeahead" data-items="10" data-source='[<?php echo $this->timeZones; ?>]'
+                     value="<?php echo $this->authUser['settings']['timezone']; ?>">
+            </td -->
+        </tr>
+
+        <tr class="scheduler-upgrade">
+            <td class="scheduler-label"><label class="control-label">Repeat</label></td>
+            <td>
+                Every 15 Minutes
+            </td>
+        </tr>
+        <tr class="scheduler-upgrade">
+            <td colspan="2">
+                <button class="btn btn-success"><i class="icon-exclamation-sign"></i>  Upgrade Now To Unlock Custom Scheduling</button>
+            </td>
+        </tr>
+
+        <tr class="scheduler-repeat">
+            <td class="scheduler-label"><label class="control-label">Repeat</label></td>
+            <td>
+                <div class="repeat-interval">
+                    <div class="btn-group select">
+                        <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">Non Repeating</span><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li data-value="none"><a href="#">Non Repeating</a></li>
+                            <li data-value="minutely" data-text="minute(s)"><a href="#">Minutely</a></li>
+                            <li data-value="hourly" data-text="hour(s)"><a href="#">Hourly</a></li>
+                            <li data-value="daily" data-text="day(s)"><a href="#">Daily</a></li>
+                            <li data-value="weekdays"><a href="#">Weekdays</a></li>
+                            <li data-value="weekly" data-text="week(s)"><a href="#">Weekly</a></li>
+                            <li data-value="monthly" data-text="month(s)"><a href="#">Monthly</a></li>
+                            <li data-value="yearly"><a href="#">Yearly</a></li>
+                        </ul>
+                    </div>
+                    <div class="repeat-interval-panel">
+                        <div class="repeat-interval-pretext">every</div>
+                        <div class="spinner">
+                            <input type="text" value="1" class="input-mini spinner-input">
+                            <div class="spinner-buttons btn-group btn-group-vertical">
+                                <button class="btn spinner-up"><i class="icon-chevron-up"></i></button>
+                                <button class="btn spinner-down"><i class="icon-chevron-down"></i></button>
+                            </div>
+                        </div>
+                        <div class="repeat-interval-text">day(s)</div>
+                    </div>
+                </div>
+                <div class="recurrence-panel scheduler-weekly" style="display:none">
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" data-value="SU">Sun</button>
+                        <button type="button" class="btn" data-value="MO">Mon</button>
+                        <button type="button" class="btn" data-value="TU">Tue</button>
+                        <button type="button" class="btn" data-value="WE">Wed</button>
+                        <button type="button" class="btn" data-value="TH">Thu</button>
+                        <button type="button" class="btn" data-value="FR">Fri</button>
+                        <button type="button" class="btn" data-value="SA">Sat</button>
+                    </div>
+                </div>
+                <div class="recurrence-panel scheduler-monthly" style="display:none">
+                    <div class="scheduler-monthly-date">
+                        <label class="radio radio-custom"><input type="radio" name="scheduler-month" checked="checked" value="1"><i class="radio"></i>on day</label>
+                        <div class="btn-group select">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">1</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="1"><a href="#">1</a></li>
+                                <li data-value="2"><a href="#">2</a></li>
+                                <li data-value="3"><a href="#">3</a></li>
+                                <li data-value="4"><a href="#">4</a></li>
+                                <li data-value="5"><a href="#">5</a></li>
+                                <li data-value="6"><a href="#">6</a></li>
+                                <li data-value="7"><a href="#">7</a></li>
+                                <li data-value="8"><a href="#">8</a></li>
+                                <li data-value="9"><a href="#">9</a></li>
+                                <li data-value="10"><a href="#">10</a></li>
+                                <li data-value="11"><a href="#">11</a></li>
+                                <li data-value="12"><a href="#">12</a></li>
+                                <li data-value="13"><a href="#">13</a></li>
+                                <li data-value="14"><a href="#">14</a></li>
+                                <li data-value="15"><a href="#">15</a></li>
+                                <li data-value="16"><a href="#">16</a></li>
+                                <li data-value="17"><a href="#">17</a></li>
+                                <li data-value="18"><a href="#">18</a></li>
+                                <li data-value="19"><a href="#">19</a></li>
+                                <li data-value="20"><a href="#">20</a></li>
+                                <li data-value="21"><a href="#">21</a></li>
+                                <li data-value="22"><a href="#">22</a></li>
+                                <li data-value="23"><a href="#">23</a></li>
+                                <li data-value="24"><a href="#">24</a></li>
+                                <li data-value="25"><a href="#">25</a></li>
+                                <li data-value="26"><a href="#">26</a></li>
+                                <li data-value="27"><a href="#">27</a></li>
+                                <li data-value="28"><a href="#">28</a></li>
+                                <li data-value="29"><a href="#">29</a></li>
+                                <li data-value="30"><a href="#">30</a></li>
+                                <li data-value="31"><a href="#">31</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="scheduler-monthly-day">
+                        <label class="radio radio-custom"><input type="radio" name="scheduler-month" value="2"><i class="radio"></i>on the</label>
+                        <div class="select btn-group month-day-pos">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">First</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="1"><a href="#">First</a></li>
+                                <li data-value="2"><a href="#">Second</a></li>
+                                <li data-value="3"><a href="#">Third</a></li>
+                                <li data-value="4"><a href="#">Fourth</a></li>
+                                <li data-value="-1"><a href="#">Last</a></li>
+                            </ul>
+                        </div>
+                        <div class="select btn-group month-days">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">Sunday</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="SU"><a href="#">Sunday</a></li>
+                                <li data-value="MO"><a href="#">Monday</a></li>
+                                <li data-value="TU"><a href="#">Tuesday</a></li>
+                                <li data-value="WE"><a href="#">Wednesday</a></li>
+                                <li data-value="TH"><a href="#">Thursday</a></li>
+                                <li data-value="FR"><a href="#">Friday</a></li>
+                                <li data-value="SA"><a href="#">Saturday</a></li>
+                                <li data-value="SU,MO,TU,WE,TH,FR,SA"><a href="#">Day</a></li>
+                                <li data-value="MO,TU,WE,TH,FR"><a href="#">Weekday</a></li>
+                                <li data-value="SU,SA"><a href="#">Weekend day</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="recurrence-panel scheduler-yearly" style="display:none">
+                    <div class="scheduler-yearly-date">
+                        <label class="radio radio-custom"><input type="radio" name="scheduler-year" checked="checked" value="1"><i class="radio"></i>on</label>
+                        <div class="btn-group select year-month">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">January</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="1"><a href="#">January</a></li>
+                                <li data-value="2"><a href="#">February</a></li>
+                                <li data-value="3"><a href="#">March</a></li>
+                                <li data-value="4"><a href="#">April</a></li>
+                                <li data-value="5"><a href="#">May</a></li>
+                                <li data-value="6"><a href="#">June</a></li>
+                                <li data-value="7"><a href="#">July</a></li>
+                                <li data-value="8"><a href="#">August</a></li>
+                                <li data-value="9"><a href="#">September</a></li>
+                                <li data-value="10"><a href="#">October</a></li>
+                                <li data-value="11"><a href="#">November</a></li>
+                                <li data-value="12"><a href="#">December</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group select year-month-day">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">1</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu" style="height:200px; overflow:auto;">
+                                <li data-value="1"><a href="#">1</a></li>
+                                <li data-value="2"><a href="#">2</a></li>
+                                <li data-value="3"><a href="#">3</a></li>
+                                <li data-value="4"><a href="#">4</a></li>
+                                <li data-value="5"><a href="#">5</a></li>
+                                <li data-value="6"><a href="#">6</a></li>
+                                <li data-value="7"><a href="#">7</a></li>
+                                <li data-value="8"><a href="#">8</a></li>
+                                <li data-value="9"><a href="#">9</a></li>
+                                <li data-value="10"><a href="#">10</a></li>
+                                <li data-value="11"><a href="#">11</a></li>
+                                <li data-value="12"><a href="#">12</a></li>
+                                <li data-value="13"><a href="#">13</a></li>
+                                <li data-value="14"><a href="#">14</a></li>
+                                <li data-value="15"><a href="#">15</a></li>
+                                <li data-value="16"><a href="#">16</a></li>
+                                <li data-value="17"><a href="#">17</a></li>
+                                <li data-value="18"><a href="#">18</a></li>
+                                <li data-value="19"><a href="#">19</a></li>
+                                <li data-value="20"><a href="#">20</a></li>
+                                <li data-value="21"><a href="#">21</a></li>
+                                <li data-value="22"><a href="#">22</a></li>
+                                <li data-value="23"><a href="#">23</a></li>
+                                <li data-value="24"><a href="#">24</a></li>
+                                <li data-value="25"><a href="#">25</a></li>
+                                <li data-value="26"><a href="#">26</a></li>
+                                <li data-value="27"><a href="#">27</a></li>
+                                <li data-value="28"><a href="#">28</a></li>
+                                <li data-value="29"><a href="#">29</a></li>
+                                <li data-value="30"><a href="#">30</a></li>
+                                <li data-value="31"><a href="#">31</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="scheduler-yearly-day">
+                        <label class="radio radio-custom"><input type="radio" name="scheduler-year" value="2"><i class="radio"></i>on the</label>
+                        <div class="btn-group select year-month-day-pos">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">First</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="1"><a href="#">First</a></li>
+                                <li data-value="2"><a href="#">Second</a></li>
+                                <li data-value="3"><a href="#">Third</a></li>
+                                <li data-value="4"><a href="#">Fourth</a></li>
+                                <li data-value="5"><a href="#">Last</a></li>
+                            </ul>
+                        </div>
+                        <div class="btn-group select year-month-days">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">Sunday</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="SU"><a href="#">Sunday</a></li>
+                                <li data-value="MO"><a href="#">Monday</a></li>
+                                <li data-value="TU"><a href="#">Tuesday</a></li>
+                                <li data-value="WE"><a href="#">Wednesday</a></li>
+                                <li data-value="TH"><a href="#">Thursday</a></li>
+                                <li data-value="FR"><a href="#">Friday</a></li>
+                                <li data-value="SA"><a href="#">Saturday</a></li>
+                                <li data-value="SU,MO,TU,WE,TH,FR,SA"><a href="#">Day</a></li>
+                                <li data-value="MO,TU,WE,TH,FR"><a href="#">Weekday</a></li>
+                                <li data-value="SU,SA"><a href="#">Weekend day</a></li>
+                            </ul>
+                        </div>
+                        <div class="scheduler-yearly-day-text">of</div>
+                        <div class="btn-group select year-month">
+                            <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="dropdown-label">January</span><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li data-value="1"><a href="#">January</a></li>
+                                <li data-value="2"><a href="#">February</a></li>
+                                <li data-value="3"><a href="#">March</a></li>
+                                <li data-value="4"><a href="#">April</a></li>
+                                <li data-value="5"><a href="#">May</a></li>
+                                <li data-value="6"><a href="#">June</a></li>
+                                <li data-value="7"><a href="#">July</a></li>
+                                <li data-value="8"><a href="#">August</a></li>
+                                <li data-value="9"><a href="#">September</a></li>
+                                <li data-value="10"><a href="#">October</a></li>
+                                <li data-value="11"><a href="#">November</a></li>
+                                <li data-value="12"><a href="#">December</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>

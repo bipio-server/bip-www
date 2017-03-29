@@ -1,0 +1,61 @@
+<div id="wotadmin-modal-container"></div>
+
+<script id="tpl-layouts-wotadmin" type="text/template">
+	<div id="wotadmin-container">
+		<ul class="nav nav-tabs pull-left" id="wotadmin-tabs">
+			<% _.each(adminFrames, function(tab, name) { %>
+				<li id="frame-<%=name%>">
+					<a data-toggle="pill" href="#wotadmin-tab-<%=name%>"> <%=tab.title%></a>
+				</li>
+			<% }); %>
+		</ul>
+
+		<div id="wotadmin-frames" class="tab-content no-overflow row">
+			<% _.each(adminFrames, function(tab, name) { %>
+	      <div class="tab-pane span12" id="wotadmin-tab-<%=name%>">
+				<% _.each(tab.frames, function(frame) {
+						var height = frame.height || frame.minHeight,
+							minHeight,
+							span,
+							src;
+				%>
+					<iframe scrolling="no" style="overflow: hidden" wotio-widget="<%=frame.id%>" 
+							<% if (frame.minHeight) { %> minHeight="<%=frame.minHeight%>"  <% } %> 
+							<% if (frame.maxHeight) { %> maxHeight="<%=frame.maxHeight%>"  <% } %>
+ 							height="<%=height%>px" data-src="<%=frame.src%>"  id="<%=frame.id%>"></iframe>
+				<% }); %>
+				</div>
+			<% }); %>
+		</div>
+	</div>
+</script>
+
+
+<!-- wotadmin modal -->
+<script id="tpl-wotadmin-modal" type="text/template">
+<div id="wotadmin-modal" class="modal-overlay hide">
+  <div class="modal-container">
+      <div class="modal">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">
+        	<span aria-hidden="true">&times;</span>
+        </button>
+        <h2><%=title%></h2>
+      </div>
+      <div class="modal-body">
+       	<%=body %>
+      </div>
+      <div class="modal-footer">
+		<div class="btn-row">
+            <% _.each(events, function(event){ %>
+				<!-- Event Id == onclose value doesn't throw a callback -->
+       		 <button type="button" trigger="<%=event.id%>" class="btn <% if (event.id != onclose) { %>  callback <% } %>" ><%=event.label%></button>
+           <% }); %>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+
+

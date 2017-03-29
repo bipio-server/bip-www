@@ -1,0 +1,58 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3041520, 2015-06-12T15:54:57-0400
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: ProximaNovaA-Bold by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/a-bold/
+ * 
+ * Webfont: ProximaNovaS-Bold by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/s-bold/
+ * 
+ * Webfont: ProximaNova-Bold by Mark Simonson
+ * URL: http://www.myfonts.com/fonts/marksimonson/proxima-nova/bold/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3041520
+ * Licensed pageviews: 1,000,000
+ * Webfonts copyright: Copyright (c) Mark Simonson, 2005. All rights reserved.
+ * 
+ * © 2015 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/2e68f0");
+
+  
+@font-face {font-family: 'ProximaNovaA-Bold';src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_0_0.eot');src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_0_0.eot?#iefix') format('embedded-opentype'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_0_0.woff2') format('woff2'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_0_0.woff') format('woff'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'ProximaNovaS-Bold';src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_1_0.eot');src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_1_0.eot?#iefix') format('embedded-opentype'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_1_0.woff2') format('woff2'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_1_0.woff') format('woff'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'ProximaNova-Bold';src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_2_0.eot');src: url('/static/fonts/ProximaNova/fontsKit/2E68F0_2_0.eot?#iefix') format('embedded-opentype'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_2_0.woff2') format('woff2'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_2_0.woff') format('woff'),url('/static/fonts/ProximaNova/fontsKit/2E68F0_2_0.ttf') format('truetype');}
+ 
+.ProximaNovaA-Bold { 
+	font-family: ProximaNovaA-Bold;
+	font-weight: normal;
+	font-style: normal;
+}
+.ProximaNovaS-Bold { 
+	font-family: ProximaNovaS-Bold;
+	font-weight: normal;
+	font-style: normal;
+}
+.ProximaNova-Bold { 
+	font-family: ProximaNova-Bold;
+	font-weight: normal;
+	font-style: normal;
+} 
+ 
+ 
+ 

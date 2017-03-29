@@ -1,0 +1,204 @@
+fieldset { margin: 2.4rem 0; }
+
+input[type="text"],
+input[type="username"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+.field,
+textarea {
+	font-size: 1.4rem;
+	line-height: 1.3em;
+	height: auto;
+	padding: .5em .75em;
+	background: @flatlightgreen;
+	border: none;
+	.border-radius(0);
+	.box-shadow(0 0 0 transparent);
+	&:focus {
+    border-color: none;
+    outline: 0;
+    .box-shadow(0 0 transparent);
+  }
+
+}
+
+textarea {
+	width: 100%;
+	height: 8em;
+}
+
+label {
+	font-size: 1.4rem;
+	font-weight: 700;
+	line-height: 1.3em;
+	margin-bottom: .25em;
+
+	&.checkbox, &.radio { font-weight: 400; }
+}
+
+/*
+.datepicker-input {
+	position: relative;
+	z-index: 0;
+
+	input { padding-left: 3.2rem; }
+
+}
+*/
+
+.input-append .add-on, .input-prepend .add-on {
+	height: 31px;
+	padding: 6px 8px;
+	margin-top: 1px;
+}
+
+.input-prepend.input-append .add-on:first-child, .input-prepend.input-append .btn:first-child,
+.input-prepend .add-on:first-child, .input-prepend .btn:first-child,
+.input-prepend.input-append .add-on:last-child, .input-prepend.input-append .btn:last-child,
+.input-append .add-on:last-child, .input-append .btn:last-child, .input-append .btn-group:last-child > .dropdown-toggle {
+	.border-radius(0);
+	}
+
+  .input-prepend .add-on,
+  .input-append .add-on {
+    color: @white;
+    background-color: @petrolblue;
+    border-color: @transparency;
+  }
+
+
+.form-actions {
+	background: url('../img/hr.png') repeat-x top;
+	padding: 3.2rem 0;
+	border: none;
+
+	.note {
+		color: @grayLight;
+		margin: 1em 0 0 0;
+	}
+
+	a:not(.btn){ margin-top: .9rem; }
+}
+
+.controls input,select {
+  margin-bottom: 0px;
+}
+
+
+/*** Required text field check: icon on the left (success/failure) ***/
+[required]:before {
+  content: "\f14a";
+  border: 1px solid #c8dbde;
+  position: absolute;
+  padding: 2px;
+  line-height: 13px;
+  .border-radius(5px);
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  background: @popoverTitleBackground;
+  color: #009fae;
+  z-index: 1;
+}
+
+div.templar[required]:before {
+  left: -10px;
+  top: 12px;
+}
+
+div.controls[required]:before {
+  left: 0px;
+  top: 32px;
+  padding-left: 3px;
+}
+
+label[required] {
+	  padding-left: 12px;
+}
+
+label[required]:before {
+  left: 0;
+  top: 14px;
+}
+
+label.invalid[required]:before {
+  content: "\f06a";
+  background-color: @errorBackground;
+  color: @errorText;
+}
+
+[required][empty]:before {
+  content: "\f06a";
+  background-color: @errorBackground;
+  color: @errorText;
+}
+
+div.templar[required][empty]:before {
+  background-color: @warningBackground;
+  color: @warningText;
+}
+
+div.templar.invalid{
+	background: @errorBackground;
+}
+
+input.invalid{
+	background: @errorBackground;
+}
+
+div.templar[required]:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+}
+.form-horizontal .controls:focus {
+  outline: none;
+}
+
+.composite-margin {
+  margin-left: 110px;
+}
+
+.transform-override {
+  margin-right: 10px;
+}
+
+.templateview,#panel-channel-transform-body {
+  .control-group {
+    min-height: 66px;
+    margin-bottom: 40px;
+    border-top: 1px dashed #eee;
+  }
+}
+
+.templateview {
+  .control-group {
+    margin-bottom: 30px;
+  }
+}
+
+.transform-html.blocked,.config-html.blocked {
+  visibility: hidden;
+  pointer-events: none;
+
+}
+
+.transform-inherit {
+  min-height: 53px;
+  /*margin-bottom: 20px;*/
+  margin-top: 12px;
+}
+
+.infotooltip {
+	margin-left: 5px;
+	color: @petrolblue;
+}

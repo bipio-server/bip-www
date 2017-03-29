@@ -1,0 +1,182 @@
+<section id="resource_rest_domain">
+    <div class="page-header">
+        <h3>Domains <small>are customizable</small></h3>
+        <h4><code>/rest/domain</code></h4>
+    </div>
+
+    <p class="lead">
+        The Domain resource lets you attach A/CNAME/MX resource records for external domains to your account for use as a bip <code>domain_id</code>.<br/><br/>
+        For any domain records you wish to set up, please CNAME them to <strong><?php echo $this->domainPfx; ?>.bip.io</strong> - this
+        will help us verify your ownership and add capacity for you when you need it.
+    </p>
+
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>id</em></td>
+                    <td>UUID (String)</td>
+                    <td>Unique Domain ID</td>
+                </tr>
+                <tr>
+                    <td><em>name</em>**</td>
+                    <td>String</td>
+                    <td>Domain Name (FQDN)</td>
+                </tr>
+                <tr>
+                    <td><em>renderer</em></td>
+                    <td>
+                        Object keyed by :<br/><br/>
+                        <ul>
+                            <li><strong>channel_id</strong> Target Channel Id</li>
+                            <li><strong>renderer</strong> Renderer name</li>
+                            <li><strong>query</strong> Additional URI GET query string</li>
+                        </ul>                        
+                    </td>
+                    <td>
+                      Invokes a Channel Renderer, serving the renderer contents to the requesting client.
+<br/><br/>eg:
+<pre> {
+  "channel_id" : "cf01c8ec-e542-46ce-9895-74b6ea3fcf5b",
+  "renderer" : "rss"
+}</pre>
+
+ <div class="alert alert-block">
+  <i class="icon-warning-sign"></i> Domain Renderers are not authenticated
+</div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        Domains are not immediately available unless they are already aliased to <strong><?php echo $this->domainPfx; ?>.bip.io</strong>, so its better to set this up in advance.
+        Otherwise, verify domain ownership via your Account Settings area in the Bipio website after a <code>202 Accepted</code> response packet, or simply call the
+        <a href="/docs/resource/rpc/domain_confirm">Domain Confirm RPC</a> once DNS is propertly configured.<br/><br/>
+        <span class="label label-warning">IMPORTANT</span> Any bip.io subdomains (<strong>*.bip.io</strong>), such as your <strong><?php echo $this->domainPfx; ?>.bip.io</strong>
+        account domain is immutable.
+    </div>
+
+    <div class="bs-api-data bs-api-data-decorators">
+        <h5>Decorators augment a resource record with useful meta-data and are read-only</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>_available</em></td>
+                    <td>boolean, Domain has validated and is available</td>
+                </tr>
+                <tr>
+                    <td><em>_href</em></td>
+                    <td>Record URI
+                        <br/><br/>eg: <code>https://api.bip.io/rest/domain/cf01c8ec-e542-46ce-9895-74b6ea3fcf5b</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>_repr</em></td>
+                    <td>Derived Domain Representation
+                        <br/><br/>eg: <code>example.cloudspark.com.au</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p class="lead">
+            REST Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-domain">
+            <li class="active">
+                <a href="#rest-example-domain-get" data-toggle="pill">GET</a>
+            </li>
+            <li><a href="#rest-example-domain-post" data-toggle="pill">POST</a></li>
+            <li><a href="#rest-example-domain-put" data-toggle="pill">PUT</a></li>
+            <li><a href="#rest-example-domain-delete" data-toggle="pill">DELETE</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-domain-get">
+            <strong>REQUEST</strong>
+            <pre><code>GET /rest/domain/664616d3-5caf-ab09-b398-000012b5e920 HTTP/1.1</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>200 OK
+
+{
+  "id": "664616d3-5caf-ab09-b398-000012b5e920",
+  "name": "foobar.com",
+  "_repr": "foobar.com",
+  "_href": "https://api.bip.io/rest/domain/664616d3-5caf-ab09-b398-000012b5e920",
+  "_available": "false"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-domain-post">
+            <strong>REQUEST</strong>
+            <pre><code>POST /rest/domain HTTP/1.1
+
+{
+    name: "foobar.com"
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>202 Accepted
+
+{
+  "id": "664616d3-5caf-ab09-b398-000012b5e920",
+  "name": "foobar.com",
+  "_repr": "foobar.com",
+  "_href": "https://api.bip.io/rest/domain/664616d3-5caf-ab09-b398-000012b5e920"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-domain-put">
+            <strong>REQUEST</strong>
+            <pre><code>PUT /rest/domain HTTP/1.1
+
+{
+    id: "664616d3-5caf-ab09-b398-000012b5e920",
+    name: "subdomain.foobar.com"
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>202 Accepted
+
+{
+  "id": "664616d3-5caf-ab09-b398-000012b5e920",
+  "name": "subdomain.foobar.com",
+  "_repr": "subdomain.foobar.com",
+  "_href": "https://api.bip.io/rest/domain/664616d3-5caf-ab09-b398-000012b5e920"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-domain-delete">
+            <strong>REQUEST</strong>
+            <pre><code>DELETE /rest/domain/664616d3-5caf-ab09-b398-000012b5e920 HTTP/1.1</code></pre>
+            <strong>RESPONSE</strong>
+            <pre><code>200 OK</code></pre>
+        </div>
+    </div>
+
+</section>

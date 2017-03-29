@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /dash
+Disallow: /emitter
+Disallow: /static

@@ -1,0 +1,91 @@
+@font-face {
+	font-family: 'ProximaNova';
+	src: url('/static/fonts/ProximaNova/proxima_nova-webfont.eot');
+	src:
+		url('/static/fonts/ProximaNova/proxima_nova-webfont.eot?#iefix') format('embedded-opentype'),
+		url('/static/fonts/ProximaNova/proxima_nova-webfont.woff2') format('woff2'),
+		url('/static/fonts/ProximaNova/proxima_nova-webfont.woff') format('woff'),
+		url('/static/fonts/ProximaNova/proxima_nova-webfont.svg') format('svg'),
+		url('/static/fonts/ProximaNova/proxima_nova-webfont.ttf') format('truetype');
+}
+
+html {
+	font-size: 62.5%;
+	height: 100%;
+}
+
+body {
+	font-size: 1.4rem;
+	font-weight: 400;
+	height: 100%;
+}
+
+*, input, textarea, select, button { font-family: 'ProximaNova', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+a { color: @linkColor; }
+a:hover { color: @linkHoverColor; text-decoration: none; cursor:pointer; }
+a:focus { text-decoration: none; outline: none; }
+
+#inner-content {
+	padding-top: 40px;
+
+	h1 {
+		margin: 0 0 .5em;
+		font-size: 2.4rem;
+	}
+
+	dl {
+		font-size: 1.3rem;
+		dt { margin-bottom: .5em; }
+		dd { margin-left: 0 }
+		dd + dt { margin-top: 1.25em; }
+	}
+}
+
+h1, h2, h3, h4, .heading1, .heading2, .heading3, .heading4 {
+	font-size: 3rem;
+	font-weight: 400;
+	line-height: 1.2em;
+	margin: 0 0 .25em;
+}
+
+h2, .heading2 { font-size: 2.4rem; }
+h3, .heading3 { font-size: 1.8rem; }
+h4, .heading4 { font-size: 1.4rem; }
+
+.lead {
+	font-size: 1.8rem;
+	font-weight: 300;
+	line-height: 1.4em;
+}
+
+p, li { line-height: 1.4em; }
+
+a.danger-link {
+	color: mix(#bf5656, #993636);
+	&:hover { color: darken(mix(#bf5656, #993636), 10%); }
+}
+
+a.success-link {
+	color: mix(#76d668, #52ab46);
+	&:hover { color: darken(mix(#76d668, #52ab46), 10%); }
+}
+
+
+h4 {
+  margin: 10px 0;
+}
+
+h2 subscript {
+  font-size: 0.6em;
+}
+
+sup, sub {
+  line-height: 0;
+}
+a h1 {
+  margin : 0;
+}
+
+
+

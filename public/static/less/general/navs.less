@@ -1,0 +1,30 @@
+.nav-tabs {
+	border: 1px solid @flatdarkgrey;
+	border-right: none;
+	border-left: none;
+	li {
+		border-left: 1px solid @flatdarkgrey;
+		a {
+			margin-right: 0;
+			.border-radius(0);
+			font-size: 12px;
+			padding: 5px 10px;
+			color: @flatdarkgrey;
+			&:hover, &:focus {
+				border-color: @flatdarkgrey;
+				background: @flatdarkgrey;
+				color: @white;
+				}
+			}
+	}
+}
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
+  background-color: @flatdarkgrey;
+  border-color: @flatdarkgrey;
+  border-style: solid;
+  border-width: 1px;
+  color: @white;
+}

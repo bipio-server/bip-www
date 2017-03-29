@@ -1,0 +1,286 @@
+<script type="text/javascript">
+	// redirect pod links into a new window
+	var _redirPodLinks = false;
+</script>
+
+<?php if (true || DEV_ENVIRONMENT) { ?>
+    <script data-main="/static/js/pricing-main" src="/static/js/vendor/require/require.js"></script>
+<?php } else { ?>
+    <script src="/static/js/vendor/require/require.js" data-main="/static/build/js/pricing-built"></script>
+<?php } ?>
+
+
+<div id="plan-accept-tos-modal" class="modal-overlay hide middle">
+  <div class="modal-container">
+    <div class="modal">
+      <div class="modal-header candy-strip">
+        <h2>
+          Upgrading to <span id="plan-title"></span> Plan
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </h2>
+      </div>
+      <div class="modal-body">
+
+      <div  id="plan-table" class="middle pricing-table">
+      </div>
+
+      <label class="label">
+				<input type="checkbox" name="accept-tos" id="accept-tos" style="margin:0px"> You agree to the amounts and terms set forth above and the <a target="_blank" href="http://local.bip.io/terms-of-service">Terms of Service</a>
+			</label>
+
+      </div>
+      <div class="modal-footer">
+        <div class="btn-row">
+          <button class="btn modal-close" style="margin-right:10px" data-dismiss="modal" aria-hidden="true">Cancel</button>
+          <button disabled id="btn-tos-ok" class="btn btn-success">OK</button>
+        </div>
+       </div>
+    </div>
+  </div>
+</div>
+
+<div class="row pricing-cta middle">
+	<h1>
+		<?php echo ($this->authed) ? 'Upgrade ' : 'Signup '; ?>
+		now to unlock
+		<?php if ('pod_exclusions' == $this->reason) { ?>
+			<?php echo $this->msg . ' and other popular integrations!'; ?>
+
+		<?php } else if ('schedule' == $this->reason) { ?>
+			Custom Scheduling, Premium Pods and more power!
+		<?php } else { ?>
+			more Bips, more Pods, more power!
+		<?php } ?>
+	</h1>
+</div>
+
+<div id="pricing-table" class="row middle">
+
+	<div id="table-user" class="span2 offset1 pricing-table">
+		<h2>Free</h2>
+		<div class="price-row">
+			<span class="currency-symbol">$</span>
+				<strong>0</strong>
+				<em>/mo</em>
+		</div>
+		<div class="price-row">
+			<a class="scrollTo" href="#community-pods">Community Pods</a>
+		</div>
+		<div class="price-row">
+			5 Bips
+		</div>
+		<div class="price-row" style="font-size: 0.8em;">
+			Bips Trigger Every 15 Minutes
+		</div>
+		<div class="price-row">
+			1 Gb Data Transfer
+		</div>
+		<div class="price-row">
+			Community Support
+		</div>
+		<div class="price-row">
+			Shared Instance
+		</div>
+		<?php if (!$this->authed) { ?>
+			<div class="">
+					<button class="btn-purchase btn-action btn btn-success" data-price="0" data-plan="user">
+						<?php echo $this->buttonAction; ?>
+					</button>
+			</div>
+		<?php }  ?>
+	</div>
+
+	<?php foreach($this->plans as $planName => $plan) {
+		// skip admin and user
+		if ('user' === $planName || 'admin' === $planName) {
+			continue;
+		}
+		?>
+
+		<div id="table-<?php echo $planName; ?>" class="span2 pricing-table <?php echo (($this->controller->testUpgrade('standard') && 'standard' === $planName) ? 'highlight' : '')?>">
+			<form id="form-<?php echo $planName; ?>" action="/plans/upgrade" method="POST" style="display:none">
+				<input type="hidden" name="plan" value="<?php echo $planName; ?>">
+			  <script
+			    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			    data-email="<?php echo $this->emailAddress ?>"
+			    data-key="<?php echo $this->publicKey; ?>"
+			    data-amount="<?php echo $plan['charge'] ?>"
+			    data-bitcoin="false"
+			    data-name="<?php echo $plan['title']; ?> Plan"
+			    data-description="Powered By Stripe"
+			    data-image="/static/img/bip_badge.png"
+			    data-locale="auto">
+			  </script>
+			</form>
+			<h2><?php echo $plan['title']; ?></h2>
+			<div class="price-row">
+				<span class="currency-symbol">$</span>
+					<strong><?php echo round($plan['charge'] / 100, 2); ?></strong>
+					<!-- sup>00</sup -->
+					<em>/mo</em>
+			</div>
+			<div class="price-row">
+				<?php if (!count($plan['pod_exclusions'])) { ?>
+					<a class="scrollTo" href="#premium-pods">Premium Pods</a>
+				<?php } else { ?>
+					<a class="scrollTo" href="#community-pods">Community Pods</a>
+				<?php } ?>
+
+			</div>
+			<div class="price-row">
+				<?php echo $plan['num_bips']; ?> Bips
+			</div>
+			<div class="price-row">
+				<?php if ($plan['schedule']) { ?>
+					Bips Trigger Every <?php echo $plan['schedule']['rrule']['interval']; ?> Minutes
+				<?php } else { ?>
+					Custom Scheduling
+				<?php } ?>
+			</div>
+			<div class="price-row">
+				<?php echo $plan['tx_gb']; ?> Gb Data Transfer
+			</div>
+
+			<?php if ('pro' === $planName) { ?>
+				<div class="price-row" style="font-size: 0.8em;">
+					Priority Helpdesk Support
+				</div>
+			<?php } else { ?>
+				<div class="price-row">
+					Helpdesk Support
+				</div>
+			<?php } ?>
+
+			<div class="price-row">
+				Shared Instance
+			</div>
+			<?php if ($this->controller->testUpgrade($planName)) { ?>
+				<div class="">
+					<!-- button class="btn btn-success btn-action btn-purchase">
+						<i class="icon-shopping-cart"></i>
+						<?php echo $this->buttonAction; ?>
+					</button -->
+					<a href="/plan/<?php echo $planName; ?>" class="btn btn-success btn-action">
+						<i class="icon-shopping-cart"></i>
+						<?php echo $this->buttonAction; ?>
+					</a>
+				</div>
+			<?php } ?>
+		</div>
+
+	<?php } ?>
+
+	<div class="span2 pricing-table">
+		<h2>Enterprise</h2>
+		<div class="price-row">
+			<span class="currency-symbol">$</span>
+				Call
+		</div>
+		<div class="price-row">
+			<a class="scrollTo" href="#premium-pods">Premium Pods</a>
+		</div>
+		<div class="price-row">
+			Unlimited Bips
+		</div>
+		<div class="price-row">
+			Custom Scheduling
+		</div>
+		<div class="price-row">
+			Call
+		</div>
+		<div class="price-row">
+			Premium SLA
+		</div>
+		<div class="price-row">
+			Dedicated instance
+		</div>
+		<div class="">
+			<a class="btn btn-success btn-action" href="/contact">
+  			<i class="icon-envelope"></i> Contact Us
+			</a>
+		</div>
+	</div>
+	<div class="span12">
+		<a href="https://stripe.com" target="_blank"><img src="/static/img/stripe.png" style=" margin-top: 40px;"></a>
+	</div>
+</div>
+
+<div class="row" id="pricing-faqs">
+
+	<div class="span5 offset1">
+		<h2>About Our Premium Plans</h2>
+		<h3>What's a Bip</h3>
+		<p>
+		A Bip is a web automation agent that connects web services, acting on your behalf or running a workflow on command.  Deleted Bips do not count towards your Bip limit.  There are no limits on how many services a single Bip can connect to.
+		</p>
+
+		<h3>What are Custom Schedules</h3>
+		<p>
+		Bips created under the Free plan will run every 15 minutes.  Custom Scheduling means Bips will run whenever you like in minimum 5 minute intervals.
+		</p>
+
+		<h3>What are Pods</h3>
+		<p>
+		Pods are the individual services that bip.io integrates with.  For example, everything Facebook related is in a Facebook Pod.  Pods are either free to use, <a class="scrollTo" href="#community-pods">community supported</a> and open source, or <a class="scrollTo" href="#premium-pods">Premium productivity boosters</a>.
+		</p>
+
+		<h3>Community Support vs Helpdesk Support</h3>
+		<p>
+		You can reach out to <a href="https://bip.uservoice.com/forums/281363-general">community support</a> or <a href="mailto:support@bip.io">the helpdesk</a> at any time.  Paid plans receive helpdesk priority.
+		</p>
+
+	</div>
+
+	<div class="span5 offset1">
+		<h2>Billing and Other Terms</h2>
+
+		<ol>
+			<li>
+			Fees are billed to your credit card monthly in advance at the beginning of each monthly renewal period unless you cancel before the next monthly renewal.  Your access to the premium pods will commence as soon as you authorize payment on the checkout confirmation page (powered by Stripe).  Your first renewal date will be provided in your confirmation email, and then each subsequent renewal will follow thirty (30) days after the commencement of the then current subscription period.
+			</li>
+
+			<li>
+			If you upgrade, you will receive a pro-rata credit for any existing plan for the current month, and charged in full for each month thereafter.
+			</li>
+
+			<li>
+			You can cancel your account at any time.  Fees are non-refundable.
+			</li>
+
+			<li>
+			We may cancel your subscription at any time effective at the expiration of the then current monthly subscription, unless we terminate earlier due to your breach of the Terms of Service.
+			</li>
+
+			<li>
+			If you cancel your subscription, your data will be immediately deleted and cannot be recovered.
+			</li>
+
+			<li>
+			We may change fees upon advance notice to you, and the new fees will be effective in the next monthly renewal period unless you cancel your subscription.
+			</li>
+
+			<li>
+			Data Transfer is calculated based on as the size of messages flowing between your Bips and the rest of the internet.
+			</li>
+
+			<li>
+			If you exceed your monthly Data Transfer allowance, no problem! We'll reach out to you with assistance upgrading, or help to optimize your existing bips.
+			</li>
+		</ol>
+	</div>
+</div>
+
+<div class="row" id="premium-pods" style="margin-top: -20px;padding-top: 20px; ">
+	<div class="span11 offset1">
+		<h2>Premium Pods</h2>
+		<?php echo $this->partial($this->podPartialPathPremium, array('domainPfx' => $this->domainPfx)); ?>
+	</div>
+</div>
+
+<div class="row" id="community-pods" style="margin-top: -20px;padding-top: 20px; ">
+	<div class="span11 offset1">
+		<h2>Community Pods</h2>
+		<?php echo $this->partial($this->podPartialPathCommunity, array('domainPfx' => $this->domainPfx)); ?>
+	</div>
+</div>
+

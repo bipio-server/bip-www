@@ -1,0 +1,49 @@
+{
+  "name": "BipIO",
+  "description": "Rapidly orchestrate your digital self, no programming required",
+  "url": "https://bip.io/apis.json",
+  "image": "https://bip.io/static/img/bip_badge.png",
+  "specificationVersion": "0.13",
+  "apis": [
+    {
+      "name": "BipIO API",
+      "description": "RESTful resources and RPC helpers",
+      "image": "https://bip.io/static/img/bip_badge.png",
+      "APIVersion": "1.0",
+      "humanURL": "https://github.com/bipio-server/bipio/wiki",
+      "machineURL": "https://api.bip.io",
+      "baseURL": "https://api.bip.io",
+      "tags": "api, integration, web hooks, orchestration, rest, rpc",
+      "urls": [
+        {
+          "type": "signup",
+          "url": "https://bip.io/signup"
+        },
+        {
+          "type": "wiki",
+          "url": "https://github.com/bipio-server/bipio"
+        }
+      ],
+      "contact": [
+        {
+          "type": "email",
+          "url": "support@bip.io"
+        }
+      ]
+    }
+  ],
+  "maintainers": [
+    {
+      "url": "https://bip.io",
+      "name": "BipIO",
+      "twitter": "bipioapp",
+      "github": "bipio-server",
+      "email": "support@bip.io",
+      "organizationName": "WoT.IO, Inc",
+      "image": "https://bip.io/static/img/channels/32/color/wotio.png"
+    }
+  ],
+  "tags": "api, integration, web hooks, orchestration",
+  "modified": "08282014",
+  "created": "06162014"
+}

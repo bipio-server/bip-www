@@ -1,0 +1,52 @@
+<div class="share-widget" style="margin: 0 !important;">
+  <div class="bip-select-info bip-share-compact">
+    <div class="bip-preview middle pull-left">
+      <img alt="integrate <?php for ($i = 0; $i < count($this->data->normedManifest); $i++) {
+        $m = $this->data->normedManifest[$i];
+
+        $tokens = explode('.', $m['action']);
+        echo $tokens[0];
+
+        $tokens = explode('.', $this->data->normedManifest[$i+1]['action']);
+
+        if (strlen($tokens[0]) > 0) { echo " with "; }
+        } ?>" title="" class="tooltipped hub-icon hub-icon-32 source-icon" data-placement="top" data-container="body" src="<?php echo $this->data->icon ?>">
+      <ul>
+        <?php for ($i = 0; $i < count($this->data->normedManifest); $i++) {
+        $m = $this->data->normedManifest[$i];
+        if ($m['title']) {
+          $tokens = explode('.', $m['action']);
+          $icon = $tokens[0];
+          $podAction = '';
+          if ('flow' == $icon || 'dataviz' === $icon) {
+            $podAction = explode('.', $m['action']);
+            $podAction = $podAction[1];
+            $icon = $icon . '/' . $podAction;
+          }
+          ?>
+        <li>
+          <img class="mini tooltipped hub-icon" data-container="body" data-placement="top"
+             title=""
+             src="/static/img/channels/32/color/<?php echo $icon; ?>.png"  />
+        </li>
+          <?php } else { ?>
+            <li></li>
+          <?php } ?>
+        <?php } ?>
+      </ul>
+    </div>
+
+    <a href="/share/<?php echo $this->data->id ?>" class="share-summary" target="_blank">
+      <div>
+        <strong class="name"><?php echo $this->data->name ?></strong>
+      </div>
+      <div class="pull-left">
+        <small class="description"><?php echo $this->data->note ?></small>
+      </div>
+    </a>
+    <button onclick="window.open('/install/share/<?php echo $this->data->id ?>')" class="btn pull-right">
+      <h2 style="margin-top: 0;">+</h2>
+    </button>
+
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<script type="text/javascript">
+    var _chordChannels = <?php echo $this->chordChannels ?>,
+        _chordMatrix = <?php echo $this->chordMatrix ?>;
+</script>   
+    
+<script id="tpl-resource-stats" type="text/template">
+    <div class="row middle">
+        <h2>Account Stats </h2>
+
+        <h3>Network Strength</h3>
+        
+
+        <div class="alpha-soften">
+        <div id="network-chords" class="row middle">
+        </div>
+            </div>
+
+        <hr/>   
+        <h2>Last 30 Days</h2>
+         
+        <div class="row middle">
+            <?php foreach ($this->generalStats as $key => $struct) { ?>
+                <div class="span2 stat-metric middle">
+                    <h1><?php echo $struct['data']; ?></h1>
+                    <p><?php echo $struct['label']; ?></p>
+                </div>
+            <?php } ?>
+        </div>
+    </div>        
+</script>

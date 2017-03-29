@@ -1,0 +1,97 @@
+<section id="resource_rpc_describe_pod">
+    <div class="page-header">
+        <h3>Describe Pods</h3>
+        <h4><code>/rpc/describe/pod/:pod_name</code></h4>
+    </div>
+
+    <p class="lead">
+        Describes a Pods metadata and action schema, where <code>pod_name</code> is an optional Pod name.
+        Omitting the pod name and calling <code>/rpc/describe/pod</code> will return all pods.
+        Action Schemas are described using <a href="http://json-schema.org">JSON Schema</a>.
+    </p>    
+
+    <div>
+        <p class="lead">
+            RPC Example
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-get-referer">            
+            <li class="active">
+                <a href="#rest-example-get-referer-get" data-toggle="pill">GET (Facebook)</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-get-referer-get">
+            <strong>REQUEST</strong>
+            <pre><code>GET /rpc/describe/pod/facebook HTTP/1.1</code></pre>
+                
+            <strong>RESPONSE</strong>
+<pre>
+<code>200 OK
+
+{
+   "facebook":{
+      "name":"facebook",
+      "description":"Facebook",
+      "auth":{
+         "type":"oauth",
+         "status":"accepted",
+         "_href":"https://api.bip.io/rpc/oauth/facebook/auth"
+      },
+      "actions":{
+         "post_timeline":{
+            "description":"Post to a Timeline",
+            "trigger":false,
+            "singleton":false,
+            "auth_scope":[
+               "publish_actions"
+            ],
+            "rpc":{
+            },
+            "config":{
+               "properties":{
+                  "who":{
+                     "type":"string",
+                     "unique":true,
+                     "description":"Username to post to, or 'mine' to post to self"
+                  },
+                  "icon_url":{
+                     "type":"string",
+                     "description":"User Icon.  Leave empty to auto-discover"
+                  }
+               }
+            },
+            "exports":{
+               "properties":{
+                  "id":{
+                     "type":"string",
+                     "description":"Wall Post ID"
+                  },
+                  "http_response_code":{
+                     "type":"string",
+                     "description":"HTTP Response Code"
+                  },
+                  "error":{
+                     "description":"Error Data Structure"
+                  }
+               }
+            },
+            "imports":{
+               "properties":{
+                  "message":{
+                     "type":"string",
+                     "description":"New Timeline Content"
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+</code>
+</pre>           
+        </div>
+    </div>
+    
+</section>

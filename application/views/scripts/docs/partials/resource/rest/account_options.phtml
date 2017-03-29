@@ -1,0 +1,248 @@
+<section id="resource_rest_account_options">
+    <div class="page-header">
+        <h3>Account Options <small>can streamline your setup</small></h3>
+        <h4><code>/rest/account_option</code></h4>
+    </div>
+
+    <p class="lead">
+        Account Options are general purpose settings which can be explicit or
+        implicitly used across your account when modifying resources.  This resource
+        is a singleton instance and may neither be POSTed to or DELETEd
+    </p>
+
+    <div class="bs-api-data">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>id</em></td>
+                    <td>UUID (String)</td>
+                    <td>Unique Account Option ID.  Discover this id by listing the resource <code>/rest/account_option</code></td>
+                </tr>
+                <tr>
+                    <td><em>avatar</em></td>
+                    <td>String, URL</td>
+                    <td>User Avatar</td>
+                </tr>
+                <tr>
+                    <td><em>timezone</em></td>
+                    <td>String</td>
+                    <td><a href="http://en.wikipedia.org/wiki/List_of_IANA_time_zones">IANA UTC Offset or TZ</a>
+                        <br/><br/>eg: <code>UTC+04:00</code> or <code>Asia/Dubai</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td><em>bip_domain_id</em></td>
+                    <td>String</td>
+                    <td>Bip Create, Default Domain ID</td>
+                </tr>
+                <tr>
+                    <td><em>bip_type</em></td>
+                    <td>String</td>
+                    <td>Bip Create, Default Type</td>
+                </tr>
+                <tr>
+                    <td><em>bip_config</em></td>
+                    <td>Object</td>
+                    <td>Bip Create, Default Config (must honor bip_type)</td>
+                </tr>
+                <tr>
+                    <td><em>bip_end_life</em></td>
+                    <td>Object</td>
+                    <td>Bip Create, Default End Life Object</td>
+                </tr>
+                <tr>
+                    <td><em>bip_expire_behaviour</em></td>
+                    <td>String</td>
+                    <td>Action to take on a bip once it expires, One of <code>pause</code> or <code>delete</code></td>
+                </tr>
+                <tr>
+                    <td><em>bip_hub</em></td>
+                    <td>Object</td>
+                    <td>Bip Create, Default Hub (minus <code>source</code> transforms)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <p class="lead">
+            REST Examples
+        </p>
+        <ul class="nav nav-pills" class="tabbable" id="rest-example-account-option">
+            <li class="active">
+                <a href="#rest-example-account-option-get" data-toggle="pill">GET</a>
+            </li>
+            <li><a href="#rest-example-account-option-post" data-toggle="pill">POST</a></li>
+            <li><a href="#rest-example-account-option-put" data-toggle="pill">PUT</a></li>
+            <li><a href="#rest-example-account-option-delete" data-toggle="pill">DELETE</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="rest-example-account-option-get">
+            <strong>REQUEST</strong>
+            <pre><code>GET /rest/account_option/664616d3-5caf-ab09-b398-000012b5e920 HTTP/1.1</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>200 OK
+
+{
+    id: "38e65bd6-90b4-1a48-0b04-0000237912ef",
+    bip_hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+            ]
+        }
+    },
+    bip_domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    bip_end_life: {
+        imp: 20,
+        time: "+1m"
+    },
+    bip_type: "smtp",
+    bip_expire_behaviour: "pause",
+    timezone: "America/New_York",
+    avatar: "https://docs.bip.io/avatar/photo.png",
+    _repr: "Account Options",
+    _href: "https://api.bip.io/rest/account_option/38e65bd6-90b4-1a48-0b04-0000237912ef"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-account-option-post">
+            <strong>REQUEST</strong>
+            <span class="label label-warning">IMPORTANT</span> POST is unsupported for Account Options!
+            <pre><code>POST /rest/account_option HTTP/1.1
+
+{
+    bip_hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+            ]
+        }
+    },
+    bip_domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    bip_end_life: {
+        imp: 20,
+        time: "+1m"
+    },
+    bip_type: "smtp",
+    bip_expire_behaviour: "pause",
+    timezone: "America/New_York",
+    avatar: "https://docs.bip.io/avatar/photo.png"
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>409 Conflict
+
+{
+    id: "38e65bd6-90b4-1a48-0b04-0000237912ef",
+    bip_hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+            ]
+        }
+    },
+    bip_domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    bip_end_life: {
+        imp: 20,
+        time: "+1m"
+    },
+    bip_type: "smtp",
+    bip_expire_behaviour: "pause",
+    timezone: "America/New_York",
+    avatar: "https://docs.bip.io/avatar/photo.png",
+    _repr: "Account Options",
+    _href: "https://api.bip.io/rest/account_option/38e65bd6-90b4-1a48-0b04-0000237912ef"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-account-option-put">
+            <strong>REQUEST</strong>
+            <pre><code>PUT /rest/account_option HTTP/1.1
+
+{
+    id: "38e65bd6-90b4-1a48-0b04-0000237912ef",
+    bip_hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+            ]
+        },
+        "05de2c02-7ec6-4be8-d3db-00006a8ed73e" : {
+            edges: [
+                "38e65bd6-90b4-1a48-0b04-0000237912ef"
+            ],
+            transforms: {
+                "38e65bd6-90b4-1a48-0b04-0000237912ef" : "default"
+            }
+        }
+    },
+    bip_end_life: {
+        imp: 0,
+        time: "0"
+    },
+    bip_expire_behaviour: "delete"
+}
+</code></pre>
+
+            <strong>RESPONSE</strong>
+            <pre>
+<code>200 OK
+
+{
+    id: "38e65bd6-90b4-1a48-0b04-0000237912ef",
+    bip_hub: {
+        source: {
+            edges: [
+                "05de2c02-7ec6-4be8-d3db-00006a8ed73e"
+            ]
+        },
+        "05de2c02-7ec6-4be8-d3db-00006a8ed73e" : {
+            edges: [
+                "38e65bd6-90b4-1a48-0b04-0000237912ef"
+            ],
+            transforms: {
+                "38e65bd6-90b4-1a48-0b04-0000237912ef" : "default"
+            }
+        }
+    },
+    bip_domain_id: "31b3a2db-4ea4-d1c8-b35d-00004d00b4d7",
+    bip_end_life: {
+        imp: 0,
+        time: "0"
+    },
+    bip_type: "smtp",
+    bip_expire_behaviour: "delete",
+    timezone: "America/New_York",
+    avatar: "https://docs.bip.io/avatar/photo.png",
+    _repr: "Account Options",
+    _href: "https://api.bip.io/rest/account_option/38e65bd6-90b4-1a48-0b04-0000237912ef"
+}
+</code>
+            </pre>
+        </div>
+        <div class="tab-pane" id="rest-example-account-option-delete">
+            <strong>REQUEST</strong>
+            <pre><code>DELETE /rest/account_option/38e65bd6-90b4-1a48-0b04-0000237912ef HTTP/1.1</code></pre>
+            <strong>RESPONSE</strong>
+            <pre><code>403 Permission Denied</code></pre>
+        </div>
+    </div>
+
+</section>
